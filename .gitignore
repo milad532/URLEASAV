@@ -1,0 +1,13 @@
+*.pt
+*.pth
+*.mp4
+__pycache__/
+*.csv
+*.txt
+*.png
+*.jpg
+*.gif
+*.pkl
+*.zip
+*.logs
+image_logs/
