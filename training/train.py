@@ -25,81 +25,7 @@ import pickle
 
 # Check if the FIFO already exists, if not, create it
 
-# Write a number to the FIFO
-def write_to_fifo(number,fifo_name):
-    if not os.path.exists(fifo_name):
-        os.mkfifo(fifo_name)
-    with open(fifo_name, 'w') as fifo:
-        fifo.write(str(number))  # Write the number as a string
-        print(f"Written number {number} to FIFO")
 
-def read_from_fifo(fifo_name):
-    if not os.path.exists(fifo_name):
-        os.mkfifo(fifo_name)
-    with open(fifo_name, 'r') as fifo:
-        number = fifo.read()  # Read the data from the FIFO
-    print(f"number {number} read from FIFO")
-    return float(number)  # Convert it back to an integer
-
-def process1(data,shared_name):
-
-    try:
-        existing_shm = shared_memory.SharedMemory(name=shared_name)
-        existing_shm.unlink()  # Unlink (delete) the previous shared memory block
-        print(f"Cleaned up existing shared memory: {shared_name}")
-    except FileNotFoundError:
-        # Shared memory with this name doesn't exist, nothing to clean up
-        pass
-    # Create some large data (for example a large numpy array)
-    # data = {'large_data': np.arange(10**6)}  # Large data as a NumPy array
-    
-    # Serialize the data to bytes
-    serialized_data = pickle.dumps(data)
-
-    # Allocate shared memory to store the serialized data
-    dtype = np.uint8
-    shape = (len(serialized_data),)
-
-    # Create shared memory block for the serialized data
-    shm = shared_memory.SharedMemory(name=shared_name, create=True, size=len(serialized_data))
-
-    # Create a numpy array that maps to the shared memory block
-    np_array = np.ndarray(shape, dtype=dtype, buffer=shm.buf)
-
-    # Copy the serialized data into the shared memory array
-    np_array[:] = np.frombuffer(serialized_data, dtype=np.uint8)
-
-    print(f"Process 1: Data stored in shared memory.")
-
-    # Wait to give time for Process 2 to read from shared memory
-    shm.close()
-    # time.sleep(120)
-
-    # Clean up shared memory when done
-    print("Process 1: Shared memory unlinked.")
-
-
-def process2(shared_name):
-    # Name of the shared memory block created by Process 1
-    print("Process 2: Reading from shared memory.")
-    dtype = np.uint8
-
-    # Attach to the existing shared memory block created by Process 1
-    shm = shared_memory.SharedMemory(name=shared_name)
-
-    # Create a numpy array that maps to the shared memory block
-    np_array = np.ndarray(shm.size, dtype=dtype, buffer=shm.buf)
-
-    # Deserialize the data from the shared memory
-    serialized_data = np_array.tobytes()
-    data = pickle.loads(serialized_data)
-    shm.close()
-    print(f"Process 2: Data read from shared memory")
-
-    # Unlink shared memory when done (actually remove the shared memory block)
-    shm.unlink()
-
-    return data
 
 
 
@@ -181,73 +107,63 @@ if __name__ == '__main__':
     LR = 7.3e-4  # Learning rate for TQC
 
     # Check if a pre-trained model exists and load or create a new one
-    # model = My_TQC.load(f"{args.models_dir}/trained_shared_memory.zip", env=env, verbose=1, learning_rate=LR, tensorboard_log=logdir)
-    # model.replay_buffer = process2()
-    # model = My_TQC.load(f"{args.models_dir}/trained_shared_memory.zip", env=env, verbose=1, learning_rate=LR, tensorboard_log=logdir)
-    # model.replay_buffer = process2()
-    # fifo_signal = read_from_fifo(fifo_name="shared_memory")
     fifo_signal = 0
     models_dir = args.models_dir
-    if fifo_signal == 1:
-            print("Loading from shared memory")
-            model = My_TQC.load(f"{args.models_dir}/trained_shared_memory.zip", env=env, verbose=1, learning_rate=LR, tensorboard_log=logdir)
-            model.replay_buffer = process2(shared_name="buffer_shared_memory")
             # print(found)
+    print("Creating new model")
+    if args.models_dir is None or (not os.path.isfile(f"{args.models_dir}/trained.zip")):
+        
+        if not os.path.exists(models_dir):
+            os.makedirs(models_dir)
+
+        # Initialize TQC model
+        model = My_TQC(
+            'MlpPolicy',
+            env=env,
+            buffer_size=200_000,
+            batch_size=256,
+            train_freq=200,
+            gradient_steps=256,
+            learning_starts=500,
+            use_sde=True,
+            sde_sample_freq=16,
+            policy_kwargs=dict(
+                log_std_init=-3,
+                net_arch=[256, 256],
+                n_critics=2,
+                use_expln=True
+            ),
+            verbose=1,
+            learning_rate=LR,
+            gamma=0.99,  # Adjust gamma if needed
+            tensorboard_log=logdir,
+            # device='cuda',
+            # ent_coef=2
+            
+        )
+        model.replay_buffer.avg_rewards = [0]
+        model.replay_buffer.num_saved = 0
     else:
-        print("Creating new model")
-        if args.models_dir is None or (not os.path.isfile(f"{args.models_dir}/trained.zip")):
-            
-            if not os.path.exists(models_dir):
-                os.makedirs(models_dir)
-
-            # Initialize TQC model
-            model = My_TQC(
-                'MlpPolicy',
-                env=env,
-                buffer_size=200_000,
-                batch_size=256,
-                train_freq=200,
-                gradient_steps=256,
-                learning_starts=500,
-                use_sde=True,
-                sde_sample_freq=16,
-                policy_kwargs=dict(
-                    log_std_init=-3,
-                    net_arch=[256, 256],
-                    n_critics=2,
-                    use_expln=True
-                ),
-                verbose=1,
-                learning_rate=LR,
-                gamma=0.99,  # Adjust gamma if needed
-                tensorboard_log=logdir,
-                # device='cuda',
-                # ent_coef=2
-                
-            )
-            model.replay_buffer.avg_rewards = [0]
-            model.replay_buffer.num_saved = 0
-        else:
-            # raise ValueError(999999999999)
-            models_dir = args.models_dir
-            
-            model = My_TQC.load(f"{models_dir}/trained.zip", env=env, verbose=1, learning_rate=LR, tensorboard_log=logdir)
-            
-            # model.log_ent_coef = torch.log(torch.ones(1, device=model.device) * 0.1).requires_grad_(True)
-            # model.ent_coef_optimizer = torch.optim.Adam([model.log_ent_coef], lr=model.lr_schedule(1))
+        # raise ValueError(999999999999)
+        models_dir = args.models_dir
+        
+        model = My_TQC.load(f"{models_dir}/trained.zip", env=env, verbose=1, learning_rate=LR, tensorboard_log=logdir)
+        
+        # model.log_ent_coef = torch.log(torch.ones(1, device=model.device) * 0.1).requires_grad_(True)
+        # model.ent_coef_optimizer = torch.optim.Adam([model.log_ent_coef], lr=model.lr_schedule(1))
 
 
-            replay_buffer = pickle.load(open(f"{models_dir}/replay_buffer.pkl", "rb"))
-            model.replay_buffer = replay_buffer
-            # model.replay_buffer.avg_rewards = replay_buffer.avg_rewards
-            # model.replay_buffer.num_saved = replay_buffer.num_saved
-            del replay_buffer
-            # model.load_replay_buffer(f"{models_dir}/replay_buffer.pkl")
-        # model.ent_coef = 'auto_0.1'
-        # model._setup_model()
-        # coef = 1
-        # model.ent_coef = coef
-        # model.ent_coef_tensor = torch.tensor(coef)
+        replay_buffer = pickle.load(open(f"{models_dir}/replay_buffer.pkl", "rb"))
+        model.replay_buffer = replay_buffer
+        # model.replay_buffer.avg_rewards = replay_buffer.avg_rewards
+        # model.replay_buffer.num_saved = replay_buffer.num_saved
+        del replay_buffer
+        # model.load_replay_buffer(f"{models_dir}/replay_buffer.pkl")
+    # model.ent_coef = 'auto_0.1'
+    # model._setup_model()
+    # coef = 1
+    # model.ent_coef = coef
+    # model.ent_coef_tensor = torch.tensor(coef)
     # Connect to the environment and reset it
     print('Connecting to environment...')
     print('Environment has been reset as part of launch')

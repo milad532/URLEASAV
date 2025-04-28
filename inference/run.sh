@@ -4,15 +4,15 @@ start_processes() {
     /media/carla/carla/CARLA_0.9.14/CarlaUE4.sh -carla-port=$port -prefernvidia -windowed -vulkan -RenderOffScreen -fps=20 > /dev/null 2>&1 &
     carla_pid=$!
     
-    python3 /media/carla/AVRL/data_collect/worker_fairness.py --port=$port &
+    python3 /media/external_10T/milad/carla_project/inference/worker_fairness.py --port=$port &
     train_pid=$!
 
 
 }
 
 kill_processes() {
-    echo "/media/carla/carla/CARLA_0.9.14/CarlaUE4/Binaries/Linux/CarlaUE4-Linux-Shipping CarlaUE4 -carla-port=${port}"
-    pkill -f "/media/carla/carla/CARLA_0.9.14/CarlaUE4/Binaries/Linux/CarlaUE4-Linux-Shipping CarlaUE4 -carla-port=${port}"
+    echo "/media/external_10T/milad/carla/CARLA_0.9.14/CarlaUE4/Binaries/Linux/CarlaUE4-Linux-Shipping CarlaUE4 -carla-port=${port}"
+    pkill -f "/media/external_10T/milad/carla/CARLA_0.9.14/CarlaUE4/Binaries/Linux/CarlaUE4-Linux-Shipping CarlaUE4 -carla-port=${port}"
 
     pkill -f "worker_fairness.py --port=${port}"
  

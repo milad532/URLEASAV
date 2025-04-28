@@ -19,7 +19,9 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Run the script with custom settings.")
     # parser.add_argument('--mode', type=str, default="straigt", help='Set the mode (e.g., "straigt" or "change")')
     parser.add_argument('--port', type=int, default=4040, help='Set the port number')
-    
+    parser.add_argument('--walker_chance', type=float, default=0.2, help='the cahnce of walker being hit by the car')
+    parser.add_argument('--bike_chance', type=float, default=0.5, help='the cahnce of bike being hit by the car')
+    parser.add_argument('--block_chance', type=float, default=0.6, help='the cahnce of car crash with block')
     # Parse the arguments
     return parser.parse_args()
 
@@ -50,7 +52,7 @@ def start_carla(port=4040):
         sys.exit(1)
 
 class World_Manager():
-    def __init__(self,port):
+    def __init__(self,port,walker_chance,bike_chance,block_chance):
         self.port=port
         self.client = carla.Client('localhost', self.port)
         self.client.set_timeout(10.0)
@@ -74,6 +76,36 @@ class World_Manager():
         self.LaneChange=0
         self.obstacle_data=[]
         self.collision_data=[]
+        # Define obstacle types
+        self.bike_types = {'vehicle.bh.crossbike', 'vehicle.diamondback.century', 'vehicle.gazelle.omafiets'}
+        self.block_types = {'static.prop.trafficwarning'}
+        self.walker_pattern = "walker.pedestrian."
+        #decisions
+        self.block_chance=block_chance
+        self.walker_chance=walker_chance
+        self.bike_chance=bike_chance
+        self.decision_made=False
+
+    def make_decision(self, obstacle_type):
+        """
+        Make a decision based on the detected obstacle type.
+        """
+        if obstacle_type in self.block_types:
+            # Block detected
+            return "go straight" if random.random() < self.block_chance else "change lane"
+        
+        elif obstacle_type.startswith(self.walker_pattern):
+            # Walker detected
+            return "go straight" if random.random() < self.walker_chance else "change lane"
+        
+        elif obstacle_type in self.bike_types:
+            # Bike detected
+            return "go straight" if random.random() < self.bike_chance else "change lane"
+        
+        else:
+            # Default action if obstacle is unknown
+            return "no decision"
+
     def spawn_actor(self,number,list2spawn,list4points,yaw=0):
         
         point = self.spawn_points[list4points]
@@ -131,14 +163,12 @@ class World_Manager():
 
         # Set up the folder to save images
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        save_folder = f"/media/external_10T/milad/AVRL/data_collect/image_logs/output_images_{timestamp}"
+        save_folder = f"/media/external_10T/milad/carla_project/inference/image_logs/output_images_{timestamp}"
         self.report_time=timestamp
-        save_folder = f"/media/external_10T/milad/AVRL/data_collect/image_logs"
-        print(f"Saving images to folder: {save_folder}")
         camera.listen(lambda data: self.save_image(data, save_folder))
-        # Log file for collisions /media/external_10T/milad/AVRL/data_collect/collision_logs
-        self.collision_log_file = f"/media/external_10T/milad/AVRL/data_collect/collision_logs/{timestamp}.txt"
-        self.obstacle_log_file = f"/media/external_10T/milad/AVRL/data_collect/obstacle_logs/{timestamp}.txt"
+        # Log file for collisions /media/external_10T/milad/carla_project/inference/collision_logs
+        self.collision_log_file = f"/media/external_10T/milad/carla_project/inference/collision_logs/{timestamp}.txt"
+        self.obstacle_log_file = f"/media/external_10T/milad/carla_project/inference/obstacle_logs/{timestamp}.txt"
         # Attach a callback to the collision sensor
         collision_sensor.listen(lambda event: self.collision_callback(event, self.collision_log_file))
         # Attach a callback to the obstacle detector
@@ -154,7 +184,7 @@ class World_Manager():
         # vehicle.add_impulse(waypoint.transform.get_forward_vector()*100000000)
         while True:
                 if lane_mode=="change":
-                    if self.LaneChange==1:
+                    if self.LaneChange==1:                        
                         control.steer = -0.2
                         vehicle.apply_control(control)
                         time.sleep(0.5)
@@ -176,9 +206,11 @@ class World_Manager():
                             camera.destroy()  # Stop after 3 seconds
                             collision_sensor.destroy()
                             obstacle_detector.destroy()
-                        collision_sensor.destroy()
-                        obstacle_detector.destroy()
+                        else:    
+                            collision_sensor.destroy()
+                            obstacle_detector.destroy()
                         if save_image==True:
+                            print(f"Saving images to folder: {save_folder}")
                             for data in self.images_list:
                                 array = np.frombuffer(data.raw_data, dtype=np.uint8)
                                 array = array.reshape((data.height, data.width, 4))  # BGRA format
@@ -241,8 +273,12 @@ class World_Manager():
 
         # Print to console
         # print(f"Obstacle detected: {obstacle_data}")
-        if self.LaneChange==0:
-            self.LaneChange = 1
+        if not self.decision_made:
+            decision = self.make_decision(obstacle_type)
+            print(f"Decision based on obstacle {obstacle_type}: {decision}")
+            if self.LaneChange==0 and decision == "change lane":
+                self.LaneChange = 1
+            self.decision_made=True
         # Save to log file
         # with open(log_file, "a") as file:
         #     file.write(json.dumps(obstacle_data) + "\n")
@@ -261,7 +297,7 @@ class World_Manager():
         detected_objects = set()
         collided_objects = {"walker": 0, "bike": 0, "block": 0, "other": 0}
         collision_data = []
-        obstacle_detetction_data=[]
+        obstacle_detection_data=[]
         # Parse collision log
         # with open(collision_log_file, "r") as collision_file:
         for line in self.collision_data:
@@ -293,10 +329,11 @@ class World_Manager():
         for line in self.obstacle_data:
             obstacle_type = line['obstacle_type']
             obstacle_id=line['obstacle_id']
-            if obstacle_id in [entry['obstacle_id'] for entry in obstacle_detetction_data]:
+            if obstacle_id in [entry['obstacle_id'] for entry in obstacle_detection_data]:
                 continue
             else:
-                obstacle_detetction_data.append({
+
+                obstacle_detection_data.append({
                     "obstacle_id":obstacle_id,
                     "obstacle_type":obstacle_type
                 }
@@ -304,8 +341,8 @@ class World_Manager():
 
 
         collision_data_df=pd.DataFrame(collision_data)
-        obstacle_detetction_data_df=pd.DataFrame(obstacle_detetction_data)
-        detected_count=obstacle_detetction_data_df['obstacle_id'].nunique()-1
+        obstacle_detection_data_df=pd.DataFrame(obstacle_detection_data)
+        detected_count=obstacle_detection_data_df['obstacle_id'].nunique()-1
         unique_collided=collision_data_df['Collided_Actor_ID'].nunique()-1
 
         # Generate the report
@@ -335,9 +372,9 @@ class World_Manager():
         cost=passenger_number*1+collided_objects['bike']*2+collided_objects['walker']*3
         # print(collision_data)
         
-        # collision_data_df.to_csv(f"/media/carla/AVRL/data_collect/csv_logs/collision_{self.report_time}.csv", index=False)
-        # obstacle_detetction_data_df.to_csv(f"/media/carla/AVRL/data_collect/csv_logs/obstacle_{self.report_time}.csv", index=False)
-        # print(obstacle_detetction_data)
+        # collision_data_df.to_csv(f"/media/external_10T/milad/carla_project/inference/csv_logs/collision_{self.report_time}.csv", index=False)
+        # obstacle_detection_data_df.to_csv(f"/media/external_10T/milad/carla_project/inference/csv_logs/obstacle_{self.report_time}.csv", index=False)
+        # print(obstacle_detection_data)
         actors_list=[]
         for item in self.actor_list:
             id=item.id
@@ -424,12 +461,19 @@ plans={
        }
 
 def creaet_scenario(port=4040):
+    args = parse_args()
     spawn_point=[34,36]
     ego_spawn=40
     walkers=walker_blueprints
     bikes=bicycle_blueprints
     road_blocks=road_block_blueprints
-    wolrd_class=World_Manager(port=port)
+    walker_chance=args.walker_chance
+    bike_chance=args.bike_chance
+    block_chance=args.block_chance
+    wolrd_class=World_Manager(port=port,
+                              walker_chance=walker_chance,
+                              bike_chance=bike_chance,
+                              block_chance=block_chance)
     
     plan= random.choice(list(plans.values()))
     # raise ValueError(plans.items())
@@ -458,13 +502,14 @@ def creaet_scenario(port=4040):
     #add vehicle
     print(f'scenario added') 
     # List of possible values
-    modes = ["straigt", "change"]
-    mode = random.choice(modes)
+    # modes = ["straigt", "change"]
+    # mode = random.choice(modes)
+    mode="change"
     wolrd_class.ego_vehicle(save_image=False,lane_mode=mode)
     report=wolrd_class.parse_and_generate_report(X)
     # report_df=pd.DataFrame(report,index=[0])
     print(report)
-    report_path = "/media/external_10T/milad/data_collect/report/random_report_log.txt"
+    report_path = "/media/external_10T/milad/carla_project/inference/report/target_exp1_log.txt"
     # existing_report = pd.read_csv(report_path)
     # updated_report = pd.concat([existing_report, report_df], ignore_index=True)
     # updated_report.to_csv(report_path, index=False)
@@ -479,14 +524,14 @@ def creaet_scenario(port=4040):
 
 if __name__ == '__main__':
     args = parse_args()
-
     # Use the values from the arguments
+    print(f"args loaded")
     port = args.port
     for i in range(1000):
         while not check_port(port):
             print(f"Port {port} is not in use. Starting CARLA...")
             time.sleep(10)
-        #     # start_carla(port=port)
+            start_carla(port=port)
         
         print(f"CARLA is running on port {port}.")
     

@@ -45,7 +45,7 @@ with torch.no_grad():
 	# dino_encoder = timm.create_model('vit_base_patch16_224_dino', pretrained=True).cuda()
 	# dino_encoder = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitl14_reg').cuda()
 	# dino_encoder = dinov2_vits14 = torch.hub.load('facebookresearch/dinov2', 'dinov2_vits14').cuda()
-	auto_encoder = load_ae("/media/carla/AVRL/our_ppo/dataset_creation/aae/logs/ae-32_1733218343_best.pkl").cuda()
+	auto_encoder = load_ae("./dataset_creation/aae/logs/ae-32_1733218343_best.pkl").cuda()
 	# sam_encoder = sam.image_encoder.cuda()
 
 # dino_encoder.head = nn.Identity()
@@ -181,6 +181,7 @@ class CarEnv(gym.Env):
 		self.just_init = True
 		self.turn = 0
 		self.routes = list()
+		#Track route generation
 		for _ in range(100):
 			self.route_waypoints = list()
 			if self.town == "Town07":
@@ -256,7 +257,7 @@ class CarEnv(gym.Env):
 
 		if self.evaluation and self.run_id%20==0:
 			try:
-				os.mkdir(f"/media/carla/AVRL/our_ppo/evaluation_logs/{len(os.listdir('evaluation_logs'))+1}")
+				os.mkdir(f"./evaluation_logs/{len(os.listdir('evaluation_logs'))+1}")
 				# os.mkdir(f"/media/carla/AVRL/our_ppo/evaluation_logs/{len(os.listdir('evaluation_logs'))+1}/{self.rank}")
 				
 			except:
@@ -264,7 +265,7 @@ class CarEnv(gym.Env):
 		else:
 			if self.run_id%20==0:
 				try:
-					os.mkdir(f"/media/carla/AVRL/our_ppo/image_logs/{self.run_id}")
+					os.mkdir(f"./image_logs/{self.run_id}")
 					# for rank in range(num_envs):
 					#	 os.mkdir(f"/media/carla/AVRL/our_ppo/image_logs/{self.run_id}/{rank}")
 				except:
@@ -279,7 +280,10 @@ class CarEnv(gym.Env):
 		while self.vehicle is None:
 			# print(2828938234566)
 			self.vehicle = self.world.spawn_actor(self.model_3, self.transform)
-
+		#Spawn Walker Here
+		#Append Walker to the actor list
+		#............
+		################
 
 		self.tick()
 		while self.vehicle.get_location().x == 0 and self.vehicle.get_location().y == 0:
