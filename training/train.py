@@ -1,21 +1,12 @@
 
 from tqc import My_TQC
 import torch
-# import debugpy
-# debugpy.listen(("localhost", 5684))  # Start a debug server
-# print("Waiting")
-# debugpy.wait_for_client()
-# from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
-# from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
 import os
 from carenv import CarEnv,num_envs,World_Manager
 import time
 import argparse
 import numpy as np
 import shutil
-# import torch
-# import carla
-# import threading
 from multiprocessing import shared_memory
 from wandb.integration.sb3 import WandbCallback
 import wandb
@@ -60,28 +51,6 @@ def evaluate_model(model, env, num_episodes=5):
     
         
 
-# def make_env(env_id, rank, seed=0):
-#     """
-#     Utility function for creating multiple environments.
-
-#     :param env_id: The ID of the environment.
-#     :param rank: Rank of the environment instance (for seeding).
-#     :param seed: Random seed.
-#     :return: Function that initializes the environment.
-#     """
-#     def _init():
-#         global env_locks
-#         env = CarEnv(rank)  # Replace with your environment initialization
-
-#         return env
-#     return _init
-run = wandb.init(
-    project="sb3",
-    name="tqc",
-    sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
-    # monitor_gym=True,  # auto-upload the videos of agents playing the game
-    save_code=True,  # optional
-)
 if __name__ == '__main__':
     # write_to_fifo(0,fifo_name="shared_memory")
     global model
@@ -171,50 +140,14 @@ if __name__ == '__main__':
     # Training loop
     iters = 0
 
-    # model_copy = copy.deepcopy(model)
     for iters in range(0,20):  # Number of training iterations
         print(f'Iteration {iters} is commencing...')
-        # model.replay_buffer.iters = 33
-        # Train the model for a specified number of timesteps
-
-        # model.save(f"{models_dir}/trained_shared_evaluation.zip")
         last_replay_buffer = copy.deepcopy(model.replay_buffer)
-        # process1(last_replay_buffer,shared_name="evaluation")
-        # write_to_fifo(1,fifo_name="evaluation")
-        # read_from_fifo(fifo_name="evaluation")
-        model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False,callback=WandbCallback(verbose=2))
+        model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False)
         model.save(f"{models_dir}/trained.zip")
         model.save_replay_buffer(f"{models_dir}/replay_buffer.pkl")
-        # raise ValueError(iters)
-        # avg_reward = read_from_fifo(fifo_name="evaluation")
-        # model.replay_buffer.avg_rewards.append(avg_reward)
-        
-        # last_model.replay_buffer.avg_rewards.append(avg_reward)
-
-        # model.save(f"models/trained_shared_memory.zip")
-        # process1(model.replay_buffer,shared_name="buffer_shared_memory")
-        # write_to_fifo(1,fifo_name="shared_memory")
-        # read_from_fifo(fifo_name="shared_memory")
-        
-        # if (np.max(last_replay_buffer.avg_rewards) < avg_reward):
-        # last_replay_buffer.num_saved += 1
-        # shutil.copy(f"{models_dir}/trained_shared_evaluation.zip", f"{models_dir}/trained.zip")
-        # pickle.dump(last_replay_buffer, open(f"{models_dir}/replay_buffer.pkl", "wb"))
-        # run.log({'Evaluation Reward': avg_reward,'iter':len(model.replay_buffer.avg_rewards)-1})
         
         print(f'Iteration {iters} has been trained')
-        # model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False,callback=WandbCallback(verbose=2))
-        # except Exception as e:
-        #     from tqc import My_TQC
-        #     world_manager.start_world()
-        #     env = CarEnv(0)
-        #     model = My_TQC.custom_load(saved_data = data_copy, env=env, verbose=1, learning_rate=LR, tensorboard_log=logdir)
-        #     model.replay_buffer = replay_buffer_copy
-        #     print('Error occurred during training:', e)
-
-        # Save the trained model after each iteration
-        
-        # model.save_replay_buffer(f"{models_dir}/my_buffer.pkl")
         
         
         

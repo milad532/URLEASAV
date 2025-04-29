@@ -74,6 +74,7 @@ cp ./models/my_buffer.pkl ./models/my_buffer_backup.pkl
 start_processes
 
 
+# python3 ./file_keeper.py &
 python3 ./file_keeper.py &
 while true; do
     if ! ps -p $train_pid > /dev/null || ! ps -p $carla_pid > /dev/null; then
