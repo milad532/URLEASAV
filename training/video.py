@@ -28,9 +28,10 @@ def create_video_from_images(image_folder, output_video, frame_rate):
     video.release()
     print(f"Video created successfully at {output_video}")
 
-# Parameters
-image_folder = "/media/carla/AVRL/our_ppo/image_logs/100"  # Replace with your folder path
-output_video = "output_video.mp4"    # Replace with your desired output path
-frame_rate = 1 / 0.1                # 2.5 FPS
+#Parameters
+exp_num=300
+image_folder = f"./image_logs/{exp_num}"  # Replace with your folder path
+output_video = f"{exp_num}_output_video.mp4"    # Replace with your desired output path
+frame_rate = 1 / 0.2                # 2.5 FPS
 
 create_video_from_images(image_folder, output_video, frame_rate)

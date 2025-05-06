@@ -4,10 +4,10 @@ start_processes() {
     rm -fr image_logs/*
     rm -fr logs/*
     rm -fr wandb/*
-    /media/external_10T/milad/carla/CARLA_0.9.13/CarlaUE4.sh -carla-port=4732 -prefernvidia -windowed -vulkan -RenderOffScreen > /dev/null 2>&1 &
+   /media/carla/carla/CARLA_0.9.13/CarlaUE4.sh -carla-port=4732 -prefernvidia -windowed -vulkan -RenderOffScreen > /dev/null 2>&1 &
     carla_pid=$!
     
-    # /media/external_10T/milad/carla/CARLA_0.9.13/CarlaUE4.sh -carla-port=4736 -prefernvidia -windowed -vulkan -RenderOffScreen > /dev/null 2>&1 &
+    #/media/carla/carla/CARLA_0.9.13/CarlaUE4.sh -carla-port=4736 -prefernvidia -windowed -vulkan -RenderOffScreen > /dev/null 2>&1 &
     # carla_pid_eval=$!
 
     # tmux new-session -d -s "Train" "source /home/taha/.zshrc_carla_9_13; ; sleep 10"
@@ -25,7 +25,7 @@ start_processes() {
 
 kill_processes() {
     
-    pkill -f "/media/external_10T/milad/carla/CARLA_0.9.13/CarlaUE4/Binaries/Linux/CarlaUE4-Linux-Shipping CarlaUE4"
+    pkill -f "/media/carla/carla/CARLA_0.9.13/CarlaUE4/Binaries/Linux/CarlaUE4-Linux-Shipping CarlaUE4"
 
     pkill -f "./train.py"
     pkill -f "./Evaluator.py"

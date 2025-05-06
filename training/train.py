@@ -75,13 +75,14 @@ def evaluate_model(model, env, num_episodes=5):
 
 #         return env
 #     return _init
-run = wandb.init(
-    project="sb3",
-    name="tqc",
-    sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
-    # monitor_gym=True,  # auto-upload the videos of agents playing the game
-    save_code=True,  # optional
-)
+# run = wandb.init(
+#     project="sb3",
+#     name="tqc",
+#     sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
+#     # monitor_gym=True,  # auto-upload the videos of agents playing the game
+#     save_code=True,  # optional
+# )
+
 if __name__ == '__main__':
     # write_to_fifo(0,fifo_name="shared_memory")
     global model
@@ -182,7 +183,7 @@ if __name__ == '__main__':
         # process1(last_replay_buffer,shared_name="evaluation")
         # write_to_fifo(1,fifo_name="evaluation")
         # read_from_fifo(fifo_name="evaluation")
-        model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False,callback=WandbCallback(verbose=2))
+        model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False)
         model.save(f"{models_dir}/trained.zip")
         model.save_replay_buffer(f"{models_dir}/replay_buffer.pkl")
         # raise ValueError(iters)
