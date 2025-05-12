@@ -355,8 +355,8 @@ class CarEnv(gym.Env):
 
 		#Obstacle sensor
 		obstacle_blueprint = self.blueprint_library.find('sensor.other.obstacle')
-		obstacle_blueprint.set_attribute('distance', '20')  # Detection range in meters
-		obstacle_blueprint.set_attribute('hit_radius', '0.5')  # Detection radius
+		obstacle_blueprint.set_attribute('distance', '100')  # Detection range in meters
+		obstacle_blueprint.set_attribute('hit_radius', '5')  # Detection radius
 		obstacle_blueprint.set_attribute('only_dynamics', 'false')  # Detect static and dynamic objects
 		obstacle_transform = carla.Transform(carla.Location(x=1.5, z=1.0))  # Position on the vehicle
 		self.obstacle_sensor = self.world.spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.vehicle)
