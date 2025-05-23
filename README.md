@@ -2,7 +2,7 @@
 
 This repository implements and evaluates autonomous vehicle (AV) decision-making policies in complex road scenarios involving pedestrians, cyclists, and obstacles. The project is split into two main parts: **inference-based benchmarking** and **reinforcement learning (RL) policy training**.
 
-
+![Overveiw of the research](github_image.png)
 
 ---
 
