@@ -10,7 +10,6 @@ start_processes() {
     #/media/carla/carla/CARLA_0.9.13/CarlaUE4.sh -carla-port=4736 -prefernvidia -windowed -vulkan -RenderOffScreen > /dev/null 2>&1 &
     # carla_pid_eval=$!
 
-    # tmux new-session -d -s "Train" "source /home/taha/.zshrc_carla_9_13; ; sleep 10"
     python3 ./train.py --models_dir "./models" &
     train_pid=$!
 
