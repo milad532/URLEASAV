@@ -97,6 +97,19 @@ def signed_angle_2d(A, B):
     
     return angle_degrees
 
+def vector_size(v):
+	return np.sqrt(np.sum((v**2)))
+def obstacle_detector(vehicle_vector,vehicle_location,walker_locations: list):
+	# raise ValueError(vehicle_vector,vehicle_location,walker_locations)
+	vehicle_walker_vectors = np.array([walker_location - vehicle_location for walker_location in walker_locations])
+	vehicle_walker_angles = np.array([signed_angle_2d(vehicle_vector,vec) for vec in vehicle_walker_vectors])
+	vehicle_walker_distance = np.array([vector_size(v) for v in vehicle_walker_vectors])
+	closest_arg = np.argmin(vehicle_walker_distance)
+	if vehicle_walker_distance[closest_arg]<8 and (np.abs(vehicle_walker_angles[closest_arg])<120):
+		return vehicle_walker_angles[closest_arg]/120
+	else:
+		return 1
+
 class World_Manager():
 	def __init__(self,town='Town02',port = 4732,rank = 0):
 		self.town = town
@@ -148,6 +161,7 @@ class CarEnv(gym.Env):
 		#	 os.remove(f"/media/carla/AVRL/our_ppo/mkfifo/clean_{rank}")
 		# except:
 		#	 pass
+		self.walker_locations=[]
 		self.actor_list = []
 		self.pedestrians = []
 		self.id = 0
@@ -266,6 +280,7 @@ class CarEnv(gym.Env):
 		#	 os.remove(f"/media/carla/AVRL/our_ppo/mkfifo/done_{self.rank}")
 		# except:
 		#	 pass
+		self.walker_locations=[]
 		self.cleanup()
 		self.tick()
 		self.evaluation = evaluation
@@ -312,7 +327,7 @@ class CarEnv(gym.Env):
 			self.vehicle = self.world.spawn_actor(self.model_3, self.transform)
 			# print(f"vehicle spawn point, {self.transform}")
 		#Spawn Walker Here
-		for i in range(20,200,20):
+		for i in range(20,225,50):
 			self.spawn_walker_ahead('walker.pedestrian.0001', distance=i)
 
 		self.tick()
@@ -361,7 +376,7 @@ class CarEnv(gym.Env):
 		obstacle_transform = carla.Transform(carla.Location(x=1.5, z=1.0))  # Position on the vehicle
 		self.obstacle_sensor = self.world.spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.vehicle)
 		self.actor_list.append(self.obstacle_sensor)
-		self.obstacle_sensor.listen(lambda event: self.process_obstacle(event))
+		# self.obstacle_sensor.listen(lambda event: self.process_obstacle(event))
 
 		self.tick()
 		while self.bird_camera is None:
@@ -418,7 +433,7 @@ class CarEnv(gym.Env):
 		# 	actor.destroy()
 	
 	def step(self, action):
-
+		self.obssensor_flag = obstacle_detector(vector(self.vehicle.get_transform().get_forward_vector())[:2],vector(self.vehicle.get_location())[:2],self.walker_locations)
 		self.prev_time1 = self.time1
 		self.time1 = time.time()
 		# print(f"stepping {self.time1-self.prev_time1}")
@@ -435,7 +450,6 @@ class CarEnv(gym.Env):
 		throttle = (throttle+1)/2
 		# map steering actions
 		self.vehicle.apply_control(carla.VehicleControl(throttle=throttle, steer=steer, brake=0.0 if throttle>0 else 1.0))
-
 
 		for i in range(1):
 			self.tick()
@@ -527,7 +541,7 @@ class CarEnv(gym.Env):
 				"turn_angle":f"{turn_angle:.2f}",
 				"time":f"{time.time()-self.episode_start:.2f}",
 				"Waypoint":f"{self.current_waypoint_index}",
-				"distance_to_walker":f"{self.pedestrian_distance}"
+				"distance_to_walker":f"{self.obssensor_flag}"
 			}
 			font = cv2.FONT_HERSHEY_SIMPLEX
 			font_scale = 0.5
@@ -617,8 +631,12 @@ class CarEnv(gym.Env):
 		spawn_transform = self.get_waypoint_ahead(distance)
 		# print(f"walker spawn point, {spawn_transform}")
 		# 3) spawn
+		# raise ValueError(spawn_transform.location - spawn_transform.location)
+		
 		walker = self.world.try_spawn_actor(walker_bp, spawn_transform)
+		
 		if walker:
+			self.walker_locations.append(vector(spawn_transform.location)[:2])
 			self.actor_list.append(walker)
 		return walker
 
@@ -642,20 +660,20 @@ class CarEnv(gym.Env):
 				# print(f"Collision detected with {event.other_actor.type_id}!")
 	
 
-	def process_obstacle(self, event):
-		"""
-		Process obstacle proximity data.
-		Adds information about nearby obstacles (like pedestrians).
-		"""
-		distance = event.distance
-		if distance < 5:  # If the obstacle is within 10 meters
-			# print(f"Obstacle detected at {distance:.2f} meters.")
-			#store the distance or use it in the observation space
-			self.pedestrian_distance = distance
-			self.obssensor_flag=1
-		else:
-			self.pedestrian_distance = None
-			self.obssensor_flag=0
+	# def process_obstacle(self, event):
+	# 	"""
+	# 	Process obstacle proximity data.
+	# 	Adds information about nearby obstacles (like pedestrians).
+	# 	"""
+	# 	distance = event.distance
+	# 	if distance < 5:  # If the obstacle is within 10 meters
+	# 		# print(f"Obstacle detected at {distance:.2f} meters.")
+	# 		#store the distance or use it in the observation space
+	# 		self.pedestrian_distance = distance
+	# 		self.obssensor_flag=1
+	# 	else:
+	# 		self.pedestrian_distance = None
+	# 		self.obssensor_flag=0
 
 	def calculate_reward(self):
 		"""
