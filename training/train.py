@@ -1,5 +1,5 @@
-
-from tqc import My_TQC
+from stable_baselines3 import PPO
+# from tqc import My_TQC
 import torch
 # import debugpy
 # debugpy.listen(("localhost", 5684))  # Start a debug server
@@ -104,8 +104,8 @@ if __name__ == '__main__':
         os.makedirs(logdir)
 
     # Training settings
-    TIMESTEPS = 20000  # Total number of steps per training iteration
-    LR = 7.3e-4  # Learning rate for TQC
+    TIMESTEPS = 15000  # Total number of steps per training iteration
+    LR = 1.3e-3  # Learning rate for TQC
 
     # Check if a pre-trained model exists and load or create a new one
     fifo_signal = 0
@@ -117,38 +117,53 @@ if __name__ == '__main__':
         if not os.path.exists(models_dir):
             os.makedirs(models_dir)
 
-        # Initialize TQC model
-        model = My_TQC(
+        # # Initialize TQC model
+        # model = My_TQC(
+        #     'MlpPolicy',
+        #     env=env,
+        #     buffer_size=200_000,
+        #     batch_size=256,
+        #     train_freq=200,
+        #     gradient_steps=256,
+        #     learning_starts=500,
+        #     use_sde=True,
+        #     sde_sample_freq=16,
+        #     policy_kwargs=dict(
+        #         log_std_init=-3,
+        #         net_arch=[256, 256],
+        #         n_critics=2,
+        #         use_expln=True
+        #     ),
+        #     verbose=1,
+        #     learning_rate=LR,
+        #     gamma=0.99,  # Adjust gamma if needed
+        #     tensorboard_log=logdir,
+        #     # device='cuda',
+        #     # ent_coef=2
+            
+        # )
+        model = PPO(
             'MlpPolicy',
             env=env,
-            buffer_size=200_000,
             batch_size=256,
-            train_freq=200,
-            gradient_steps=256,
-            learning_starts=500,
-            use_sde=True,
-            sde_sample_freq=16,
-            policy_kwargs=dict(
-                log_std_init=-3,
-                net_arch=[256, 256],
-                n_critics=2,
-                use_expln=True
-            ),
-            verbose=1,
             learning_rate=LR,
-            gamma=0.99,  # Adjust gamma if needed
-            tensorboard_log=logdir,
-            # device='cuda',
-            # ent_coef=2
-            
+            n_steps=2048,  # Number of steps to run for each environment per update
+            gamma=0.99,  # Discount factor
+            gae_lambda=0.95,  # Generalized Advantage Estimation (GAE) lambda
+            ent_coef=0.01,  # Entropy coefficient (helps exploration)
+            vf_coef=0.5,  # Value function coefficient
+            max_grad_norm=0.5,  # Max norm for the gradient clipping
+            verbose=1,
+            tensorboard_log=logdir
         )
-        model.replay_buffer.avg_rewards = [0]
-        model.replay_buffer.num_saved = 0
+        # model.replay_buffer.avg_rewards = [0]
+        # model.replay_buffer.num_saved = 0
     else:
         # raise ValueError(999999999999)
         models_dir = args.models_dir
         
-        model = My_TQC.load(f"{models_dir}/trained.zip", env=env, verbose=1, learning_rate=LR, tensorboard_log=logdir)
+        model = PPO.load(f"{models_dir}/trained.zip", env=env, verbose=1, learning_rate=LR, tensorboard_log=logdir)
+        # model = PPO.load(f"{models_dir}/trained.zip", env=env, verbose=1, learning_rate=LR)
         
         # model.log_ent_coef = torch.log(torch.ones(1, device=model.device) * 0.1).requires_grad_(True)
         # model.ent_coef_optimizer = torch.optim.Adam([model.log_ent_coef], lr=model.lr_schedule(1))
@@ -179,13 +194,13 @@ if __name__ == '__main__':
         # Train the model for a specified number of timesteps
 
         # model.save(f"{models_dir}/trained_shared_evaluation.zip")
-        last_replay_buffer = copy.deepcopy(model.replay_buffer)
+        # last_replay_buffer = copy.deepcopy(model.replay_buffer)
         # process1(last_replay_buffer,shared_name="evaluation")
         # write_to_fifo(1,fifo_name="evaluation")
         # read_from_fifo(fifo_name="evaluation")
         model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False)
         model.save(f"{models_dir}/trained.zip")
-        model.save_replay_buffer(f"{models_dir}/replay_buffer.pkl")
+        # model.save_replay_buffer(f"{models_dir}/replay_buffer.pkl")
         # raise ValueError(iters)
         # avg_reward = read_from_fifo(fifo_name="evaluation")
         # model.replay_buffer.avg_rewards.append(avg_reward)

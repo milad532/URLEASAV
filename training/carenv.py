@@ -215,10 +215,12 @@ class CarEnv(gym.Env):
 				# self.obstacle_sensor = self.world.spawn_actor(self.proximity_sensor,camera_init_trans,attach_to=self.vehicle)
 				# Obstacle sensor
 				obstacle_blueprint = self.blueprint_library.find('sensor.other.obstacle')
-				obstacle_blueprint.set_attribute('distance', '20')  # Detection range in meters
-				obstacle_blueprint.set_attribute('hit_radius', '0.5')  # Detection radius
-				obstacle_blueprint.set_attribute('only_dynamics', 'false')  # Detect static and dynamic objects
-				obstacle_transform = carla.Transform(carla.Location(x=1.5, z=1.0))  # Position on the vehicle
+				obstacle_blueprint.set_attribute('distance', '4.0')  # Detection range in meters
+				obstacle_blueprint.set_attribute('hit_radius', '1')  # Detection radius
+				obstacle_blueprint.set_attribute('only_dynamics', 'true')  # Detect static and dynamic objects
+				obstacle_blueprint.set_attribute('debug_linetrace','true')
+				sensor_rotation = carla.Rotation(pitch=0.0, yaw=0.0, roll=0.0)
+				obstacle_transform = carla.Transform(carla.Location(x=0.5, z=1.0),sensor_rotation)  # Position on the vehicle
 				self.obstacle_sensor = self.world.spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.vehicle)
 				self.actor_list.append(self.obstacle_sensor)
 				
@@ -256,6 +258,7 @@ class CarEnv(gym.Env):
 	
 	def tick(self,i=1):
 		for _ in range(i):
+			
 			self.world.tick()
 	
 
@@ -278,6 +281,7 @@ class CarEnv(gym.Env):
 		self.steer_lock_penalty = 0
 		self.previous_steer = 0
 		self.previous_throttle = 0
+		self.obssensor_flag = 0
 		self.collision_hist = []
 		self.actor_list = []
 
@@ -312,8 +316,9 @@ class CarEnv(gym.Env):
 			self.vehicle = self.world.spawn_actor(self.model_3, self.transform)
 			# print(f"vehicle spawn point, {self.transform}")
 		#Spawn Walker Here
+		# for i in torch.rand(3)*200:
 		for i in range(20,200,20):
-			self.spawn_walker_ahead('walker.pedestrian.0001', distance=i)
+			self.spawn_walker_ahead('walker.pedestrian.0001', distance=int(i+40))
 
 		self.tick()
 		while self.vehicle.get_location().x == 0 and self.vehicle.get_location().y == 0:
@@ -330,6 +335,7 @@ class CarEnv(gym.Env):
 		self.vehicle.add_impulse(self.waypoint.transform.get_forward_vector()*12000)
 		self.tick(2)
 		self.sem_cam = self.blueprint_library.find('sensor.camera.semantic_segmentation')
+		# self.sem_cam = self.blueprint_library.find('sensor.camera.rgb')
 		self.sem_cam.set_attribute("image_size_x", f"{self.im_width}")
 		self.sem_cam.set_attribute("image_size_y", f"{self.im_height}")
 		self.sem_cam.set_attribute("fov", f"120")
@@ -355,10 +361,11 @@ class CarEnv(gym.Env):
 
 		#Obstacle sensor
 		obstacle_blueprint = self.blueprint_library.find('sensor.other.obstacle')
-		obstacle_blueprint.set_attribute('distance', '100')  # Detection range in meters
-		obstacle_blueprint.set_attribute('hit_radius', '5')  # Detection radius
+		obstacle_blueprint.set_attribute('distance', '400.0')  # Detection range in meters
+		obstacle_blueprint.set_attribute('hit_radius', '1')  # Detection radius
 		obstacle_blueprint.set_attribute('only_dynamics', 'false')  # Detect static and dynamic objects
-		obstacle_transform = carla.Transform(carla.Location(x=1.5, z=1.0))  # Position on the vehicle
+		obstacle_blueprint.set_attribute('debug_linetrace','true')# Debug line trace
+		obstacle_transform = carla.Transform(carla.Location(x=0.0, z=0.5))  # Position on the vehicle
 		self.obstacle_sensor = self.world.spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.vehicle)
 		self.actor_list.append(self.obstacle_sensor)
 		self.obstacle_sensor.listen(lambda event: self.process_obstacle(event))
@@ -418,9 +425,10 @@ class CarEnv(gym.Env):
 		# 	actor.destroy()
 	
 	def step(self, action):
-
+		self.obssensor_flag=0
 		self.prev_time1 = self.time1
 		self.time1 = time.time()
+		time.sleep(0.05)
 		# print(f"stepping {self.time1-self.prev_time1}")
 		self.id+=1
 
@@ -433,6 +441,7 @@ class CarEnv(gym.Env):
 		steer = float(action[0])
 		throttle = float(action[1])
 		throttle = (throttle+1)/2
+		throttle=0
 		# map steering actions
 		self.vehicle.apply_control(carla.VehicleControl(throttle=throttle, steer=steer, brake=0.0 if throttle>0 else 1.0))
 
@@ -527,7 +536,8 @@ class CarEnv(gym.Env):
 				"turn_angle":f"{turn_angle:.2f}",
 				"time":f"{time.time()-self.episode_start:.2f}",
 				"Waypoint":f"{self.current_waypoint_index}",
-				"distance_to_walker":f"{self.pedestrian_distance}"
+				"distance_to_walker":f"{self.pedestrian_distance}",
+				"obssensor_flag":f"{self.obssensor_flag}"
 			}
 			font = cv2.FONT_HERSHEY_SIMPLEX
 			font_scale = 0.5
@@ -584,6 +594,7 @@ class CarEnv(gym.Env):
 		self.previous_steer = steer
 		self.previous_throttle = throttle
 		# print(f"features: {self.features}")
+		self.pedestrian_distance = None
 		return self.features, reward, done, truncated, {'kmh':kmh}	#curly brackets - empty dictionary required by SB3 format
 
 	def get_waypoint_ahead(self, distance):
@@ -647,8 +658,12 @@ class CarEnv(gym.Env):
 		Process obstacle proximity data.
 		Adds information about nearby obstacles (like pedestrians).
 		"""
+		# print(999999999999999)
+		# print(event)
 		distance = event.distance
-		if distance < 5:  # If the obstacle is within 10 meters
+		print(f"Obstacle detected: ")
+		time.sleep(10)
+		if distance < 100:  # If the obstacle is within 10 meters
 			# print(f"Obstacle detected at {distance:.2f} meters.")
 			#store the distance or use it in the observation space
 			self.pedestrian_distance = distance

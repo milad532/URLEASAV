@@ -29,9 +29,9 @@ def create_video_from_images(image_folder, output_video, frame_rate):
     print(f"Video created successfully at {output_video}")
 
 #Parameters
-exp_num=300
+exp_num=3260
 image_folder = f"./image_logs/{exp_num}"  # Replace with your folder path
-output_video = f"{exp_num}_output_video.mp4"    # Replace with your desired output path
-frame_rate = 1 / 0.2                # 2.5 FPS
+output_video = f"PPO_{exp_num}_output_video.mp4"    # Replace with your desired output path
+frame_rate = 1                 #  FPS
 
 create_video_from_images(image_folder, output_video, frame_rate)
