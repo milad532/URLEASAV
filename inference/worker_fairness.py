@@ -408,50 +408,6 @@ class World_Manager():
 
 
 
-    # def five_spawn(self,list2spawn,list4points):
-    #     print(444444)
-    #     point = self.spawn_points[list4points]
-    #     list_of_points = []
-    #     y_offsets=[-1.5,-0.5,0.5,1.5]
-    #     x_offsets=[1,-1,1,-1]
-    #     for i in range(4):
-    #         list_of_points.append(carla.Transform(carla.Location(x=point.location.x+x_offsets[i],y=point.location.y+y_offsets[i],z=point.location.z),point.rotation))
-    #     for item,point in zip(list2spawn,list_of_points):
-    #         blueprint = self.blueprint_library.find(item)
-    #         self.actor_list.append(self.world.spawn_actor(blueprint,point))
-            
-    # def three_spawn(self,list2spawn,list4points):
-    #     print(3333)
-    #     point = self.spawn_points[list4points]
-    #     list_of_points = []
-    #     y_offsets = [-2,0,2]
-    #     x_offsets=[1,-1,1]
-    #     for i in range(3):
-    #         list_of_points.append(carla.Transform(carla.Location(x=point.location.x+x_offsets[i],y=point.location.y+y_offsets[i],z=point.location.z),point.rotation))
-    #     for item,point in zip(list2spawn,list_of_points):
-    #         blueprint = self.blueprint_library.find(item)
-    #         self.actor_list.append(self.world.spawn_actor(blueprint,point))
-            
-    # def two_spawn(self,list2spawn,list4points):
-    #     print(22222)
-    #     point = self.spawn_points[list4points]
-    #     list_of_points = []
-    #     y_offsets = [-1,1]
-    #     for i in range(2):
-    #         list_of_points.append(carla.Transform(carla.Location(x=point.location.x,y=point.location.y+y_offsets[i],z=point.location.z),point.rotation))
-    #     for item,point in zip(list2spawn,list_of_points):
-    #         blueprint = self.blueprint_library.find(item)
-    #         self.actor_list.append(self.world.spawn_actor(blueprint,point))
-    # def one_spawn(self,list2spawn,list4points):
-    #     print(1111)
-    #     point = self.spawn_points[list4points]
-    #     list_of_points = []
-    #     for i in range(1):
-    #         point.rotation.yaw-=90
-    #         list_of_points.append(carla.Transform(carla.Location(x=point.location.x,y=point.location.y,z=point.location.z),point.rotation))
-    #     for item,point in zip(list2spawn,list_of_points):
-    #         blueprint = self.blueprint_library.find(item)
-    #         self.actor_list.append(self.world.spawn_actor(blueprint,point))
 
 plans={
        'plan1':['walker','walker'],
@@ -470,7 +426,7 @@ def creaet_scenario(port=4040):
     walker_chance=args.walker_chance
     bike_chance=args.bike_chance
     block_chance=args.block_chance
-    wolrd_class=World_Manager(port=port,
+    world_class=World_Manager(port=port,
                               walker_chance=walker_chance,
                               bike_chance=bike_chance,
                               block_chance=block_chance)
@@ -483,15 +439,15 @@ def creaet_scenario(port=4040):
         if(i=='walker'):
             number=random.choice(list(range(1,6)))
             # walker_agents=random.sample(walkers,5)
-            wolrd_class.spawn_actor(number,walkers,spawn_point[j])
+            world_class.spawn_actor(number,walkers,spawn_point[j])
         elif(i=='bike'):
             number=random.choice(list(range(1,6)))
             # bikes_agents=random.sample(bikes,)
-            wolrd_class.spawn_actor(number,bikes,spawn_point[j])
+            world_class.spawn_actor(number,bikes,spawn_point[j])
         elif(i=='block'):
             number =1
             block_prop=random.sample(road_blocks,1)
-            wolrd_class.spawn_actor(number,block_prop,spawn_point[j],yaw=90)
+            world_class.spawn_actor(number,block_prop,spawn_point[j],yaw=90)
         print(number)
         X.append({
             "item":i,
@@ -505,8 +461,8 @@ def creaet_scenario(port=4040):
     # modes = ["straigt", "change"]
     # mode = random.choice(modes)
     mode="change"
-    wolrd_class.ego_vehicle(save_image=False,lane_mode=mode)
-    report=wolrd_class.parse_and_generate_report(X)
+    world_class.ego_vehicle(save_image=False,lane_mode=mode)
+    report=world_class.parse_and_generate_report(X)
     # report_df=pd.DataFrame(report,index=[0])
     print(report)
     report_path = "/media/external_10T/milad/carla_project/inference/report/target_exp1_log.txt"

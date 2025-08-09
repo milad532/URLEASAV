@@ -11,3 +11,9 @@ __pycache__/
 *.zip
 *.logs
 image_logs/
+lidar_images/
+instance_segmentation_images/
+depth_images/
+carla_run_data/
+*.mp4
+*.gif
