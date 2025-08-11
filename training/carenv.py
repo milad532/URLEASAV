@@ -22,6 +22,8 @@ import timm
 from torch import nn
 import os
 from dataset_creation.aae.ae.autoencoder import load_ae
+from scenario_manager import ScenarioManager
+
 # from segment_anything import SamPredictor, sam_model_registry
 # import debugpy
 # debugpy.listen(("localhost", 5684))  # Start a debug server
@@ -174,6 +176,7 @@ class CarEnv(gym.Env):
 		# print(999999939394939493)
 		# self.world.wait_for_tick()
 
+		self.scenario_manager = ScenarioManager(self.world)
 		self.town = self.world.get_map().name
 		self.main = main
 
@@ -236,7 +239,6 @@ class CarEnv(gym.Env):
 				self.obstacle_sensor = self.world.spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.vehicle)
 				self.actor_list.append(self.obstacle_sensor)
 				
-
 
 
 			self.tick()
@@ -327,9 +329,10 @@ class CarEnv(gym.Env):
 			self.vehicle = self.world.spawn_actor(self.model_3, self.transform)
 			# print(f"vehicle spawn point, {self.transform}")
 		#Spawn Walker Here
-		for i in range(20,225,50):
-			self.spawn_walker_ahead('walker.pedestrian.0001', distance=i)
-
+		# for i in range(20,225,50):
+		# 	self.spawn_walker_ahead('walker.pedestrian.0001', distance=i)
+		_,self.scenario_actors_locations=self.scenario_manager.generate_scenario(self.vehicle, self.route_waypoints)
+		# raise ValueError(self.scenario_actors_list)
 		self.tick()
 		while self.vehicle.get_location().x == 0 and self.vehicle.get_location().y == 0:
 
@@ -433,7 +436,7 @@ class CarEnv(gym.Env):
 		# 	actor.destroy()
 	
 	def step(self, action):
-		self.obssensor_flag = obstacle_detector(vector(self.vehicle.get_transform().get_forward_vector())[:2],vector(self.vehicle.get_location())[:2],self.walker_locations)
+		self.obssensor_flag = obstacle_detector(vector(self.vehicle.get_transform().get_forward_vector())[:2],vector(self.vehicle.get_location())[:2],self.scenario_actors_locations)
 		self.prev_time1 = self.time1
 		self.time1 = time.time()
 		# print(f"stepping {self.time1-self.prev_time1}")
