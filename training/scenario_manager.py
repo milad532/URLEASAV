@@ -47,8 +47,8 @@ class ScenarioManager:
         self.clear_scenario()
 
         if random.random() < self.combined_scenario_chance:
-            print("Spawning a combined scenario 40 meters ahead...")
-            self._spawn_combined_scenario(route_waypoints, distance=40)
+            print("Spawning a combined scenario 10 meters ahead...")
+            self._spawn_combined_scenario(route_waypoints, distance=10)
         return self.actor_list,self.actors_location
 
 
@@ -97,9 +97,9 @@ class ScenarioManager:
             if actor_type == "walker":
                 bp = random.choice(self.walker_blueprints)
                 spawn_transform.location.z += 1.0
-                actor = self.world.try_spawn_actor(bp, spawn_transform)
                 if bp.has_attribute('is_invincible'):
                     bp.set_attribute('is_invincible', 'false')
+                actor = self.world.try_spawn_actor(bp, spawn_transform)
 
             elif actor_type == "bike":
                 bp = random.choice(self.bicycle_blueprints)
@@ -111,11 +111,14 @@ class ScenarioManager:
                 if actor:
                     # Apply a control with brake to ensure it stays stationary
                     actor.apply_control(carla.VehicleControl(brake=1.0))
+                
             
             elif actor_type == "block":
                 bp = random.choice(self.road_block_blueprints)
                 spawn_transform.rotation.yaw += 90
                 spawn_transform.location.z += 0.5
+                if bp.has_attribute('is_invincible'):
+                    bp.set_attribute('is_invincible', 'false')
                 actor = self.world.try_spawn_actor(bp, spawn_transform)
                 
             if actor:
