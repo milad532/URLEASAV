@@ -34,8 +34,9 @@ class ScenarioManager:
         
         self.combined_scenario_chance = 1
         
-
-        self.lane_actor_types = ["walker", "bike", "block"]
+# 
+        # self.lane_actor_types = ["walker", "bike", "block"]
+        self.lane_actor_types = ["walker", "bike"]
         
     def generate_scenario(self, ego_vehicle: carla.Actor, route_waypoints: list):
         """
@@ -46,17 +47,19 @@ class ScenarioManager:
         """
         self.clear_scenario()
 
+        # print(9999999)
+        # print(self.actors_name_list)
         if random.random() < self.combined_scenario_chance:
-            print("Spawning a combined scenario 40 meters ahead...")
-            self._spawn_combined_scenario(route_waypoints, distance=40)
-        return self.actor_list,self.actors_location
+            # print("Spawning a combined scenario 40 meters ahead...")
+            self._spawn_combined_scenario(route_waypoints, distance=10)
+        return self.actors_name_list,self.actor_list,self.actors_location
 
 
     def clear_scenario(self):
         """
         Destroys all actors that were spawned by this manager.
         """
-        print(f"Clearing {len(self.actor_list)} actors...")
+        # print(f"Clearing {len(self.actor_list)} actors...")
         for actor in self.actor_list:
             if actor and actor.is_alive:
                 try:
@@ -64,6 +67,8 @@ class ScenarioManager:
                 except Exception as e:
                     print(f"Error destroying actor: {e}")
         self.actor_list = []
+        self.actors_name_list = []
+        self.actors_location=[]
 
     def get_waypoint_ahead(self, start_waypoint: carla.Waypoint, distance: float) -> carla.Waypoint:
         """
@@ -119,9 +124,11 @@ class ScenarioManager:
                 actor = self.world.try_spawn_actor(bp, spawn_transform)
                 
             if actor:
+                # print(939393939939393)
+                self.actors_name_list.append(actor_type)
                 self.actor_list.append(actor)
                 self.actors_location.append(vector(spawn_transform.location)[:2])
-                print(f"  -> Spawned {actor_type} #{i+1} at {spawn_transform.location}")
+                # print(f"  -> Spawned {actor_type} #{i+1} at {spawn_transform.location}")
             
             # Find a new waypoint slightly ahead to spawn the next actor
             # The spacing is larger for vehicles and blocks to prevent crowding
@@ -152,7 +159,7 @@ class ScenarioManager:
         main_lane_actor_type = random.choice(self.lane_actor_types)
         num_to_spawn_main = random.randint(1, 3)
         
-        print(f"Spawning {num_to_spawn_main} {main_lane_actor_type}s in main lane at {main_waypoint.transform.location}:")
+        # print(f"Spawning {num_to_spawn_main} {main_lane_actor_type}s in main lane at {main_waypoint.transform.location}:")
         self._spawn_multiple_actors_in_lane(main_waypoint, main_lane_actor_type, num_to_spawn_main)
             
         if opposite_waypoint:
@@ -162,7 +169,7 @@ class ScenarioManager:
                 opposite_lane_actor_type = random.choice(available_types)
                 num_to_spawn_opposite = random.randint(1, 3)
                 
-                print(f"Spawning {num_to_spawn_opposite} {opposite_lane_actor_type}s in opposite lane at {opposite_waypoint.transform.location}:")
+                # print(f"Spawning {num_to_spawn_opposite} {opposite_lane_actor_type}s in opposite lane at {opposite_waypoint.transform.location}:")
                 self._spawn_multiple_actors_in_lane(opposite_waypoint, opposite_lane_actor_type, num_to_spawn_opposite)
             else:
                 print("Could not choose an opposite lane actor type different from the main lane.")
