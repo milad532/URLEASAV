@@ -51,7 +51,7 @@ class ScenarioManager:
         # print(self.actors_name_list)
         if random.random() < self.combined_scenario_chance:
             # print("Spawning a combined scenario 40 meters ahead...")
-            self._spawn_combined_scenario(route_waypoints, distance=10)
+            self._spawn_combined_scenario(route_waypoints, distance=40)
         return self.actors_name_list,self.actor_list,self.actors_location
 
 
@@ -102,9 +102,9 @@ class ScenarioManager:
             if actor_type == "walker":
                 bp = random.choice(self.walker_blueprints)
                 spawn_transform.location.z += 1.0
-                actor = self.world.try_spawn_actor(bp, spawn_transform)
                 if bp.has_attribute('is_invincible'):
                     bp.set_attribute('is_invincible', 'false')
+                actor = self.world.try_spawn_actor(bp, spawn_transform)
 
             elif actor_type == "bike":
                 bp = random.choice(self.bicycle_blueprints)
