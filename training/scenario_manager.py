@@ -111,7 +111,14 @@ class ScenarioManager:
                 # Ensure the bike is not moving by setting its velocity to zero
                 if bp.has_attribute('is_invincible'):
                     bp.set_attribute('is_invincible', 'false')
+                lane_width = waypoint.lane_width
+                spawn_transform.location += carla.Vector3D(
+                    x=waypoint.transform.get_right_vector().x * lane_width * (-0.25),
+                    y=waypoint.transform.get_right_vector().y * lane_width * (-0.25),
+                    z=0.0
+                )
                 spawn_transform.rotation.yaw += 90
+                
                 actor = self.world.try_spawn_actor(bp, spawn_transform)
                 if actor:
                     # Apply a control with brake to ensure it stays stationary
