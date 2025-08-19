@@ -51,7 +51,7 @@ class ScenarioManager:
         # print(self.actors_name_list)
         if random.random() < self.combined_scenario_chance:
             # print("Spawning a combined scenario 40 meters ahead...")
-            self._spawn_combined_scenario(route_waypoints, distance=15)
+            self._spawn_combined_scenario(route_waypoints, distance=40)
         return self.actors_name_list,self.actor_list,self.actors_location
 
 
