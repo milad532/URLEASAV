@@ -272,7 +272,7 @@ class CarEnv(gym.Env):
 		self.object_values={"walker":0.1, "bike":1}
 		
 		logging.basicConfig(
-		filename=f'logs/{"--".join(["_".join([key, str(value)]) for key, value in zip(object_values.keys(), object_values.values())])}.log',
+		filename=f'logs/{"--".join(["_".join([key, str(value)]) for key, value in zip(self.object_values.keys(), self.object_values.values())])}.log',
 		level=logging.INFO,
 		format='%(asctime)s - %(levelname)s - %(message)s'
 		)
