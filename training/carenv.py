@@ -32,7 +32,7 @@ from scenario_manager import ScenarioManager
 # Load a pretrained EfficientNet model (e.g., EfficientNet-B0)
 # efficientnet = models.efficientnet_b0(pretrained=True).cuda()
 # efficientnet_features = torch.nn.Sequential(*list(efficientnet.children())[:-2])
-
+num_envs = 1
 import logging
 import datetime
 
