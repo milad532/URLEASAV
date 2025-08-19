@@ -7,7 +7,7 @@ Clean up at completion of episode
 Navigation - define a goal to travel a short distance
 
 '''
-
+#
 import random
 import time
 import numpy as np
