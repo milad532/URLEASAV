@@ -387,6 +387,7 @@ class CarEnv(gym.Env):
 		#	 os.remove(f"/media/carla/AVRL/our_ppo/mkfifo/done_{self.rank}")
 		# except:
 		#	 pass
+		logging.info(f"Episode Start")
 		self.walker_locations=[]
 		self.cleanup()
 		self.tick()
@@ -692,15 +693,17 @@ class CarEnv(gym.Env):
 		if len(self.collision_hist) != 0 or self.distance_from_center>max_dist:
 			
 			self.cleanup()
-
+			logging.info(f"Episode Ended\n")
 			done = True
 		elif self.step_counter*FIXED_DELTA_SECONDS > SECONDS_PER_EPISODE:
 			self.cleanup()
+			logging.info(f"Episode Ended\n")
 			done = True
 			truncated = True
 		elif reward < -1:
 			if (self.turn!=0 and reward < -1.5) or self.turn==0:
 				self.cleanup()
+				logging.info(f"Episode Ended\n")
 				done = True
 
    
@@ -769,7 +772,7 @@ class CarEnv(gym.Env):
 			Detects if the vehicle collided with a pedestrian.
 			"""
 			self.collision_hist.append(event)
-			logging.info(f"Collision detected - Event: {event}")
+			logging.info(f"Collision detected - Event: {event.other_actor.type_id}")
 			if event.other_actor and 'walker' in event.other_actor.type_id:
 				self.pedestrians.append(event.other_actor)
 			if 'walker' in event.other_actor.type_id:
