@@ -269,7 +269,7 @@ class CarEnv(gym.Env):
 		self.id = 0
 		self.run_id=0
 		self.colision_type = None
-		self.object_values=OBJECT_VALUES
+		self.object_values=CarEnv.OBJECT_VALUES
 		
 		logging.basicConfig(
 		filename=f'logs/{"--".join(["_".join([key, str(value)]) for key, value in zip(self.object_values.keys(), self.object_values.values())])}.log',
