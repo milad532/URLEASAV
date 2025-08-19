@@ -164,7 +164,7 @@ class ScenarioManager:
         
 
         main_lane_actor_type = random.choice(self.lane_actor_types)
-        num_to_spawn_main = random.randint(1, 3)
+        num_to_spawn_main = 1#random.randint(1, 3)
         
         # print(f"Spawning {num_to_spawn_main} {main_lane_actor_type}s in main lane at {main_waypoint.transform.location}:")
         self._spawn_multiple_actors_in_lane(main_waypoint, main_lane_actor_type, num_to_spawn_main)
