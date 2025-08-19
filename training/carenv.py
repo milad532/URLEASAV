@@ -32,9 +32,16 @@ from scenario_manager import ScenarioManager
 # Load a pretrained EfficientNet model (e.g., EfficientNet-B0)
 # efficientnet = models.efficientnet_b0(pretrained=True).cuda()
 # efficientnet_features = torch.nn.Sequential(*list(efficientnet.children())[:-2])
-num_envs=1
 
+import logging
+import datetime
 
+# Set up logging (do this once, typically in your __init__ method)
+logging.basicConfig(
+    filename='logs/collision_log.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 		
 
 
@@ -762,6 +769,7 @@ class CarEnv(gym.Env):
 			Detects if the vehicle collided with a pedestrian.
 			"""
 			self.collision_hist.append(event)
+			logging.info(f"Collision detected - Event: {event}")
 			if event.other_actor and 'walker' in event.other_actor.type_id:
 				self.pedestrians.append(event.other_actor)
 			if 'walker' in event.other_actor.type_id:
@@ -788,26 +796,26 @@ class CarEnv(gym.Env):
 	# 		self.pedestrian_distance = None
 	# 		self.obssensor_flag=0
 
-	def calculate_reward(self):
-		"""
-		Calculates reward based on proximity to pedestrians, collisions, and other conditions.
-		"""
-		reward = 0
+	# def calculate_reward(self):
+	# 	"""
+	# 	Calculates reward based on proximity to pedestrians, collisions, and other conditions.
+	# 	"""
+	# 	reward = 0
 		
-		# Penalty for collision with pedestrians
-		if len(self.pedestrians) > 0:
-			reward -= 1  # Large penalty for collision
+	# 	# Penalty for collision with pedestrians
+	# 	if len(self.pedestrians) > 0:
+	# 		reward -= 1  # Large penalty for collision
 		
-		# Penalty for proximity to pedestrians (e.g., too close)
-		if self.pedestrian_distance and self.pedestrian_distance < 3:  # 5 meters is the safe distance threshold
-			reward -= 0.5  # Small penacolty for being too close
+	# 	# Penalty for proximity to pedestrians (e.g., too close)
+	# 	if self.pedestrian_distance and self.pedestrian_distance < 3:  # 5 meters is the safe distance threshold
+	# 		reward -= 0.5  # Small penacolty for being too close
 		
-		# Reward for safe driving (not hitting pedestrians)
-		if self.pedestrian_distance and self.pedestrian_distance >= 3:
-			reward += 1  # Reward for keeping a safe distance
+	# 	# Reward for safe driving (not hitting pedestrians)
+	# 	if self.pedestrian_distance and self.pedestrian_distance >= 3:
+	# 		reward += 1  # Reward for keeping a safe distance
 		
 		
-		return reward
+	# 	return reward
 		
 	
  

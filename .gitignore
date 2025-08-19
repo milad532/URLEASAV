@@ -11,3 +11,4 @@ __pycache__/
 *.zip
 *.logs
 image_logs/
+training/logs

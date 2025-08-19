@@ -69,6 +69,8 @@ pkill -f "./train.py"
 cp ./models/trained.zip ./models/trained_backup.zip
 rm -i ./models/trained.zip
 cp ./models/my_buffer.pkl ./models/my_buffer_backup.pkl
+mkdir logs
+mkdir image_logs
 # Start the processes initially
 start_processes
 
