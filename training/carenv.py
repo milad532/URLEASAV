@@ -250,7 +250,7 @@ class CarEnv(gym.Env):
 	BIRD_CAMERA_POS_Z = 6 
 	BIRD_CAMERA_POS_X = 0
 	BIRD_CAMERA_PITCH = -90
-	OBJECT_VALUES={"walker":0.1, "bike":1}
+	OBJECT_VALUES={"walker":1, "bike":0.1}
 	# Set up logging (do this once, typically in your __init__ method)
 	
 	def __init__(self,world_manager,main=True):
@@ -269,7 +269,7 @@ class CarEnv(gym.Env):
 		self.id = 0
 		self.run_id=0
 		self.colision_type = None
-		self.object_values={"walker":0.1, "bike":1}
+		self.object_values=OBJECT_VALUES
 		
 		logging.basicConfig(
 		filename=f'logs/{"--".join(["_".join([key, str(value)]) for key, value in zip(self.object_values.keys(), self.object_values.values())])}.log',
