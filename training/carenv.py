@@ -22,6 +22,8 @@ import timm
 from torch import nn
 import os
 from dataset_creation.aae.ae.autoencoder import load_ae
+from scenario_manager import ScenarioManager
+
 # from segment_anything import SamPredictor, sam_model_registry
 # import debugpy
 # debugpy.listen(("localhost", 5684))  # Start a debug server
@@ -30,8 +32,9 @@ from dataset_creation.aae.ae.autoencoder import load_ae
 # Load a pretrained EfficientNet model (e.g., EfficientNet-B0)
 # efficientnet = models.efficientnet_b0(pretrained=True).cuda()
 # efficientnet_features = torch.nn.Sequential(*list(efficientnet.children())[:-2])
-num_envs=1
-
+num_envs = 1
+import logging
+import datetime
 
 		
 
@@ -97,6 +100,116 @@ def signed_angle_2d(A, B):
     
     return angle_degrees
 
+def vector_size(v):
+	return np.sqrt(np.sum((v**2)))
+
+def obstacle_detector(object_values,vehicle_vector,vehicle_location,walker_locations: list,walker_list: list):
+	# print(walker_list,walker_locations)
+	# print(888888)
+	# raise ValueError(walker_locations)
+	# raise ValueError(vehicle_vector,vehicle_location,walker_locations)
+	
+	walker_values = np.array([object_values[actor] for actor in walker_list])
+	# #print("Method 2 (class name):", walker_class_names)
+	# raise ValueError(,)
+	vehicle_walker_vectors = np.array([walker_location - vehicle_location for walker_location in walker_locations])
+	vehicle_walker_angles = np.array([signed_angle_2d(vehicle_vector,vec) for vec in vehicle_walker_vectors])
+	# vehicle_walker_angles = vehicle_walker_angles + 180
+	# bins = (vehicle_walker_angles // 30).astype(int)
+	# raise ValueError(bins)
+
+	vehicle_walker_distance = np.array([vector_size(v) for v in vehicle_walker_vectors])
+	# #print(len(walker_values),len(vehicle_walker_distance))
+	# closest_arg = np.argmin(vehicle_walker_distance)
+	# #print(walker_values,vehicle_walker_distance)
+	close_walkers = vehicle_walker_distance < 8
+	vehicle_walker_angles = vehicle_walker_angles[close_walkers]
+	vehicle_walker_distance = vehicle_walker_distance[close_walkers]
+	walker_values = walker_values[close_walkers]
+	
+	front_walkers = np.abs(vehicle_walker_angles)<120
+	vehicle_walker_angles = (vehicle_walker_angles[front_walkers]*1.5)
+	vehicle_walker_distance = vehicle_walker_distance[front_walkers]
+	walker_values = walker_values[front_walkers]
+
+	obstacle_array = sectors_from_angles(vehicle_walker_angles,walker_values,vehicle_walker_distance,agg="sum")
+	# raise ValueError(obstacle_array)
+	return obstacle_array
+	# if vehicle_walker_distance[closest_arg]<8 and (np.abs(vehicle_walker_angles[closest_arg])<120):
+	# 	return vehicle_walker_angles[closest_arg]/120
+	# else:
+	# 	return 1
+
+import numpy as np
+
+def sectors_from_angles(
+    angles_deg,        # shape (N,), angles in [-180, 180]
+    values,            # shape (N,), value per detection
+    distances,         # shape (N,), distance per detection
+    include_mask=None, # shape (N,), True to include detection
+    agg="first",       # "first" (closest), "max", "sum"
+    fill_value=0
+):
+	
+    angles_deg = np.asarray(angles_deg)
+    values = np.asarray(values)
+    distances = np.asarray(distances)
+    
+    if include_mask is not None:
+        include_mask = np.asarray(include_mask).astype(bool)
+    else:
+        include_mask = np.ones_like(angles_deg, dtype=bool)
+    
+    # Filter
+    angles_deg = angles_deg[include_mask]
+    # #print(9999999)
+    # #print(values , include_mask)
+    values = values[include_mask]
+    distances = distances[include_mask]
+    
+    # Handle empty arrays after filtering
+    if len(angles_deg) == 0:
+        return np.full(12, fill_value, dtype=values.dtype if len(values) > 0 else float)
+    
+    # Shift [-180,180] → [0,360)
+    angles0_360 = (angles_deg + 180) % 360
+    
+    # Bin indices (12 sectors of 30°)
+    # Handle edge case: 360° should map to bin 0, not bin 12
+    bins = (angles0_360 // 30).astype(int)
+    bins = np.clip(bins, 0, 11)  # Ensure bins are in [0, 11]
+    
+    if agg == "sum":
+        out = np.full(12, fill_value, dtype=values.dtype)
+        np.add.at(out, bins, values)
+        return out
+        
+    elif agg == "max":
+        out = np.full(12, fill_value, dtype=float)
+        # Use a mask to track which bins have been filled
+        filled = np.zeros(12, dtype=bool)
+        
+        for b, v in zip(bins, values):
+            if not filled[b] or v > out[b]:
+                out[b] = v
+                filled[b] = True
+        
+        return out
+        
+    elif agg == "first":  # closest object
+        out = np.full(12, fill_value, dtype=values.dtype)
+        closest_dist = np.full(12, np.inf)
+        
+        for b, v, d in zip(bins, values, distances):
+            if d < closest_dist[b]:
+                closest_dist[b] = d
+                out[b] = v
+                
+        return out
+        
+    else:
+        raise ValueError("agg must be 'first', 'max', or 'sum'.")
+
 class World_Manager():
 	def __init__(self,town='Town02',port = 4732,rank = 0):
 		self.town = town
@@ -137,7 +250,9 @@ class CarEnv(gym.Env):
 	BIRD_CAMERA_POS_Z = 6 
 	BIRD_CAMERA_POS_X = 0
 	BIRD_CAMERA_PITCH = -90
-
+	OBJECT_VALUES={"walker":0.1, "bike":1}
+	# Set up logging (do this once, typically in your __init__ method)
+	
 	def __init__(self,world_manager,main=True):
 		super(CarEnv, self).__init__()
 		# try:
@@ -148,18 +263,30 @@ class CarEnv(gym.Env):
 		#	 os.remove(f"/media/carla/AVRL/our_ppo/mkfifo/clean_{rank}")
 		# except:
 		#	 pass
+		self.walker_locations=[]
 		self.actor_list = []
 		self.pedestrians = []
 		self.id = 0
 		self.run_id=0
+		self.colision_type = None
+		self.object_values={"walker":0.1, "bike":1}
+		
+		logging.basicConfig(
+		filename=f'logs/{"--".join(["_".join([key, str(value)]) for key, value in zip(object_values.keys(), object_values.values())])}.log',
+		level=logging.INFO,
+		format='%(asctime)s - %(levelname)s - %(message)s'
+		)
+		
+		
 		self.rank = world_manager.rank
 		client = carla.Client('localhost', world_manager.port)
 		client.set_timeout(10.0)
 		world = client.get_world()
 		self.world = world
-		# print(999999939394939493)
+		# #print(999999939394939493)
 		# self.world.wait_for_tick()
 
+		self.scenario_manager = ScenarioManager(self.world)
 		self.town = self.world.get_map().name
 		self.main = main
 
@@ -170,7 +297,7 @@ class CarEnv(gym.Env):
 		# self.observation_space = spaces.Box(low=-1.0, high=1.0,
 		# 							shape=([397]), dtype=float)
 		self.observation_space = spaces.Box(low=-1.0, high=1.0,
-											shape=([37]), dtype=float)
+											shape=([48]), dtype=float)
 
 		self.map = self.world.get_map()
 		self.blueprint_library = self.world.get_blueprint_library()
@@ -203,26 +330,25 @@ class CarEnv(gym.Env):
 				self.total_distance = int(4000)
 			self.vehicle = None
 			while self.vehicle is None:
-				# print(2828938234566)
-				self.vehicle = self.world.spawn_actor(self.model_3, self.transform)
+				# #print(2828938234566)
+				self.vehicle = self.world.try_spawn_actor(self.model_3, self.transform)
 				#colision sensor
 				colsensor = self.blueprint_library.find("sensor.other.collision")
-				self.colsensor = self.world.spawn_actor(colsensor, camera_init_trans, attach_to=self.vehicle)
+				self.colsensor = self.world.try_spawn_actor(colsensor, camera_init_trans, attach_to=self.vehicle)
 				self.actor_list.append(self.colsensor)
 				
 				# Add proximity sensor (optional - based on your environment setup)
 				# self.proximity_sensor = self.blueprint_library.find("sensor.other.obstacle")
-				# self.obstacle_sensor = self.world.spawn_actor(self.proximity_sensor,camera_init_trans,attach_to=self.vehicle)
+				# self.obstacle_sensor = self.world.try_spawn_actor(self.proximity_sensor,camera_init_trans,attach_to=self.vehicle)
 				# Obstacle sensor
 				obstacle_blueprint = self.blueprint_library.find('sensor.other.obstacle')
 				obstacle_blueprint.set_attribute('distance', '20')  # Detection range in meters
 				obstacle_blueprint.set_attribute('hit_radius', '0.5')  # Detection radius
 				obstacle_blueprint.set_attribute('only_dynamics', 'false')  # Detect static and dynamic objects
 				obstacle_transform = carla.Transform(carla.Location(x=1.5, z=1.0))  # Position on the vehicle
-				self.obstacle_sensor = self.world.spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.vehicle)
+				self.obstacle_sensor = self.world.try_spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.vehicle)
 				self.actor_list.append(self.obstacle_sensor)
 				
-
 
 
 			self.tick()
@@ -266,6 +392,8 @@ class CarEnv(gym.Env):
 		#	 os.remove(f"/media/carla/AVRL/our_ppo/mkfifo/done_{self.rank}")
 		# except:
 		#	 pass
+		logging.info(f"Episode Start")
+		self.walker_locations=[]
 		self.cleanup()
 		self.tick()
 		self.evaluation = evaluation
@@ -280,7 +408,7 @@ class CarEnv(gym.Env):
 		self.previous_throttle = 0
 		self.collision_hist = []
 		self.actor_list = []
-
+		self.colision_type = None
 		if self.evaluation and self.run_id%20==0:
 			try:
 				os.mkdir(f"./evaluation_logs/{len(os.listdir('evaluation_logs'))+1}")
@@ -309,12 +437,13 @@ class CarEnv(gym.Env):
 
 		while self.vehicle is None:
 			# print(2828938234566)
-			self.vehicle = self.world.spawn_actor(self.model_3, self.transform)
+			self.vehicle = self.world.try_spawn_actor(self.model_3, self.transform)
 			# print(f"vehicle spawn point, {self.transform}")
 		#Spawn Walker Here
-		for i in range(20,200,20):
-			self.spawn_walker_ahead('walker.pedestrian.0001', distance=i)
-
+		# for i in range(20,225,50):
+		# 	self.spawn_walker_ahead('walker.pedestrian.0001', distance=i)
+		self.scenario_actors,_,self.scenario_actors_locations=self.scenario_manager.generate_scenario(self.vehicle, self.route_waypoints)
+		# raise ValueError(self.scenario_actors_list)
 		self.tick()
 		while self.vehicle.get_location().x == 0 and self.vehicle.get_location().y == 0:
 
@@ -339,7 +468,7 @@ class CarEnv(gym.Env):
 		
 		camera_init_trans = carla.Transform(carla.Location(z=self.BIRD_CAMERA_POS_Z,x=self.BIRD_CAMERA_POS_X),
 									  rotation=carla.Rotation(pitch=self.BIRD_CAMERA_PITCH, yaw=0, roll=0))
-		self.sensor = self.world.spawn_actor(self.sem_cam, camera_init_trans, attach_to=self.vehicle)
+		self.sensor = self.world.try_spawn_actor(self.sem_cam, camera_init_trans, attach_to=self.vehicle)
 		self.actor_list.append(self.sensor)
 		self.sensor.listen(lambda data: self.process_img(data))
 
@@ -348,7 +477,7 @@ class CarEnv(gym.Env):
 		
 
 		colsensor = self.blueprint_library.find("sensor.other.collision")
-		self.colsensor = self.world.spawn_actor(colsensor, camera_init_trans, attach_to=self.vehicle)
+		self.colsensor = self.world.try_spawn_actor(colsensor, camera_init_trans, attach_to=self.vehicle)
 		self.actor_list.append(self.colsensor)
 		self.colsensor.listen(lambda event: self.collision_data(event))
 
@@ -359,9 +488,9 @@ class CarEnv(gym.Env):
 		obstacle_blueprint.set_attribute('hit_radius', '5')  # Detection radius
 		obstacle_blueprint.set_attribute('only_dynamics', 'false')  # Detect static and dynamic objects
 		obstacle_transform = carla.Transform(carla.Location(x=1.5, z=1.0))  # Position on the vehicle
-		self.obstacle_sensor = self.world.spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.vehicle)
+		self.obstacle_sensor = self.world.try_spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.vehicle)
 		self.actor_list.append(self.obstacle_sensor)
-		self.obstacle_sensor.listen(lambda event: self.process_obstacle(event))
+		# self.obstacle_sensor.listen(lambda event: self.process_obstacle(event))
 
 		self.tick()
 		while self.bird_camera is None:
@@ -373,7 +502,7 @@ class CarEnv(gym.Env):
 		self.vehicle.apply_control(carla.VehicleControl(throttle=0.0, brake=0.0))
 		v = self.vehicle.get_velocity()
 		kmh = int(3.6 * math.sqrt(v.x**2 + v.y**2 + v.z**2))
-		navigation_obs = torch.tensor([kmh/40,0,0,0,0])
+		navigation_obs = torch.tensor([kmh/40,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
 		# print(555555555555555555)
 
 		# observation = preprocess(torch.from_numpy(self.bird_camera).permute(2, 0, 1).float())
@@ -418,12 +547,12 @@ class CarEnv(gym.Env):
 		# 	actor.destroy()
 	
 	def step(self, action):
-
+		self.obssensor_flag = obstacle_detector(self.object_values,vector(self.vehicle.get_transform().get_forward_vector())[:2],vector(self.vehicle.get_location())[:2],self.scenario_actors_locations,self.scenario_actors)
 		self.prev_time1 = self.time1
 		self.time1 = time.time()
 		# print(f"stepping {self.time1-self.prev_time1}")
 		self.id+=1
-
+		# time.sleep(0.1)
 
 
 		
@@ -435,7 +564,6 @@ class CarEnv(gym.Env):
 		throttle = (throttle+1)/2
 		# map steering actions
 		self.vehicle.apply_control(carla.VehicleControl(throttle=throttle, steer=steer, brake=0.0 if throttle>0 else 1.0))
-
 
 		for i in range(1):
 			self.tick()
@@ -498,7 +626,12 @@ class CarEnv(gym.Env):
 		good_dist = 2.5 if not self.turn else 2.5
 		max_dist = 2.0 if not self.turn else 3.0
 		if len(self.collision_hist) != 0 or self.distance_from_center > max_dist:
-			reward = -2
+			if self.colision_type in ['walker','bike'] :
+				observation_len = len(self.obssensor_flag)
+
+				reward = -(self.obssensor_flag[observation_len//2] + self.obssensor_flag[observation_len//2+1])
+			else:
+				reward = -2
 		elif self.distance_from_center > good_dist:
 			reward = -1
 		else:
@@ -506,7 +639,8 @@ class CarEnv(gym.Env):
 		reward=reward#+self.calculate_reward()
 		# raise ValueError()
 		# navigation_obs.extend([turn_angle for _ in range(1)])
-		navigation_obs = torch.tensor([kmh/40,throttle,steer,self.turn,self.obssensor_flag])
+		# raise ValueError(self.obssensor_flag)
+		navigation_obs = torch.tensor([kmh/40,throttle,steer,self.turn]+list(self.obssensor_flag/10))
 		# observation = preprocess(torch.from_numpy(cam).permute(2, 0, 1).float())
 		with torch.no_grad():
 			encoded_image = auto_encoder.encode_from_raw_image(self.bird_camera[:,:,::-1])
@@ -527,7 +661,7 @@ class CarEnv(gym.Env):
 				"turn_angle":f"{turn_angle:.2f}",
 				"time":f"{time.time()-self.episode_start:.2f}",
 				"Waypoint":f"{self.current_waypoint_index}",
-				"distance_to_walker":f"{self.pedestrian_distance}"
+				"dist":f"{self.obssensor_flag}"
 			}
 			font = cv2.FONT_HERSHEY_SIMPLEX
 			font_scale = 0.5
@@ -563,15 +697,17 @@ class CarEnv(gym.Env):
 		if len(self.collision_hist) != 0 or self.distance_from_center>max_dist:
 			
 			self.cleanup()
-
+			logging.info(f"Episode Ended\n")
 			done = True
 		elif self.step_counter*FIXED_DELTA_SECONDS > SECONDS_PER_EPISODE:
 			self.cleanup()
+			logging.info(f"Episode Ended\n")
 			done = True
 			truncated = True
 		elif reward < -1:
 			if (self.turn!=0 and reward < -1.5) or self.turn==0:
 				self.cleanup()
+				logging.info(f"Episode Ended\n")
 				done = True
 
    
@@ -617,8 +753,12 @@ class CarEnv(gym.Env):
 		spawn_transform = self.get_waypoint_ahead(distance)
 		# print(f"walker spawn point, {spawn_transform}")
 		# 3) spawn
+		# raise ValueError(spawn_transform.location - spawn_transform.location)
+		
 		walker = self.world.try_spawn_actor(walker_bp, spawn_transform)
+		
 		if walker:
+			self.walker_locations.append(vector(spawn_transform.location)[:2])
 			self.actor_list.append(walker)
 		return walker
 
@@ -636,47 +776,53 @@ class CarEnv(gym.Env):
 			Detects if the vehicle collided with a pedestrian.
 			"""
 			self.collision_hist.append(event)
+			logging.info(f"Collision detected - Event: {event.other_actor.type_id}")
 			if event.other_actor and 'walker' in event.other_actor.type_id:
 				self.pedestrians.append(event.other_actor)
+			if 'walker' in event.other_actor.type_id:
+				self.colision_type='walker'
+			elif 'bike' in event.other_actor.type_id:
+				self.colision_type='bike'
+			print(self.colision_type)
 				# Apply collision penalty
 				# print(f"Collision detected with {event.other_actor.type_id}!")
 	
 
-	def process_obstacle(self, event):
-		"""
-		Process obstacle proximity data.
-		Adds information about nearby obstacles (like pedestrians).
-		"""
-		distance = event.distance
-		if distance < 5:  # If the obstacle is within 10 meters
-			# print(f"Obstacle detected at {distance:.2f} meters.")
-			#store the distance or use it in the observation space
-			self.pedestrian_distance = distance
-			self.obssensor_flag=1
-		else:
-			self.pedestrian_distance = None
-			self.obssensor_flag=0
+	# def process_obstacle(self, event):
+	# 	"""
+	# 	Process obstacle proximity data.
+	# 	Adds information about nearby obstacles (like pedestrians).
+	# 	"""
+	# 	distance = event.distance
+	# 	if distance < 5:  # If the obstacle is within 10 meters
+	# 		# print(f"Obstacle detected at {distance:.2f} meters.")
+	# 		#store the distance or use it in the observation space
+	# 		self.pedestrian_distance = distance
+	# 		self.obssensor_flag=1
+	# 	else:
+	# 		self.pedestrian_distance = None
+	# 		self.obssensor_flag=0
 
-	def calculate_reward(self):
-		"""
-		Calculates reward based on proximity to pedestrians, collisions, and other conditions.
-		"""
-		reward = 0
+	# def calculate_reward(self):
+	# 	"""
+	# 	Calculates reward based on proximity to pedestrians, collisions, and other conditions.
+	# 	"""
+	# 	reward = 0
 		
-		# Penalty for collision with pedestrians
-		if len(self.pedestrians) > 0:
-			reward -= 1  # Large penalty for collision
+	# 	# Penalty for collision with pedestrians
+	# 	if len(self.pedestrians) > 0:
+	# 		reward -= 1  # Large penalty for collision
 		
-		# Penalty for proximity to pedestrians (e.g., too close)
-		if self.pedestrian_distance and self.pedestrian_distance < 3:  # 5 meters is the safe distance threshold
-			reward -= 0.5  # Small penacolty for being too close
+	# 	# Penalty for proximity to pedestrians (e.g., too close)
+	# 	if self.pedestrian_distance and self.pedestrian_distance < 3:  # 5 meters is the safe distance threshold
+	# 		reward -= 0.5  # Small penacolty for being too close
 		
-		# Reward for safe driving (not hitting pedestrians)
-		if self.pedestrian_distance and self.pedestrian_distance >= 3:
-			reward += 1  # Reward for keeping a safe distance
+	# 	# Reward for safe driving (not hitting pedestrians)
+	# 	if self.pedestrian_distance and self.pedestrian_distance >= 3:
+	# 		reward += 1  # Reward for keeping a safe distance
 		
 		
-		return reward
+	# 	return reward
 		
 	
  
