@@ -1,0 +1,1435 @@
+2025-08-19 14:52:47,076 - INFO - Episode Ended
+
+2025-08-19 14:52:47,076 - INFO - Episode Start
+2025-08-19 14:52:51,138 - INFO - Episode Ended
+
+2025-08-19 14:52:51,138 - INFO - Episode Start
+2025-08-19 14:52:51,747 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 14:52:51,764 - INFO - Episode Ended
+
+2025-08-19 14:52:51,764 - INFO - Episode Start
+2025-08-19 14:52:55,536 - INFO - Collision detected - Event: static.static
+2025-08-19 14:52:55,552 - INFO - Episode Ended
+
+2025-08-19 14:52:55,552 - INFO - Episode Start
+2025-08-19 14:53:05,279 - INFO - Episode Ended
+
+2025-08-19 14:53:05,279 - INFO - Episode Start
+2025-08-19 14:53:08,755 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 14:53:08,772 - INFO - Episode Ended
+
+2025-08-19 14:53:08,772 - INFO - Episode Start
+2025-08-19 14:53:09,449 - INFO - Episode Ended
+
+2025-08-19 14:53:09,449 - INFO - Episode Start
+2025-08-19 14:53:17,768 - INFO - Episode Ended
+
+2025-08-19 14:53:17,768 - INFO - Episode Start
+2025-08-19 14:53:18,429 - INFO - Collision detected - Event: walker.pedestrian.0002
+2025-08-19 14:53:18,450 - INFO - Episode Ended
+
+2025-08-19 14:53:18,450 - INFO - Episode Start
+2025-08-19 14:53:20,679 - INFO - Episode Ended
+
+2025-08-19 14:53:20,679 - INFO - Episode Start
+2025-08-19 14:53:25,704 - INFO - Episode Ended
+
+2025-08-19 14:53:25,704 - INFO - Episode Start
+2025-08-19 14:53:29,309 - INFO - Collision detected - Event: static.static
+2025-08-19 14:53:29,327 - INFO - Episode Ended
+
+2025-08-19 14:53:29,328 - INFO - Episode Start
+2025-08-19 14:53:30,074 - INFO - Collision detected - Event: walker.pedestrian.0013
+2025-08-19 14:53:30,098 - INFO - Episode Ended
+
+2025-08-19 14:53:30,098 - INFO - Episode Start
+2025-08-19 14:53:30,742 - INFO - Collision detected - Event: walker.pedestrian.0039
+2025-08-19 14:53:30,764 - INFO - Episode Ended
+
+2025-08-19 14:53:30,764 - INFO - Episode Start
+2025-08-19 14:53:39,237 - INFO - Episode Ended
+
+2025-08-19 14:53:39,237 - INFO - Episode Start
+2025-08-19 14:53:49,469 - INFO - Episode Ended
+
+2025-08-19 14:53:49,469 - INFO - Episode Start
+2025-08-19 14:53:52,769 - INFO - Collision detected - Event: walker.pedestrian.0035
+2025-08-19 14:53:52,786 - INFO - Episode Ended
+
+2025-08-19 14:53:52,786 - INFO - Episode Start
+2025-08-19 14:53:53,499 - INFO - Collision detected - Event: static.static
+2025-08-19 14:53:53,514 - INFO - Episode Ended
+
+2025-08-19 14:53:53,514 - INFO - Episode Start
+2025-08-19 14:54:16,059 - INFO - Episode Ended
+
+2025-08-19 14:54:16,059 - INFO - Episode Start
+2025-08-19 14:54:16,701 - INFO - Episode Ended
+
+2025-08-19 14:54:16,701 - INFO - Episode Start
+2025-08-19 14:54:17,327 - INFO - Collision detected - Event: static.static
+2025-08-19 14:54:17,348 - INFO - Episode Ended
+
+2025-08-19 14:54:17,348 - INFO - Episode Start
+2025-08-19 14:54:20,373 - INFO - Episode Ended
+
+2025-08-19 14:54:20,373 - INFO - Episode Start
+2025-08-19 14:54:20,895 - INFO - Episode Ended
+
+2025-08-19 14:54:20,895 - INFO - Episode Start
+2025-08-19 14:54:25,091 - INFO - Collision detected - Event: static.static
+2025-08-19 14:54:25,109 - INFO - Episode Ended
+
+2025-08-19 14:54:25,109 - INFO - Episode Start
+2025-08-19 14:54:25,661 - INFO - Collision detected - Event: walker.pedestrian.0048
+2025-08-19 14:54:25,677 - INFO - Episode Ended
+
+2025-08-19 14:54:25,678 - INFO - Episode Start
+2025-08-19 14:54:30,563 - INFO - Collision detected - Event: static.guardrail
+2025-08-19 14:54:30,580 - INFO - Episode Ended
+
+2025-08-19 14:54:30,580 - INFO - Episode Start
+2025-08-19 14:54:31,352 - INFO - Collision detected - Event: walker.pedestrian.0032
+2025-08-19 14:54:31,371 - INFO - Episode Ended
+
+2025-08-19 14:54:31,371 - INFO - Episode Start
+2025-08-19 14:54:34,700 - INFO - Collision detected - Event: walker.pedestrian.0032
+2025-08-19 14:54:34,717 - INFO - Episode Ended
+
+2025-08-19 14:54:34,717 - INFO - Episode Start
+2025-08-19 14:54:35,321 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 14:54:35,339 - INFO - Episode Ended
+
+2025-08-19 14:54:35,339 - INFO - Episode Start
+2025-08-19 14:55:23,234 - INFO - Collision detected - Event: static.pole
+2025-08-19 14:55:23,247 - INFO - Episode Ended
+
+2025-08-19 14:55:23,247 - INFO - Episode Start
+2025-08-19 14:55:28,485 - INFO - Episode Ended
+
+2025-08-19 14:55:28,486 - INFO - Episode Start
+2025-08-19 14:55:29,559 - INFO - Episode Ended
+
+2025-08-19 14:55:29,559 - INFO - Episode Start
+2025-08-19 14:55:32,990 - INFO - Collision detected - Event: static.static
+2025-08-19 14:55:33,009 - INFO - Episode Ended
+
+2025-08-19 14:55:33,010 - INFO - Episode Start
+2025-08-19 14:55:34,245 - INFO - Episode Ended
+
+2025-08-19 14:55:34,245 - INFO - Episode Start
+2025-08-19 14:55:37,599 - INFO - Collision detected - Event: walker.pedestrian.0030
+2025-08-19 14:55:37,616 - INFO - Episode Ended
+
+2025-08-19 14:55:37,616 - INFO - Episode Start
+2025-08-19 14:55:38,698 - INFO - Episode Ended
+
+2025-08-19 14:55:38,698 - INFO - Episode Start
+2025-08-19 14:55:52,257 - INFO - Episode Ended
+
+2025-08-19 14:55:52,257 - INFO - Episode Start
+2025-08-19 14:55:55,631 - INFO - Collision detected - Event: walker.pedestrian.0024
+2025-08-19 14:55:55,650 - INFO - Episode Ended
+
+2025-08-19 14:55:55,650 - INFO - Episode Start
+2025-08-19 14:56:01,022 - INFO - Episode Ended
+
+2025-08-19 14:56:01,022 - INFO - Episode Start
+2025-08-19 14:56:22,461 - INFO - Episode Ended
+
+2025-08-19 14:56:22,461 - INFO - Episode Start
+2025-08-19 14:56:35,689 - INFO - Episode Ended
+
+2025-08-19 14:56:35,690 - INFO - Episode Start
+2025-08-19 14:56:36,249 - INFO - Collision detected - Event: walker.pedestrian.0009
+2025-08-19 14:56:36,265 - INFO - Episode Ended
+
+2025-08-19 14:56:36,265 - INFO - Episode Start
+2025-08-19 14:56:36,798 - INFO - Collision detected - Event: walker.pedestrian.0038
+2025-08-19 14:56:36,819 - INFO - Episode Ended
+
+2025-08-19 14:56:36,819 - INFO - Episode Start
+2025-08-19 14:56:37,424 - INFO - Episode Ended
+
+2025-08-19 14:56:37,424 - INFO - Episode Start
+2025-08-19 14:56:40,689 - INFO - Collision detected - Event: walker.pedestrian.0039
+2025-08-19 14:56:40,708 - INFO - Episode Ended
+
+2025-08-19 14:56:40,708 - INFO - Episode Start
+2025-08-19 14:56:45,297 - INFO - Collision detected - Event: static.static
+2025-08-19 14:56:45,314 - INFO - Episode Ended
+
+2025-08-19 14:56:45,314 - INFO - Episode Start
+2025-08-19 14:56:49,898 - INFO - Collision detected - Event: static.building
+2025-08-19 14:56:49,916 - INFO - Episode Ended
+
+2025-08-19 14:56:49,916 - INFO - Episode Start
+2025-08-19 14:56:50,471 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 14:56:50,487 - INFO - Episode Ended
+
+2025-08-19 14:56:50,487 - INFO - Episode Start
+2025-08-19 14:56:50,950 - INFO - Episode Ended
+
+2025-08-19 14:56:50,950 - INFO - Episode Start
+2025-08-19 14:57:11,104 - INFO - Episode Ended
+
+2025-08-19 14:57:11,104 - INFO - Episode Start
+2025-08-19 14:57:14,584 - INFO - Episode Ended
+
+2025-08-19 14:57:14,584 - INFO - Episode Start
+2025-08-19 14:57:15,220 - INFO - Collision detected - Event: walker.pedestrian.0050
+2025-08-19 14:57:15,220 - INFO - Collision detected - Event: walker.pedestrian.0006
+2025-08-19 14:57:15,239 - INFO - Episode Ended
+
+2025-08-19 14:57:15,239 - INFO - Episode Start
+2025-08-19 14:57:15,856 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 14:57:15,874 - INFO - Episode Ended
+
+2025-08-19 14:57:15,874 - INFO - Episode Start
+2025-08-19 14:57:24,283 - INFO - Collision detected - Event: static.guardrail
+2025-08-19 14:57:24,298 - INFO - Episode Ended
+
+2025-08-19 14:57:24,299 - INFO - Episode Start
+2025-08-19 14:57:25,028 - INFO - Episode Ended
+
+2025-08-19 14:57:25,028 - INFO - Episode Start
+2025-08-19 14:57:25,495 - INFO - Collision detected - Event: static.pole
+2025-08-19 14:57:25,511 - INFO - Episode Ended
+
+2025-08-19 14:57:25,511 - INFO - Episode Start
+2025-08-19 14:57:28,762 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 14:57:28,779 - INFO - Episode Ended
+
+2025-08-19 14:57:28,779 - INFO - Episode Start
+2025-08-19 14:57:38,918 - INFO - Episode Ended
+
+2025-08-19 14:57:38,918 - INFO - Episode Start
+2025-08-19 14:57:39,680 - INFO - Collision detected - Event: traffic.speed_limit.60
+2025-08-19 14:57:39,699 - INFO - Episode Ended
+
+2025-08-19 14:57:39,699 - INFO - Episode Start
+2025-08-19 14:57:42,976 - INFO - Collision detected - Event: walker.pedestrian.0020
+2025-08-19 14:57:42,993 - INFO - Episode Ended
+
+2025-08-19 14:57:42,993 - INFO - Episode Start
+2025-08-19 14:57:48,905 - INFO - Episode Ended
+
+2025-08-19 14:57:48,905 - INFO - Episode Start
+2025-08-19 14:57:52,552 - INFO - Collision detected - Event: static.pole
+2025-08-19 14:57:52,566 - INFO - Episode Ended
+
+2025-08-19 14:57:52,566 - INFO - Episode Start
+2025-08-19 14:57:53,107 - INFO - Collision detected - Event: walker.pedestrian.0029
+2025-08-19 14:57:53,123 - INFO - Episode Ended
+
+2025-08-19 14:57:53,123 - INFO - Episode Start
+2025-08-19 14:57:53,666 - INFO - Collision detected - Event: walker.pedestrian.0017
+2025-08-19 14:57:53,683 - INFO - Episode Ended
+
+2025-08-19 14:57:53,683 - INFO - Episode Start
+2025-08-19 14:57:57,065 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 14:57:57,082 - INFO - Episode Ended
+
+2025-08-19 14:57:57,082 - INFO - Episode Start
+2025-08-19 14:58:02,468 - INFO - Episode Ended
+
+2025-08-19 14:58:02,468 - INFO - Episode Start
+2025-08-19 14:58:03,028 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 14:58:03,049 - INFO - Episode Ended
+
+2025-08-19 14:58:03,049 - INFO - Episode Start
+2025-08-19 14:58:11,365 - INFO - Episode Ended
+
+2025-08-19 14:58:11,365 - INFO - Episode Start
+2025-08-19 14:58:12,031 - INFO - Episode Ended
+
+2025-08-19 14:58:12,031 - INFO - Episode Start
+2025-08-19 14:58:16,654 - INFO - Collision detected - Event: walker.pedestrian.0049
+2025-08-19 14:58:16,666 - INFO - Episode Ended
+
+2025-08-19 14:58:16,666 - INFO - Episode Start
+2025-08-19 14:58:17,304 - INFO - Collision detected - Event: walker.pedestrian.0026
+2025-08-19 14:58:17,326 - INFO - Episode Ended
+
+2025-08-19 14:58:17,326 - INFO - Episode Start
+2025-08-19 14:58:17,859 - INFO - Collision detected - Event: walker.pedestrian.0039
+2025-08-19 14:58:17,874 - INFO - Episode Ended
+
+2025-08-19 14:58:17,874 - INFO - Episode Start
+2025-08-19 14:58:18,277 - INFO - Episode Ended
+
+2025-08-19 14:58:18,277 - INFO - Episode Start
+2025-08-19 14:58:18,727 - INFO - Episode Ended
+
+2025-08-19 14:58:18,727 - INFO - Episode Start
+2025-08-19 14:58:22,109 - INFO - Collision detected - Event: walker.pedestrian.0037
+2025-08-19 14:58:22,126 - INFO - Episode Ended
+
+2025-08-19 14:58:22,126 - INFO - Episode Start
+2025-08-19 14:58:22,742 - INFO - Collision detected - Event: traffic.speed_limit.60
+2025-08-19 14:58:22,762 - INFO - Episode Ended
+
+2025-08-19 14:58:22,762 - INFO - Episode Start
+2025-08-19 14:58:27,747 - INFO - Collision detected - Event: static.fence
+2025-08-19 14:58:27,766 - INFO - Episode Ended
+
+2025-08-19 14:58:27,766 - INFO - Episode Start
+2025-08-19 14:58:44,514 - INFO - Episode Ended
+
+2025-08-19 14:58:44,514 - INFO - Episode Start
+2025-08-19 14:58:45,163 - INFO - Collision detected - Event: walker.pedestrian.0047
+2025-08-19 14:58:45,181 - INFO - Episode Ended
+
+2025-08-19 14:58:45,181 - INFO - Episode Start
+2025-08-19 14:58:45,882 - INFO - Collision detected - Event: walker.pedestrian.0021
+2025-08-19 14:58:45,902 - INFO - Episode Ended
+
+2025-08-19 14:58:45,902 - INFO - Episode Start
+2025-08-19 14:58:46,153 - INFO - Collision detected - Event: static.pole
+2025-08-19 14:58:46,171 - INFO - Episode Ended
+
+2025-08-19 14:58:46,171 - INFO - Episode Start
+2025-08-19 14:58:59,548 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 14:58:59,565 - INFO - Episode Ended
+
+2025-08-19 14:58:59,566 - INFO - Episode Start
+2025-08-19 14:59:00,176 - INFO - Collision detected - Event: walker.pedestrian.0013
+2025-08-19 14:59:00,193 - INFO - Episode Ended
+
+2025-08-19 14:59:00,193 - INFO - Episode Start
+2025-08-19 14:59:03,366 - INFO - Episode Ended
+
+2025-08-19 14:59:03,367 - INFO - Episode Start
+2025-08-19 14:59:04,161 - INFO - Episode Ended
+
+2025-08-19 14:59:04,161 - INFO - Episode Start
+2025-08-19 14:59:08,683 - INFO - Collision detected - Event: static.pole
+2025-08-19 14:59:08,699 - INFO - Episode Ended
+
+2025-08-19 14:59:08,699 - INFO - Episode Start
+2025-08-19 14:59:09,318 - INFO - Collision detected - Event: walker.pedestrian.0033
+2025-08-19 14:59:09,335 - INFO - Episode Ended
+
+2025-08-19 14:59:09,335 - INFO - Episode Start
+2025-08-19 14:59:21,701 - INFO - Episode Ended
+
+2025-08-19 14:59:21,702 - INFO - Episode Start
+2025-08-19 14:59:40,061 - INFO - Collision detected - Event: static.pole
+2025-08-19 14:59:40,082 - INFO - Episode Ended
+
+2025-08-19 14:59:40,082 - INFO - Episode Start
+2025-08-19 14:59:41,059 - INFO - Collision detected - Event: static.pole
+2025-08-19 14:59:41,072 - INFO - Episode Ended
+
+2025-08-19 14:59:41,072 - INFO - Episode Start
+2025-08-19 14:59:41,712 - INFO - Collision detected - Event: walker.pedestrian.0042
+2025-08-19 14:59:41,732 - INFO - Episode Ended
+
+2025-08-19 14:59:41,732 - INFO - Episode Start
+2025-08-19 14:59:42,303 - INFO - Collision detected - Event: walker.pedestrian.0012
+2025-08-19 14:59:42,321 - INFO - Episode Ended
+
+2025-08-19 14:59:42,322 - INFO - Episode Start
+2025-08-19 14:59:45,492 - INFO - Episode Ended
+
+2025-08-19 14:59:45,492 - INFO - Episode Start
+2025-08-19 14:59:46,131 - INFO - Collision detected - Event: static.fence
+2025-08-19 14:59:46,149 - INFO - Episode Ended
+
+2025-08-19 14:59:46,149 - INFO - Episode Start
+2025-08-19 14:59:46,701 - INFO - Collision detected - Event: walker.pedestrian.0004
+2025-08-19 14:59:46,722 - INFO - Episode Ended
+
+2025-08-19 14:59:46,722 - INFO - Episode Start
+2025-08-19 14:59:47,335 - INFO - Collision detected - Event: walker.pedestrian.0006
+2025-08-19 14:59:47,353 - INFO - Episode Ended
+
+2025-08-19 14:59:47,353 - INFO - Episode Start
+2025-08-19 15:00:06,191 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:00:06,207 - INFO - Episode Ended
+
+2025-08-19 15:00:06,207 - INFO - Episode Start
+2025-08-19 15:00:10,215 - INFO - Episode Ended
+
+2025-08-19 15:00:10,215 - INFO - Episode Start
+2025-08-19 15:00:10,586 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:00:10,604 - INFO - Episode Ended
+
+2025-08-19 15:00:10,604 - INFO - Episode Start
+2025-08-19 15:00:11,222 - INFO - Collision detected - Event: walker.pedestrian.0019
+2025-08-19 15:00:11,238 - INFO - Episode Ended
+
+2025-08-19 15:00:11,238 - INFO - Episode Start
+2025-08-19 15:00:14,500 - INFO - Collision detected - Event: walker.pedestrian.0003
+2025-08-19 15:00:14,522 - INFO - Episode Ended
+
+2025-08-19 15:00:14,522 - INFO - Episode Start
+2025-08-19 15:00:15,108 - INFO - Collision detected - Event: static.guardrail
+2025-08-19 15:00:15,124 - INFO - Episode Ended
+
+2025-08-19 15:00:15,124 - INFO - Episode Start
+2025-08-19 15:00:15,685 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:00:15,702 - INFO - Episode Ended
+
+2025-08-19 15:00:15,702 - INFO - Episode Start
+2025-08-19 15:00:16,313 - INFO - Collision detected - Event: walker.pedestrian.0021
+2025-08-19 15:00:16,330 - INFO - Episode Ended
+
+2025-08-19 15:00:16,330 - INFO - Episode Start
+2025-08-19 15:00:19,701 - INFO - Episode Ended
+
+2025-08-19 15:00:19,701 - INFO - Episode Start
+2025-08-19 15:00:20,349 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:00:20,366 - INFO - Episode Ended
+
+2025-08-19 15:00:20,366 - INFO - Episode Start
+2025-08-19 15:00:20,925 - INFO - Collision detected - Event: walker.pedestrian.0031
+2025-08-19 15:00:20,946 - INFO - Episode Ended
+
+2025-08-19 15:00:20,946 - INFO - Episode Start
+2025-08-19 15:00:21,324 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:00:21,346 - INFO - Episode Ended
+
+2025-08-19 15:00:21,346 - INFO - Episode Start
+2025-08-19 15:00:22,151 - INFO - Collision detected - Event: walker.pedestrian.0017
+2025-08-19 15:00:22,171 - INFO - Episode Ended
+
+2025-08-19 15:00:22,171 - INFO - Episode Start
+2025-08-19 15:01:01,941 - INFO - Episode Ended
+
+2025-08-19 15:01:01,941 - INFO - Episode Start
+2025-08-19 15:01:02,622 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:01:02,640 - INFO - Episode Ended
+
+2025-08-19 15:01:02,640 - INFO - Episode Start
+2025-08-19 15:01:03,204 - INFO - Collision detected - Event: walker.pedestrian.0035
+2025-08-19 15:01:03,224 - INFO - Episode Ended
+
+2025-08-19 15:01:03,225 - INFO - Episode Start
+2025-08-19 15:01:07,091 - INFO - Episode Ended
+
+2025-08-19 15:01:07,091 - INFO - Episode Start
+2025-08-19 15:01:07,706 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:01:07,728 - INFO - Episode Ended
+
+2025-08-19 15:01:07,728 - INFO - Episode Start
+2025-08-19 15:01:16,239 - INFO - Episode Ended
+
+2025-08-19 15:01:16,239 - INFO - Episode Start
+2025-08-19 15:01:16,882 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:01:16,903 - INFO - Episode Ended
+
+2025-08-19 15:01:16,903 - INFO - Episode Start
+2025-08-19 15:01:17,584 - INFO - Episode Ended
+
+2025-08-19 15:01:17,584 - INFO - Episode Start
+2025-08-19 15:01:18,173 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:01:18,191 - INFO - Episode Ended
+
+2025-08-19 15:01:18,191 - INFO - Episode Start
+2025-08-19 15:01:36,137 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-08-19 15:01:36,155 - INFO - Episode Ended
+
+2025-08-19 15:01:36,155 - INFO - Episode Start
+2025-08-19 15:01:52,867 - INFO - Episode Ended
+
+2025-08-19 15:01:52,867 - INFO - Episode Start
+2025-08-19 15:01:53,249 - INFO - Collision detected - Event: static.guardrail
+2025-08-19 15:01:53,269 - INFO - Episode Ended
+
+2025-08-19 15:01:53,269 - INFO - Episode Start
+2025-08-19 15:02:07,912 - INFO - Collision detected - Event: traffic.speed_limit.30
+2025-08-19 15:02:07,928 - INFO - Episode Ended
+
+2025-08-19 15:02:07,928 - INFO - Episode Start
+2025-08-19 15:02:12,580 - INFO - Collision detected - Event: static.static
+2025-08-19 15:02:12,596 - INFO - Episode Ended
+
+2025-08-19 15:02:12,596 - INFO - Episode Start
+2025-08-19 15:02:15,914 - INFO - Episode Ended
+
+2025-08-19 15:02:15,914 - INFO - Episode Start
+2025-08-19 15:02:16,471 - INFO - Collision detected - Event: walker.pedestrian.0022
+2025-08-19 15:02:16,489 - INFO - Episode Ended
+
+2025-08-19 15:02:16,490 - INFO - Episode Start
+2025-08-19 15:02:17,038 - INFO - Collision detected - Event: walker.pedestrian.0044
+2025-08-19 15:02:17,039 - INFO - Collision detected - Event: walker.pedestrian.0027
+2025-08-19 15:02:17,059 - INFO - Episode Ended
+
+2025-08-19 15:02:17,059 - INFO - Episode Start
+2025-08-19 15:02:17,609 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:02:17,629 - INFO - Episode Ended
+
+2025-08-19 15:02:17,629 - INFO - Episode Start
+2025-08-19 15:02:21,042 - INFO - Collision detected - Event: walker.pedestrian.0035
+2025-08-19 15:02:21,062 - INFO - Episode Ended
+
+2025-08-19 15:02:21,062 - INFO - Episode Start
+2025-08-19 15:02:21,652 - INFO - Episode Ended
+
+2025-08-19 15:02:21,652 - INFO - Episode Start
+2025-08-19 15:02:24,127 - INFO - Collision detected - Event: walker.pedestrian.0040
+2025-08-19 15:02:24,141 - INFO - Episode Ended
+
+2025-08-19 15:02:24,141 - INFO - Episode Start
+2025-08-19 15:02:33,281 - INFO - Collision detected - Event: traffic.traffic_light
+2025-08-19 15:02:33,299 - INFO - Episode Ended
+
+2025-08-19 15:02:33,299 - INFO - Episode Start
+2025-08-19 15:02:33,986 - INFO - Episode Ended
+
+2025-08-19 15:02:33,986 - INFO - Episode Start
+2025-08-19 15:02:37,216 - INFO - Collision detected - Event: walker.pedestrian.0028
+2025-08-19 15:02:37,233 - INFO - Episode Ended
+
+2025-08-19 15:02:37,233 - INFO - Episode Start
+2025-08-19 15:02:41,686 - INFO - Episode Ended
+
+2025-08-19 15:02:41,687 - INFO - Episode Start
+2025-08-19 15:02:46,567 - INFO - Episode Ended
+
+2025-08-19 15:02:46,567 - INFO - Episode Start
+2025-08-19 15:02:47,131 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:02:47,148 - INFO - Episode Ended
+
+2025-08-19 15:02:47,148 - INFO - Episode Start
+2025-08-19 15:02:47,837 - INFO - Episode Ended
+
+2025-08-19 15:02:47,838 - INFO - Episode Start
+2025-08-19 15:03:00,678 - INFO - Episode Ended
+
+2025-08-19 15:03:00,678 - INFO - Episode Start
+2025-08-19 15:03:01,373 - INFO - Collision detected - Event: walker.pedestrian.0041
+2025-08-19 15:03:01,391 - INFO - Episode Ended
+
+2025-08-19 15:03:01,391 - INFO - Episode Start
+2025-08-19 15:03:09,797 - INFO - Collision detected - Event: static.static
+2025-08-19 15:03:09,813 - INFO - Episode Ended
+
+2025-08-19 15:03:09,813 - INFO - Episode Start
+2025-08-19 15:03:19,208 - INFO - Episode Ended
+
+2025-08-19 15:03:19,208 - INFO - Episode Start
+2025-08-19 15:03:23,781 - INFO - Episode Ended
+
+2025-08-19 15:03:23,781 - INFO - Episode Start
+2025-08-19 15:03:24,317 - INFO - Collision detected - Event: walker.pedestrian.0001
+2025-08-19 15:03:24,334 - INFO - Episode Ended
+
+2025-08-19 15:03:24,334 - INFO - Episode Start
+2025-08-19 15:03:37,589 - INFO - Episode Ended
+
+2025-08-19 15:03:37,589 - INFO - Episode Start
+2025-08-19 15:03:38,199 - INFO - Collision detected - Event: walker.pedestrian.0015
+2025-08-19 15:03:38,221 - INFO - Episode Ended
+
+2025-08-19 15:03:38,221 - INFO - Episode Start
+2025-08-19 15:03:38,588 - INFO - Collision detected - Event: static.guardrail
+2025-08-19 15:03:38,604 - INFO - Episode Ended
+
+2025-08-19 15:03:38,604 - INFO - Episode Start
+2025-08-19 15:03:42,031 - INFO - Episode Ended
+
+2025-08-19 15:03:42,032 - INFO - Episode Start
+2025-08-19 15:03:43,520 - INFO - Episode Ended
+
+2025-08-19 15:03:43,520 - INFO - Episode Start
+2025-08-19 15:03:47,856 - INFO - Collision detected - Event: static.fence
+2025-08-19 15:03:47,873 - INFO - Episode Ended
+
+2025-08-19 15:03:47,873 - INFO - Episode Start
+2025-08-19 15:04:04,327 - INFO - Episode Ended
+
+2025-08-19 15:04:04,328 - INFO - Episode Start
+2025-08-19 15:04:07,693 - INFO - Collision detected - Event: walker.pedestrian.0007
+2025-08-19 15:04:07,711 - INFO - Episode Ended
+
+2025-08-19 15:04:07,711 - INFO - Episode Start
+2025-08-19 15:04:13,467 - INFO - Episode Ended
+
+2025-08-19 15:04:13,467 - INFO - Episode Start
+2025-08-19 15:04:25,864 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:04:25,880 - INFO - Episode Ended
+
+2025-08-19 15:04:25,880 - INFO - Episode Start
+2025-08-19 15:04:26,414 - INFO - Collision detected - Event: walker.pedestrian.0021
+2025-08-19 15:04:26,414 - INFO - Collision detected - Event: walker.pedestrian.0024
+2025-08-19 15:04:26,433 - INFO - Episode Ended
+
+2025-08-19 15:04:26,433 - INFO - Episode Start
+2025-08-19 15:04:27,110 - INFO - Collision detected - Event: walker.pedestrian.0012
+2025-08-19 15:04:27,127 - INFO - Episode Ended
+
+2025-08-19 15:04:27,128 - INFO - Episode Start
+2025-08-19 15:04:30,350 - INFO - Collision detected - Event: walker.pedestrian.0027
+2025-08-19 15:04:30,367 - INFO - Episode Ended
+
+2025-08-19 15:04:30,368 - INFO - Episode Start
+2025-08-19 15:04:30,943 - INFO - Collision detected - Event: walker.pedestrian.0049
+2025-08-19 15:04:30,960 - INFO - Episode Ended
+
+2025-08-19 15:04:30,960 - INFO - Episode Start
+2025-08-19 15:04:34,964 - INFO - Episode Ended
+
+2025-08-19 15:04:34,964 - INFO - Episode Start
+2025-08-19 15:04:35,523 - INFO - Episode Ended
+
+2025-08-19 15:04:35,523 - INFO - Episode Start
+2025-08-19 15:04:36,858 - INFO - Collision detected - Event: traffic.speed_limit.60
+2025-08-19 15:04:36,877 - INFO - Episode Ended
+
+2025-08-19 15:04:36,877 - INFO - Episode Start
+2025-08-19 15:04:40,066 - INFO - Episode Ended
+
+2025-08-19 15:04:40,066 - INFO - Episode Start
+2025-08-19 15:04:40,451 - INFO - Episode Ended
+
+2025-08-19 15:04:40,451 - INFO - Episode Start
+2025-08-19 15:04:41,116 - INFO - Collision detected - Event: walker.pedestrian.0040
+2025-08-19 15:04:41,133 - INFO - Episode Ended
+
+2025-08-19 15:04:41,133 - INFO - Episode Start
+2025-08-19 15:04:41,779 - INFO - Collision detected - Event: traffic.speed_limit.60
+2025-08-19 15:04:41,797 - INFO - Episode Ended
+
+2025-08-19 15:04:41,797 - INFO - Episode Start
+2025-08-19 15:04:42,329 - INFO - Collision detected - Event: walker.pedestrian.0049
+2025-08-19 15:04:42,343 - INFO - Episode Ended
+
+2025-08-19 15:04:42,344 - INFO - Episode Start
+2025-08-19 15:04:45,562 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:04:45,577 - INFO - Episode Ended
+
+2025-08-19 15:04:45,577 - INFO - Episode Start
+2025-08-19 15:04:50,195 - INFO - Collision detected - Event: static.guardrail
+2025-08-19 15:04:50,211 - INFO - Episode Ended
+
+2025-08-19 15:04:50,211 - INFO - Episode Start
+2025-08-19 15:04:50,776 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-08-19 15:04:50,793 - INFO - Episode Ended
+
+2025-08-19 15:04:50,793 - INFO - Episode Start
+2025-08-19 15:04:51,431 - INFO - Collision detected - Event: walker.pedestrian.0006
+2025-08-19 15:04:51,450 - INFO - Episode Ended
+
+2025-08-19 15:04:51,450 - INFO - Episode Start
+2025-08-19 15:05:16,520 - INFO - Episode Ended
+
+2025-08-19 15:05:16,520 - INFO - Episode Start
+2025-08-19 15:05:17,165 - INFO - Collision detected - Event: walker.pedestrian.0016
+2025-08-19 15:05:17,184 - INFO - Episode Ended
+
+2025-08-19 15:05:17,184 - INFO - Episode Start
+2025-08-19 15:05:17,796 - INFO - Collision detected - Event: traffic.speed_limit.60
+2025-08-19 15:05:17,817 - INFO - Episode Ended
+
+2025-08-19 15:05:17,817 - INFO - Episode Start
+2025-08-19 15:05:21,238 - INFO - Episode Ended
+
+2025-08-19 15:05:21,238 - INFO - Episode Start
+2025-08-19 15:05:21,819 - INFO - Collision detected - Event: walker.pedestrian.0046
+2025-08-19 15:05:21,839 - INFO - Episode Ended
+
+2025-08-19 15:05:21,839 - INFO - Episode Start
+2025-08-19 15:05:44,026 - INFO - Episode Ended
+
+2025-08-19 15:05:44,026 - INFO - Episode Start
+2025-08-19 15:05:44,650 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:05:44,667 - INFO - Episode Ended
+
+2025-08-19 15:05:44,667 - INFO - Episode Start
+2025-08-19 15:06:02,912 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:06:02,929 - INFO - Episode Ended
+
+2025-08-19 15:06:02,930 - INFO - Episode Start
+2025-08-19 15:06:06,091 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:06:06,108 - INFO - Episode Ended
+
+2025-08-19 15:06:06,108 - INFO - Episode Start
+2025-08-19 15:06:06,807 - INFO - Episode Ended
+
+2025-08-19 15:06:06,807 - INFO - Episode Start
+2025-08-19 15:06:07,392 - INFO - Collision detected - Event: walker.pedestrian.0005
+2025-08-19 15:06:07,413 - INFO - Episode Ended
+
+2025-08-19 15:06:07,413 - INFO - Episode Start
+2025-08-19 15:06:12,510 - INFO - Episode Ended
+
+2025-08-19 15:06:12,510 - INFO - Episode Start
+2025-08-19 15:06:15,827 - INFO - Collision detected - Event: walker.pedestrian.0042
+2025-08-19 15:06:15,846 - INFO - Episode Ended
+
+2025-08-19 15:06:15,846 - INFO - Episode Start
+2025-08-19 15:06:16,425 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-08-19 15:06:16,445 - INFO - Episode Ended
+
+2025-08-19 15:06:16,445 - INFO - Episode Start
+2025-08-19 15:06:20,848 - INFO - Episode Ended
+
+2025-08-19 15:06:20,848 - INFO - Episode Start
+2025-08-19 15:06:21,535 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:06:21,553 - INFO - Episode Ended
+
+2025-08-19 15:06:21,553 - INFO - Episode Start
+2025-08-19 15:06:22,118 - INFO - Episode Ended
+
+2025-08-19 15:06:22,118 - INFO - Episode Start
+2025-08-19 15:06:25,422 - INFO - Collision detected - Event: walker.pedestrian.0014
+2025-08-19 15:06:25,440 - INFO - Episode Ended
+
+2025-08-19 15:06:25,440 - INFO - Episode Start
+2025-08-19 15:06:25,809 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:06:25,826 - INFO - Episode Ended
+
+2025-08-19 15:06:25,827 - INFO - Episode Start
+2025-08-19 15:06:26,881 - INFO - Episode Ended
+
+2025-08-19 15:06:26,881 - INFO - Episode Start
+2025-08-19 15:06:28,502 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-08-19 15:06:28,563 - INFO - Episode Ended
+
+2025-08-19 15:06:28,563 - INFO - Episode Start
+2025-08-19 15:06:31,851 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:06:31,866 - INFO - Episode Ended
+
+2025-08-19 15:06:31,867 - INFO - Episode Start
+2025-08-19 15:06:32,386 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:06:32,405 - INFO - Episode Ended
+
+2025-08-19 15:06:32,405 - INFO - Episode Start
+2025-08-19 15:06:33,054 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:06:33,073 - INFO - Episode Ended
+
+2025-08-19 15:06:33,074 - INFO - Episode Start
+2025-08-19 15:06:33,608 - INFO - Collision detected - Event: walker.pedestrian.0015
+2025-08-19 15:06:33,623 - INFO - Episode Ended
+
+2025-08-19 15:06:33,623 - INFO - Episode Start
+2025-08-19 15:06:41,585 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:06:41,607 - INFO - Episode Ended
+
+2025-08-19 15:06:41,607 - INFO - Episode Start
+2025-08-19 15:06:42,697 - INFO - Collision detected - Event: static.static
+2025-08-19 15:06:42,715 - INFO - Episode Ended
+
+2025-08-19 15:06:42,716 - INFO - Episode Start
+2025-08-19 15:06:50,460 - INFO - Episode Ended
+
+2025-08-19 15:06:50,460 - INFO - Episode Start
+2025-08-19 15:06:51,041 - INFO - Collision detected - Event: walker.pedestrian.0045
+2025-08-19 15:06:51,059 - INFO - Episode Ended
+
+2025-08-19 15:06:51,059 - INFO - Episode Start
+2025-08-19 15:07:08,200 - INFO - Episode Ended
+
+2025-08-19 15:07:08,200 - INFO - Episode Start
+2025-08-19 15:07:08,764 - INFO - Collision detected - Event: walker.pedestrian.0046
+2025-08-19 15:07:08,782 - INFO - Episode Ended
+
+2025-08-19 15:07:08,782 - INFO - Episode Start
+2025-08-19 15:07:09,436 - INFO - Collision detected - Event: walker.pedestrian.0006
+2025-08-19 15:07:09,436 - INFO - Collision detected - Event: walker.pedestrian.0041
+2025-08-19 15:07:09,454 - INFO - Episode Ended
+
+2025-08-19 15:07:09,454 - INFO - Episode Start
+2025-08-19 15:07:10,018 - INFO - Collision detected - Event: static.static
+2025-08-19 15:07:10,035 - INFO - Episode Ended
+
+2025-08-19 15:07:10,035 - INFO - Episode Start
+2025-08-19 15:07:13,437 - INFO - Collision detected - Event: traffic.speed_limit.60
+2025-08-19 15:07:13,457 - INFO - Episode Ended
+
+2025-08-19 15:07:13,457 - INFO - Episode Start
+2025-08-19 15:07:14,150 - INFO - Collision detected - Event: walker.pedestrian.0004
+2025-08-19 15:07:14,168 - INFO - Episode Ended
+
+2025-08-19 15:07:14,168 - INFO - Episode Start
+2025-08-19 15:07:22,507 - INFO - Episode Ended
+
+2025-08-19 15:07:22,507 - INFO - Episode Start
+2025-08-19 15:07:23,130 - INFO - Collision detected - Event: walker.pedestrian.0016
+2025-08-19 15:07:23,147 - INFO - Episode Ended
+
+2025-08-19 15:07:23,147 - INFO - Episode Start
+2025-08-19 15:07:31,896 - INFO - Episode Ended
+
+2025-08-19 15:07:31,896 - INFO - Episode Start
+2025-08-19 15:07:32,387 - INFO - Collision detected - Event: traffic.speed_limit.90
+2025-08-19 15:07:32,405 - INFO - Episode Ended
+
+2025-08-19 15:07:32,406 - INFO - Episode Start
+2025-08-19 15:07:32,979 - INFO - Collision detected - Event: traffic.speed_limit.60
+2025-08-19 15:07:33,002 - INFO - Episode Ended
+
+2025-08-19 15:07:33,002 - INFO - Episode Start
+2025-08-19 15:07:35,001 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:07:35,013 - INFO - Episode Ended
+
+2025-08-19 15:07:35,014 - INFO - Episode Start
+2025-08-19 15:07:35,665 - INFO - Collision detected - Event: traffic.speed_limit.60
+2025-08-19 15:07:35,687 - INFO - Episode Ended
+
+2025-08-19 15:07:35,687 - INFO - Episode Start
+2025-08-19 15:07:39,129 - INFO - Collision detected - Event: static.guardrail
+2025-08-19 15:07:39,147 - INFO - Episode Ended
+
+2025-08-19 15:07:39,147 - INFO - Episode Start
+2025-08-19 15:07:39,705 - INFO - Collision detected - Event: walker.pedestrian.0038
+2025-08-19 15:07:39,723 - INFO - Episode Ended
+
+2025-08-19 15:07:39,724 - INFO - Episode Start
+2025-08-19 15:07:40,290 - INFO - Collision detected - Event: walker.pedestrian.0028
+2025-08-19 15:07:40,308 - INFO - Episode Ended
+
+2025-08-19 15:07:40,308 - INFO - Episode Start
+2025-08-19 15:07:40,909 - INFO - Collision detected - Event: walker.pedestrian.0051
+2025-08-19 15:07:40,926 - INFO - Episode Ended
+
+2025-08-19 15:07:40,926 - INFO - Episode Start
+2025-08-19 15:07:48,441 - INFO - Collision detected - Event: static.guardrail
+2025-08-19 15:07:48,461 - INFO - Episode Ended
+
+2025-08-19 15:07:48,461 - INFO - Episode Start
+2025-08-19 15:07:49,064 - INFO - Collision detected - Event: walker.pedestrian.0034
+2025-08-19 15:07:49,082 - INFO - Episode Ended
+
+2025-08-19 15:07:49,082 - INFO - Episode Start
+2025-08-19 15:07:49,736 - INFO - Episode Ended
+
+2025-08-19 15:07:49,737 - INFO - Episode Start
+2025-08-19 15:07:50,429 - INFO - Episode Ended
+
+2025-08-19 15:07:50,429 - INFO - Episode Start
+2025-08-19 15:07:53,801 - INFO - Collision detected - Event: walker.pedestrian.0044
+2025-08-19 15:07:53,820 - INFO - Episode Ended
+
+2025-08-19 15:07:53,821 - INFO - Episode Start
+2025-08-19 15:07:54,397 - INFO - Collision detected - Event: walker.pedestrian.0047
+2025-08-19 15:07:54,418 - INFO - Episode Ended
+
+2025-08-19 15:07:54,419 - INFO - Episode Start
+2025-08-19 15:07:54,939 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:07:54,958 - INFO - Episode Ended
+
+2025-08-19 15:07:54,958 - INFO - Episode Start
+2025-08-19 15:08:04,019 - INFO - Episode Ended
+
+2025-08-19 15:08:04,019 - INFO - Episode Start
+2025-08-19 15:08:18,192 - INFO - Episode Ended
+
+2025-08-19 15:08:18,192 - INFO - Episode Start
+2025-08-19 15:08:27,121 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:08:27,141 - INFO - Episode Ended
+
+2025-08-19 15:08:27,141 - INFO - Episode Start
+2025-08-19 15:08:30,610 - INFO - Collision detected - Event: walker.pedestrian.0043
+2025-08-19 15:08:30,632 - INFO - Episode Ended
+
+2025-08-19 15:08:30,632 - INFO - Episode Start
+2025-08-19 15:08:31,261 - INFO - Collision detected - Event: walker.pedestrian.0007
+2025-08-19 15:08:31,284 - INFO - Episode Ended
+
+2025-08-19 15:08:31,285 - INFO - Episode Start
+2025-08-19 15:08:32,010 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:08:32,028 - INFO - Episode Ended
+
+2025-08-19 15:08:32,028 - INFO - Episode Start
+2025-08-19 15:08:41,075 - INFO - Episode Ended
+
+2025-08-19 15:08:41,075 - INFO - Episode Start
+2025-08-19 15:08:43,073 - INFO - Collision detected - Event: walker.pedestrian.0016
+2025-08-19 15:08:43,087 - INFO - Episode Ended
+
+2025-08-19 15:08:43,087 - INFO - Episode Start
+2025-08-19 15:08:43,696 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:08:43,712 - INFO - Episode Ended
+
+2025-08-19 15:08:43,713 - INFO - Episode Start
+2025-08-19 15:08:47,032 - INFO - Collision detected - Event: walker.pedestrian.0018
+2025-08-19 15:08:47,050 - INFO - Episode Ended
+
+2025-08-19 15:08:47,050 - INFO - Episode Start
+2025-08-19 15:08:48,264 - INFO - Collision detected - Event: static.static
+2025-08-19 15:08:48,281 - INFO - Episode Ended
+
+2025-08-19 15:08:48,281 - INFO - Episode Start
+2025-08-19 15:08:51,537 - INFO - Collision detected - Event: traffic.speed_limit.60
+2025-08-19 15:08:51,555 - INFO - Episode Ended
+
+2025-08-19 15:08:51,555 - INFO - Episode Start
+2025-08-19 15:08:52,121 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:08:52,142 - INFO - Episode Ended
+
+2025-08-19 15:08:52,142 - INFO - Episode Start
+2025-08-19 15:08:52,800 - INFO - Episode Ended
+
+2025-08-19 15:08:52,800 - INFO - Episode Start
+2025-08-19 15:08:53,366 - INFO - Episode Ended
+
+2025-08-19 15:08:53,366 - INFO - Episode Start
+2025-08-19 15:08:53,909 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:08:53,925 - INFO - Episode Ended
+
+2025-08-19 15:08:53,925 - INFO - Episode Start
+2025-08-19 15:08:57,352 - INFO - Episode Ended
+
+2025-08-19 15:08:57,352 - INFO - Episode Start
+2025-08-19 15:08:58,450 - INFO - Episode Ended
+
+2025-08-19 15:08:58,450 - INFO - Episode Start
+2025-08-19 15:09:01,740 - INFO - Collision detected - Event: walker.pedestrian.0043
+2025-08-19 15:09:01,762 - INFO - Episode Ended
+
+2025-08-19 15:09:01,762 - INFO - Episode Start
+2025-08-19 15:09:07,094 - INFO - Collision detected - Event: traffic.traffic_light
+2025-08-19 15:09:07,113 - INFO - Episode Ended
+
+2025-08-19 15:09:07,113 - INFO - Episode Start
+2025-08-19 15:09:11,697 - INFO - Episode Ended
+
+2025-08-19 15:09:11,697 - INFO - Episode Start
+2025-08-19 15:09:33,585 - INFO - Episode Ended
+
+2025-08-19 15:09:33,585 - INFO - Episode Start
+2025-08-19 15:09:34,177 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:09:34,195 - INFO - Episode Ended
+
+2025-08-19 15:09:34,195 - INFO - Episode Start
+2025-08-19 15:10:01,695 - INFO - Episode Ended
+
+2025-08-19 15:10:01,696 - INFO - Episode Start
+2025-08-19 15:10:05,026 - INFO - Collision detected - Event: walker.pedestrian.0028
+2025-08-19 15:10:05,043 - INFO - Episode Ended
+
+2025-08-19 15:10:05,044 - INFO - Episode Start
+2025-08-19 15:10:05,581 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:10:05,602 - INFO - Episode Ended
+
+2025-08-19 15:10:05,602 - INFO - Episode Start
+2025-08-19 15:10:06,149 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:10:06,165 - INFO - Episode Ended
+
+2025-08-19 15:10:06,165 - INFO - Episode Start
+2025-08-19 15:10:08,692 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:10:08,704 - INFO - Episode Ended
+
+2025-08-19 15:10:08,704 - INFO - Episode Start
+2025-08-19 15:10:12,080 - INFO - Collision detected - Event: walker.pedestrian.0044
+2025-08-19 15:10:12,096 - INFO - Episode Ended
+
+2025-08-19 15:10:12,097 - INFO - Episode Start
+2025-08-19 15:10:22,438 - INFO - Episode Ended
+
+2025-08-19 15:10:22,438 - INFO - Episode Start
+2025-08-19 15:10:25,801 - INFO - Collision detected - Event: walker.pedestrian.0031
+2025-08-19 15:10:25,818 - INFO - Episode Ended
+
+2025-08-19 15:10:25,818 - INFO - Episode Start
+2025-08-19 15:10:48,112 - INFO - Episode Ended
+
+2025-08-19 15:10:48,112 - INFO - Episode Start
+2025-08-19 15:10:48,776 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:10:48,793 - INFO - Episode Ended
+
+2025-08-19 15:10:48,793 - INFO - Episode Start
+2025-08-19 15:10:52,166 - INFO - Collision detected - Event: walker.pedestrian.0005
+2025-08-19 15:10:52,183 - INFO - Episode Ended
+
+2025-08-19 15:10:52,184 - INFO - Episode Start
+2025-08-19 15:10:52,844 - INFO - Episode Ended
+
+2025-08-19 15:10:52,844 - INFO - Episode Start
+2025-08-19 15:10:53,410 - INFO - Collision detected - Event: walker.pedestrian.0024
+2025-08-19 15:10:53,426 - INFO - Episode Ended
+
+2025-08-19 15:10:53,426 - INFO - Episode Start
+2025-08-19 15:10:54,003 - INFO - Collision detected - Event: walker.pedestrian.0006
+2025-08-19 15:10:54,020 - INFO - Episode Ended
+
+2025-08-19 15:10:54,020 - INFO - Episode Start
+2025-08-19 15:10:57,258 - INFO - Collision detected - Event: walker.pedestrian.0017
+2025-08-19 15:10:57,275 - INFO - Episode Ended
+
+2025-08-19 15:10:57,276 - INFO - Episode Start
+2025-08-19 15:10:58,073 - INFO - Collision detected - Event: static.static
+2025-08-19 15:10:58,088 - INFO - Episode Ended
+
+2025-08-19 15:10:58,088 - INFO - Episode Start
+2025-08-19 15:11:03,009 - INFO - Episode Ended
+
+2025-08-19 15:11:03,009 - INFO - Episode Start
+2025-08-19 15:11:06,381 - INFO - Collision detected - Event: walker.pedestrian.0032
+2025-08-19 15:11:06,402 - INFO - Episode Ended
+
+2025-08-19 15:11:06,402 - INFO - Episode Start
+2025-08-19 15:11:07,014 - INFO - Collision detected - Event: walker.pedestrian.0031
+2025-08-19 15:11:07,015 - INFO - Collision detected - Event: walker.pedestrian.0043
+2025-08-19 15:11:07,035 - INFO - Episode Ended
+
+2025-08-19 15:11:07,035 - INFO - Episode Start
+2025-08-19 15:11:07,568 - INFO - Collision detected - Event: walker.pedestrian.0013
+2025-08-19 15:11:07,583 - INFO - Episode Ended
+
+2025-08-19 15:11:07,583 - INFO - Episode Start
+2025-08-19 15:11:08,181 - INFO - Collision detected - Event: walker.pedestrian.0047
+2025-08-19 15:11:08,198 - INFO - Episode Ended
+
+2025-08-19 15:11:08,199 - INFO - Episode Start
+2025-08-19 15:11:08,574 - INFO - Episode Ended
+
+2025-08-19 15:11:08,574 - INFO - Episode Start
+2025-08-19 15:11:11,813 - INFO - Collision detected - Event: walker.pedestrian.0032
+2025-08-19 15:11:11,830 - INFO - Episode Ended
+
+2025-08-19 15:11:11,830 - INFO - Episode Start
+2025-08-19 15:11:12,436 - INFO - Collision detected - Event: walker.pedestrian.0017
+2025-08-19 15:11:12,453 - INFO - Episode Ended
+
+2025-08-19 15:11:12,453 - INFO - Episode Start
+2025-08-19 15:11:40,036 - INFO - Collision detected - Event: traffic.traffic_light
+2025-08-19 15:11:40,491 - INFO - Episode Ended
+
+2025-08-19 15:11:40,492 - INFO - Episode Start
+2025-08-19 15:11:41,102 - INFO - Collision detected - Event: walker.pedestrian.0039
+2025-08-19 15:11:41,124 - INFO - Episode Ended
+
+2025-08-19 15:11:41,125 - INFO - Episode Start
+2025-08-19 15:11:41,660 - INFO - Collision detected - Event: walker.pedestrian.0011
+2025-08-19 15:11:41,677 - INFO - Episode Ended
+
+2025-08-19 15:11:41,677 - INFO - Episode Start
+2025-08-19 15:11:42,297 - INFO - Episode Ended
+
+2025-08-19 15:11:42,297 - INFO - Episode Start
+2025-08-19 15:11:45,667 - INFO - Collision detected - Event: walker.pedestrian.0024
+2025-08-19 15:11:45,683 - INFO - Episode Ended
+
+2025-08-19 15:11:45,683 - INFO - Episode Start
+2025-08-19 15:11:51,314 - INFO - Episode Ended
+
+2025-08-19 15:11:51,314 - INFO - Episode Start
+2025-08-19 15:12:03,804 - INFO - Episode Ended
+
+2025-08-19 15:12:03,804 - INFO - Episode Start
+2025-08-19 15:12:04,591 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:12:04,610 - INFO - Episode Ended
+
+2025-08-19 15:12:04,610 - INFO - Episode Start
+2025-08-19 15:12:35,312 - INFO - Collision detected - Event: static.static
+2025-08-19 15:12:35,329 - INFO - Episode Ended
+
+2025-08-19 15:12:35,329 - INFO - Episode Start
+2025-08-19 15:12:38,697 - INFO - Episode Ended
+
+2025-08-19 15:12:38,697 - INFO - Episode Start
+2025-08-19 15:12:39,263 - INFO - Collision detected - Event: walker.pedestrian.0019
+2025-08-19 15:12:39,285 - INFO - Episode Ended
+
+2025-08-19 15:12:39,285 - INFO - Episode Start
+2025-08-19 15:12:39,887 - INFO - Collision detected - Event: walker.pedestrian.0020
+2025-08-19 15:12:39,903 - INFO - Episode Ended
+
+2025-08-19 15:12:39,903 - INFO - Episode Start
+2025-08-19 15:12:53,322 - INFO - Episode Ended
+
+2025-08-19 15:12:53,323 - INFO - Episode Start
+2025-08-19 15:12:57,583 - INFO - Collision detected - Event: static.static
+2025-08-19 15:12:57,598 - INFO - Episode Ended
+
+2025-08-19 15:12:57,599 - INFO - Episode Start
+2025-08-19 15:13:02,495 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:13:02,509 - INFO - Episode Ended
+
+2025-08-19 15:13:02,509 - INFO - Episode Start
+2025-08-19 15:13:11,192 - INFO - Episode Ended
+
+2025-08-19 15:13:11,192 - INFO - Episode Start
+2025-08-19 15:13:23,601 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:13:23,618 - INFO - Episode Ended
+
+2025-08-19 15:13:23,618 - INFO - Episode Start
+2025-08-19 15:13:24,964 - INFO - Episode Ended
+
+2025-08-19 15:13:24,964 - INFO - Episode Start
+2025-08-19 15:13:28,222 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:13:28,242 - INFO - Episode Ended
+
+2025-08-19 15:13:28,242 - INFO - Episode Start
+2025-08-19 15:13:28,804 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:13:28,822 - INFO - Episode Ended
+
+2025-08-19 15:13:28,822 - INFO - Episode Start
+2025-08-19 15:13:39,204 - INFO - Episode Ended
+
+2025-08-19 15:13:39,204 - INFO - Episode Start
+2025-08-19 15:13:43,735 - INFO - Episode Ended
+
+2025-08-19 15:13:43,735 - INFO - Episode Start
+2025-08-19 15:13:44,324 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:13:44,340 - INFO - Episode Ended
+
+2025-08-19 15:13:44,341 - INFO - Episode Start
+2025-08-19 15:13:45,009 - INFO - Collision detected - Event: walker.pedestrian.0038
+2025-08-19 15:13:45,010 - INFO - Collision detected - Event: walker.pedestrian.0008
+2025-08-19 15:13:45,026 - INFO - Episode Ended
+
+2025-08-19 15:13:45,026 - INFO - Episode Start
+2025-08-19 15:13:48,251 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:13:48,273 - INFO - Episode Ended
+
+2025-08-19 15:13:48,273 - INFO - Episode Start
+2025-08-19 15:13:48,865 - INFO - Collision detected - Event: walker.pedestrian.0031
+2025-08-19 15:13:48,881 - INFO - Episode Ended
+
+2025-08-19 15:13:48,881 - INFO - Episode Start
+2025-08-19 15:13:49,442 - INFO - Episode Ended
+
+2025-08-19 15:13:49,443 - INFO - Episode Start
+2025-08-19 15:13:50,016 - INFO - Episode Ended
+
+2025-08-19 15:13:50,016 - INFO - Episode Start
+2025-08-19 15:13:53,339 - INFO - Collision detected - Event: walker.pedestrian.0037
+2025-08-19 15:13:53,356 - INFO - Episode Ended
+
+2025-08-19 15:13:53,356 - INFO - Episode Start
+2025-08-19 15:13:54,059 - INFO - Episode Ended
+
+2025-08-19 15:13:54,059 - INFO - Episode Start
+2025-08-19 15:13:55,344 - INFO - Episode Ended
+
+2025-08-19 15:13:55,344 - INFO - Episode Start
+2025-08-19 15:13:58,719 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:13:58,735 - INFO - Episode Ended
+
+2025-08-19 15:13:58,735 - INFO - Episode Start
+2025-08-19 15:13:59,266 - INFO - Collision detected - Event: walker.pedestrian.0016
+2025-08-19 15:13:59,284 - INFO - Episode Ended
+
+2025-08-19 15:13:59,284 - INFO - Episode Start
+2025-08-19 15:13:59,740 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:13:59,756 - INFO - Episode Ended
+
+2025-08-19 15:13:59,757 - INFO - Episode Start
+2025-08-19 15:14:00,343 - INFO - Collision detected - Event: walker.pedestrian.0009
+2025-08-19 15:14:00,358 - INFO - Episode Ended
+
+2025-08-19 15:14:00,358 - INFO - Episode Start
+2025-08-19 15:14:08,065 - INFO - Episode Ended
+
+2025-08-19 15:14:08,065 - INFO - Episode Start
+2025-08-19 15:14:13,300 - INFO - Collision detected - Event: traffic.traffic_light
+2025-08-19 15:14:13,317 - INFO - Episode Ended
+
+2025-08-19 15:14:13,317 - INFO - Episode Start
+2025-08-19 15:14:17,044 - INFO - Collision detected - Event: traffic.traffic_light
+2025-08-19 15:14:17,063 - INFO - Episode Ended
+
+2025-08-19 15:14:17,063 - INFO - Episode Start
+2025-08-19 15:14:17,666 - INFO - Collision detected - Event: walker.pedestrian.0023
+2025-08-19 15:14:17,667 - INFO - Collision detected - Event: walker.pedestrian.0014
+2025-08-19 15:14:17,682 - INFO - Episode Ended
+
+2025-08-19 15:14:17,682 - INFO - Episode Start
+2025-08-19 15:14:18,211 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:14:18,229 - INFO - Episode Ended
+
+2025-08-19 15:14:18,229 - INFO - Episode Start
+2025-08-19 15:14:20,170 - INFO - Episode Ended
+
+2025-08-19 15:14:20,170 - INFO - Episode Start
+2025-08-19 15:14:23,440 - INFO - Collision detected - Event: walker.pedestrian.0003
+2025-08-19 15:14:23,465 - INFO - Episode Ended
+
+2025-08-19 15:14:23,466 - INFO - Episode Start
+2025-08-19 15:14:28,436 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:14:28,452 - INFO - Episode Ended
+
+2025-08-19 15:14:28,453 - INFO - Episode Start
+2025-08-19 15:14:29,063 - INFO - Collision detected - Event: walker.pedestrian.0035
+2025-08-19 15:14:29,080 - INFO - Episode Ended
+
+2025-08-19 15:14:29,080 - INFO - Episode Start
+2025-08-19 15:14:33,090 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:14:33,111 - INFO - Episode Ended
+
+2025-08-19 15:14:33,111 - INFO - Episode Start
+2025-08-19 15:14:33,680 - INFO - Collision detected - Event: walker.pedestrian.0015
+2025-08-19 15:14:33,699 - INFO - Episode Ended
+
+2025-08-19 15:14:33,699 - INFO - Episode Start
+2025-08-19 15:14:42,771 - INFO - Collision detected - Event: static.fence
+2025-08-19 15:14:42,788 - INFO - Episode Ended
+
+2025-08-19 15:17:32,148 - INFO - Episode Start
+2025-08-19 15:17:32,993 - INFO - Collision detected - Event: walker.pedestrian.0020
+2025-08-19 15:17:33,015 - INFO - Episode Ended
+
+2025-08-19 15:17:33,015 - INFO - Episode Start
+2025-08-19 15:17:33,601 - INFO - Episode Ended
+
+2025-08-19 15:17:33,601 - INFO - Episode Start
+2025-08-19 15:17:51,262 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:17:51,280 - INFO - Episode Ended
+
+2025-08-19 15:17:51,280 - INFO - Episode Start
+2025-08-19 15:17:54,690 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:17:54,705 - INFO - Episode Ended
+
+2025-08-19 15:17:54,705 - INFO - Episode Start
+2025-08-19 15:18:01,144 - INFO - Collision detected - Event: static.static
+2025-08-19 15:18:01,163 - INFO - Episode Ended
+
+2025-08-19 15:18:01,163 - INFO - Episode Start
+2025-08-19 15:18:04,594 - INFO - Collision detected - Event: walker.pedestrian.0017
+2025-08-19 15:18:04,611 - INFO - Episode Ended
+
+2025-08-19 15:18:04,611 - INFO - Episode Start
+2025-08-19 15:18:08,875 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:18:08,894 - INFO - Episode Ended
+
+2025-08-19 15:18:08,895 - INFO - Episode Start
+2025-08-19 15:18:09,564 - INFO - Episode Ended
+
+2025-08-19 15:18:09,564 - INFO - Episode Start
+2025-08-19 15:18:10,154 - INFO - Collision detected - Event: walker.pedestrian.0046
+2025-08-19 15:18:10,177 - INFO - Episode Ended
+
+2025-08-19 15:18:10,177 - INFO - Episode Start
+2025-08-19 15:18:15,283 - INFO - Collision detected - Event: static.fence
+2025-08-19 15:18:15,303 - INFO - Episode Ended
+
+2025-08-19 15:18:15,303 - INFO - Episode Start
+2025-08-19 15:18:18,712 - INFO - Collision detected - Event: walker.pedestrian.0020
+2025-08-19 15:18:18,730 - INFO - Episode Ended
+
+2025-08-19 15:18:18,730 - INFO - Episode Start
+2025-08-19 15:18:19,312 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-08-19 15:18:19,331 - INFO - Episode Ended
+
+2025-08-19 15:18:19,331 - INFO - Episode Start
+2025-08-19 15:18:19,904 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:18:19,922 - INFO - Episode Ended
+
+2025-08-19 15:18:19,923 - INFO - Episode Start
+2025-08-19 15:18:22,161 - INFO - Collision detected - Event: walker.pedestrian.0039
+2025-08-19 15:18:22,180 - INFO - Episode Ended
+
+2025-08-19 15:18:22,180 - INFO - Episode Start
+2025-08-19 15:18:31,086 - INFO - Episode Ended
+
+2025-08-19 15:18:31,086 - INFO - Episode Start
+2025-08-19 15:18:35,415 - INFO - Episode Ended
+
+2025-08-19 15:18:35,416 - INFO - Episode Start
+2025-08-19 15:18:36,008 - INFO - Collision detected - Event: walker.pedestrian.0005
+2025-08-19 15:18:36,008 - INFO - Collision detected - Event: walker.pedestrian.0044
+2025-08-19 15:18:36,025 - INFO - Episode Ended
+
+2025-08-19 15:18:36,025 - INFO - Episode Start
+2025-08-19 15:18:52,835 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:18:52,853 - INFO - Episode Ended
+
+2025-08-19 15:18:52,853 - INFO - Episode Start
+2025-08-19 15:18:54,247 - INFO - Collision detected - Event: traffic.speed_limit.30
+2025-08-19 15:18:54,263 - INFO - Episode Ended
+
+2025-08-19 15:18:54,263 - INFO - Episode Start
+2025-08-19 15:18:57,546 - INFO - Collision detected - Event: walker.pedestrian.0032
+2025-08-19 15:18:57,564 - INFO - Episode Ended
+
+2025-08-19 15:18:57,564 - INFO - Episode Start
+2025-08-19 15:18:58,162 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:18:58,181 - INFO - Episode Ended
+
+2025-08-19 15:18:58,181 - INFO - Episode Start
+2025-08-19 15:18:58,769 - INFO - Collision detected - Event: walker.pedestrian.0003
+2025-08-19 15:18:58,789 - INFO - Episode Ended
+
+2025-08-19 15:18:58,789 - INFO - Episode Start
+2025-08-19 15:19:03,044 - INFO - Collision detected - Event: traffic.speed_limit.60
+2025-08-19 15:19:03,066 - INFO - Episode Ended
+
+2025-08-19 15:19:03,066 - INFO - Episode Start
+2025-08-19 15:19:03,711 - INFO - Collision detected - Event: walker.pedestrian.0007
+2025-08-19 15:19:03,729 - INFO - Episode Ended
+
+2025-08-19 15:19:03,729 - INFO - Episode Start
+2025-08-19 15:19:08,705 - INFO - Collision detected - Event: static.static
+2025-08-19 15:19:08,723 - INFO - Episode Ended
+
+2025-08-19 15:19:08,723 - INFO - Episode Start
+2025-08-19 15:19:12,240 - INFO - Collision detected - Event: walker.pedestrian.0041
+2025-08-19 15:19:12,241 - INFO - Collision detected - Event: walker.pedestrian.0012
+2025-08-19 15:19:12,241 - INFO - Collision detected - Event: walker.pedestrian.0026
+2025-08-19 15:19:12,259 - INFO - Episode Ended
+
+2025-08-19 15:19:12,259 - INFO - Episode Start
+2025-08-19 15:19:12,893 - INFO - Collision detected - Event: walker.pedestrian.0027
+2025-08-19 15:19:12,910 - INFO - Episode Ended
+
+2025-08-19 15:19:12,910 - INFO - Episode Start
+2025-08-19 15:19:18,023 - INFO - Episode Ended
+
+2025-08-19 15:19:18,023 - INFO - Episode Start
+2025-08-19 15:19:31,886 - INFO - Episode Ended
+
+2025-08-19 15:19:31,887 - INFO - Episode Start
+2025-08-19 15:19:35,311 - INFO - Episode Ended
+
+2025-08-19 15:19:35,311 - INFO - Episode Start
+2025-08-19 15:19:53,861 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:19:53,877 - INFO - Episode Ended
+
+2025-08-19 15:19:53,877 - INFO - Episode Start
+2025-08-19 15:19:54,455 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-08-19 15:19:54,473 - INFO - Episode Ended
+
+2025-08-19 15:19:54,474 - INFO - Episode Start
+2025-08-19 15:20:20,565 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:20:20,580 - INFO - Episode Ended
+
+2025-08-19 15:20:20,580 - INFO - Episode Start
+2025-08-19 15:20:21,440 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:20:21,532 - INFO - Episode Ended
+
+2025-08-19 15:20:21,532 - INFO - Episode Start
+2025-08-19 15:20:22,090 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:20:22,108 - INFO - Episode Ended
+
+2025-08-19 15:20:22,108 - INFO - Episode Start
+2025-08-19 15:20:26,060 - INFO - Episode Ended
+
+2025-08-19 15:20:26,060 - INFO - Episode Start
+2025-08-19 15:20:26,698 - INFO - Episode Ended
+
+2025-08-19 15:20:26,699 - INFO - Episode Start
+2025-08-19 15:20:27,369 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:20:27,387 - INFO - Episode Ended
+
+2025-08-19 15:20:27,387 - INFO - Episode Start
+2025-08-19 15:20:30,606 - INFO - Episode Ended
+
+2025-08-19 15:20:30,606 - INFO - Episode Start
+2025-08-19 15:20:32,083 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:20:32,099 - INFO - Episode Ended
+
+2025-08-19 15:20:32,099 - INFO - Episode Start
+2025-08-19 15:20:44,903 - INFO - Episode Ended
+
+2025-08-19 15:20:44,903 - INFO - Episode Start
+2025-08-19 15:20:45,505 - INFO - Episode Ended
+
+2025-08-19 15:20:45,505 - INFO - Episode Start
+2025-08-19 15:20:45,993 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:20:46,011 - INFO - Episode Ended
+
+2025-08-19 15:20:46,012 - INFO - Episode Start
+2025-08-19 15:20:46,696 - INFO - Collision detected - Event: walker.pedestrian.0009
+2025-08-19 15:20:46,714 - INFO - Episode Ended
+
+2025-08-19 15:20:46,714 - INFO - Episode Start
+2025-08-19 15:20:49,991 - INFO - Collision detected - Event: walker.pedestrian.0002
+2025-08-19 15:20:50,008 - INFO - Episode Ended
+
+2025-08-19 15:20:50,008 - INFO - Episode Start
+2025-08-19 15:20:50,577 - INFO - Collision detected - Event: walker.pedestrian.0033
+2025-08-19 15:20:50,593 - INFO - Episode Ended
+
+2025-08-19 15:20:50,593 - INFO - Episode Start
+2025-08-19 15:20:51,727 - INFO - Episode Ended
+
+2025-08-19 15:20:51,727 - INFO - Episode Start
+2025-08-19 15:20:55,111 - INFO - Episode Ended
+
+2025-08-19 15:20:55,111 - INFO - Episode Start
+2025-08-19 15:20:55,750 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:20:55,766 - INFO - Episode Ended
+
+2025-08-19 15:20:55,766 - INFO - Episode Start
+2025-08-19 15:20:56,401 - INFO - Episode Ended
+
+2025-08-19 15:20:56,401 - INFO - Episode Start
+2025-08-19 15:20:59,710 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:20:59,727 - INFO - Episode Ended
+
+2025-08-19 15:20:59,727 - INFO - Episode Start
+2025-08-19 15:21:00,333 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:21:00,352 - INFO - Episode Ended
+
+2025-08-19 15:21:00,352 - INFO - Episode Start
+2025-08-19 15:21:00,944 - INFO - Episode Ended
+
+2025-08-19 15:21:00,944 - INFO - Episode Start
+2025-08-19 15:21:02,558 - INFO - Collision detected - Event: walker.pedestrian.0011
+2025-08-19 15:21:02,655 - INFO - Episode Ended
+
+2025-08-19 15:21:02,655 - INFO - Episode Start
+2025-08-19 15:21:15,199 - INFO - Episode Ended
+
+2025-08-19 15:21:15,199 - INFO - Episode Start
+2025-08-19 15:21:37,617 - INFO - Episode Ended
+
+2025-08-19 15:21:37,617 - INFO - Episode Start
+2025-08-19 15:21:42,682 - INFO - Collision detected - Event: static.guardrail
+2025-08-19 15:21:42,699 - INFO - Episode Ended
+
+2025-08-19 15:21:42,699 - INFO - Episode Start
+2025-08-19 15:21:52,092 - INFO - Episode Ended
+
+2025-08-19 15:21:52,093 - INFO - Episode Start
+2025-08-19 15:22:01,778 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:22:01,796 - INFO - Episode Ended
+
+2025-08-19 15:22:01,796 - INFO - Episode Start
+2025-08-19 15:22:05,088 - INFO - Collision detected - Event: walker.pedestrian.0008
+2025-08-19 15:22:05,108 - INFO - Episode Ended
+
+2025-08-19 15:22:05,108 - INFO - Episode Start
+2025-08-19 15:22:13,877 - INFO - Collision detected - Event: traffic.speed_limit.30
+2025-08-19 15:22:13,893 - INFO - Episode Ended
+
+2025-08-19 15:22:13,893 - INFO - Episode Start
+2025-08-19 15:22:14,397 - INFO - Episode Ended
+
+2025-08-19 15:22:14,397 - INFO - Episode Start
+2025-08-19 15:22:14,943 - INFO - Collision detected - Event: walker.pedestrian.0029
+2025-08-19 15:22:14,958 - INFO - Episode Ended
+
+2025-08-19 15:22:14,958 - INFO - Episode Start
+2025-08-19 15:22:15,592 - INFO - Collision detected - Event: walker.pedestrian.0012
+2025-08-19 15:22:15,592 - INFO - Collision detected - Event: walker.pedestrian.0030
+2025-08-19 15:22:15,608 - INFO - Episode Ended
+
+2025-08-19 15:22:15,609 - INFO - Episode Start
+2025-08-19 15:22:19,014 - INFO - Collision detected - Event: walker.pedestrian.0019
+2025-08-19 15:22:19,015 - INFO - Collision detected - Event: walker.pedestrian.0040
+2025-08-19 15:22:19,031 - INFO - Episode Ended
+
+2025-08-19 15:22:19,032 - INFO - Episode Start
+2025-08-19 15:22:19,636 - INFO - Collision detected - Event: walker.pedestrian.0044
+2025-08-19 15:22:19,653 - INFO - Episode Ended
+
+2025-08-19 15:22:19,653 - INFO - Episode Start
+2025-08-19 15:22:20,245 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:22:20,264 - INFO - Episode Ended
+
+2025-08-19 15:22:20,264 - INFO - Episode Start
+2025-08-19 15:22:20,874 - INFO - Episode Ended
+
+2025-08-19 15:22:20,874 - INFO - Episode Start
+2025-08-19 15:22:24,209 - INFO - Episode Ended
+
+2025-08-19 15:22:24,209 - INFO - Episode Start
+2025-08-19 15:22:24,881 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-08-19 15:22:24,899 - INFO - Episode Ended
+
+2025-08-19 15:22:24,899 - INFO - Episode Start
+2025-08-19 15:22:34,221 - INFO - Collision detected - Event: static.pole
+2025-08-19 15:22:34,237 - INFO - Episode Ended
+
+2025-08-19 15:22:34,237 - INFO - Episode Start
+2025-08-19 15:22:34,762 - INFO - Collision detected - Event: walker.pedestrian.0003
+2025-08-19 15:22:34,780 - INFO - Episode Ended
+
+2025-08-19 15:22:34,780 - INFO - Episode Start
