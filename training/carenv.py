@@ -709,7 +709,7 @@ class CarEnv(gym.Env):
 				self.cleanup()
 				logging.info(f"Episode Ended\n")
 				done = True
-		reward=reward/4
+		reward=reward/20
    
 		time6 = time.time()
 		# print(f"The times are:\n t1 is {time2-self.time1:.2f}\n t2 is {time3-time2:.2f}\n t3 is {time4-time3:.2f}\n t4 is {time5-time4:.2f}\n t5 is {time6-time5:.2f}")
