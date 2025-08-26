@@ -63,7 +63,7 @@ preprocess2 = transforms.Compose([
 	transforms.Resize((448,448)),
 ])
 # encoder = EncodeState(95)
-SECONDS_PER_EPISODE = 160
+SECONDS_PER_EPISODE = 1
 
 N_CHANNELS = 3
 HEIGHT = 448
@@ -631,9 +631,9 @@ class CarEnv(gym.Env):
 
 				reward = -(self.obssensor_flag[observation_len//2] + self.obssensor_flag[observation_len//2+1])
 			else:
-				reward = -2
+				reward = -20
 		elif self.distance_from_center > good_dist:
-			reward = -1
+			reward = -10
 		else:
 			reward = ((1-(self.distance_from_center)/good_dist))*(np.min([kmh/30,1])**2)*(1-np.abs(steer)/1.0)#*(0.3-np.min([angle,0.3]))/0.3	
 		#+self.calculate_reward()
