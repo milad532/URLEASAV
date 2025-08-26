@@ -63,7 +63,7 @@ preprocess2 = transforms.Compose([
 	transforms.Resize((448,448)),
 ])
 # encoder = EncodeState(95)
-SECONDS_PER_EPISODE = 1
+SECONDS_PER_EPISODE = 5
 
 N_CHANNELS = 3
 HEIGHT = 448
