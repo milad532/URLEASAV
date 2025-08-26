@@ -250,7 +250,7 @@ class CarEnv(gym.Env):
 	BIRD_CAMERA_POS_Z = 6 
 	BIRD_CAMERA_POS_X = 0
 	BIRD_CAMERA_PITCH = -90
-	OBJECT_VALUES={"walker":1, "bike":0.1}
+	OBJECT_VALUES={"walker":1, "bike":0.01}
 	# Set up logging (do this once, typically in your __init__ method)
 	
 	def __init__(self,world_manager,main=True):
@@ -629,7 +629,7 @@ class CarEnv(gym.Env):
 			if self.colision_type in ['walker','bike'] :
 				observation_len = len(self.obssensor_flag)
 
-				reward = -(self.obssensor_flag[observation_len//2] + self.obssensor_flag[observation_len//2+1])
+				reward = -(self.obssensor_flag[observation_len//2] + self.obssensor_flag[observation_len//2+1])*2
 			else:
 				reward = -2
 		elif self.distance_from_center > good_dist:
@@ -649,7 +649,7 @@ class CarEnv(gym.Env):
 		time4 = time.time()
 
 
-		if (self.run_id%20==0) and (self.id%3==0):
+		if (self.run_id%20==0)# and (self.id%3==0):
 			parameters = {
 				"reward":f"{reward:.4f}",
 				"steer":f"{steer:.2f}",
