@@ -649,7 +649,7 @@ class CarEnv(gym.Env):
 		time4 = time.time()
 
 
-		if (self.run_id%20==0)# and (self.id%3==0):
+		if (self.run_id%20==0):# and (self.id%3==0):
 			parameters = {
 				"reward":f"{reward:.4f}",
 				"steer":f"{steer:.2f}",
