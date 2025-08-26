@@ -250,7 +250,7 @@ class CarEnv(gym.Env):
 	BIRD_CAMERA_POS_Z = 6 
 	BIRD_CAMERA_POS_X = 0
 	BIRD_CAMERA_PITCH = -90
-	OBJECT_VALUES={"walker":1, "bike":0.01}
+	OBJECT_VALUES={"walker":4, "bike":0.01}
 	# Set up logging (do this once, typically in your __init__ method)
 	
 	def __init__(self,world_manager,main=True):
@@ -629,14 +629,14 @@ class CarEnv(gym.Env):
 			if self.colision_type in ['walker','bike'] :
 				observation_len = len(self.obssensor_flag)
 
-				reward = -(self.obssensor_flag[observation_len//2] + self.obssensor_flag[observation_len//2+1])*2
+				reward = -(self.obssensor_flag[observation_len//2] + self.obssensor_flag[observation_len//2+1])
 			else:
 				reward = -2
 		elif self.distance_from_center > good_dist:
 			reward = -1
 		else:
 			reward = ((1-(self.distance_from_center)/good_dist))*(np.min([kmh/30,1])**2)*(1-np.abs(steer)/1.0)#*(0.3-np.min([angle,0.3]))/0.3	
-		reward=reward#+self.calculate_reward()
+		#+self.calculate_reward()
 		# raise ValueError()
 		# navigation_obs.extend([turn_angle for _ in range(1)])
 		# raise ValueError(self.obssensor_flag)
@@ -709,7 +709,7 @@ class CarEnv(gym.Env):
 				self.cleanup()
 				logging.info(f"Episode Ended\n")
 				done = True
-
+		reward=reward/4
    
 		time6 = time.time()
 		# print(f"The times are:\n t1 is {time2-self.time1:.2f}\n t2 is {time3-time2:.2f}\n t3 is {time4-time3:.2f}\n t4 is {time5-time4:.2f}\n t5 is {time6-time5:.2f}")
