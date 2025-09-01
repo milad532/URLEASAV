@@ -63,7 +63,7 @@ preprocess2 = transforms.Compose([
 	transforms.Resize((448,448)),
 ])
 # encoder = EncodeState(95)
-SECONDS_PER_EPISODE = 10
+SECONDS_PER_EPISODE = 4
 
 N_CHANNELS = 3
 HEIGHT = 448
@@ -703,7 +703,7 @@ class CarEnv(gym.Env):
 			done = True
 		elif self.step_counter*FIXED_DELTA_SECONDS > SECONDS_PER_EPISODE:
 			self.cleanup()
-			reward = -20
+			reward = -10
 			logging.info(f"Episode Ended\n")
 			done = True
 			truncated = True
