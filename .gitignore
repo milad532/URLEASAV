@@ -1,5 +1,3 @@
-*.pt
-*.pth
 *.mp4
 __pycache__/
 *.csv
@@ -7,9 +5,7 @@ __pycache__/
 *.png
 *.jpg
 *.gif
-*.pkl
-*.zip
-*.logs
-image_logs/
+models/
+training/image_logs/
 training/logs/*/
 !requirments.txt
