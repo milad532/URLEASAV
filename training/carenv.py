@@ -695,7 +695,8 @@ class CarEnv(gym.Env):
 		time5 = time.time()
 		
 		if len(self.collision_hist) != 0 or self.distance_from_center>max_dist:
-			
+			print(self.collision_hist)
+			print(reward)
 			self.cleanup()
 			logging.info(f"Episode Ended\n")
 			done = True
@@ -709,7 +710,7 @@ class CarEnv(gym.Env):
 				self.cleanup()
 				logging.info(f"Episode Ended\n")
 				done = True
-		reward=reward/20
+
    
 		time6 = time.time()
 		# print(f"The times are:\n t1 is {time2-self.time1:.2f}\n t2 is {time3-time2:.2f}\n t3 is {time4-time3:.2f}\n t4 is {time5-time4:.2f}\n t5 is {time6-time5:.2f}")
@@ -720,7 +721,7 @@ class CarEnv(gym.Env):
 		self.previous_steer = steer
 		self.previous_throttle = throttle
 		# print(f"features: {self.features}")
-		return self.features, reward, done, truncated, {'kmh':kmh}	#curly brackets - empty dictionary required by SB3 format
+		return self.features, reward/20, done, truncated, {'kmh':kmh}	#curly brackets - empty dictionary required by SB3 format
 
 	def get_waypoint_ahead(self, distance):
 		"""
