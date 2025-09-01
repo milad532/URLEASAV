@@ -703,6 +703,7 @@ class CarEnv(gym.Env):
 			done = True
 		elif self.step_counter*FIXED_DELTA_SECONDS > SECONDS_PER_EPISODE:
 			self.cleanup()
+			reward = -20
 			logging.info(f"Episode Ended\n")
 			done = True
 			truncated = True
