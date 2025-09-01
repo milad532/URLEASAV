@@ -1,21 +1,12 @@
 
 from tqc import My_TQC
 import torch
-# import debugpy
-# debugpy.listen(("localhost", 5684))  # Start a debug server
-# print("Waiting")
-# debugpy.wait_for_client()
-# from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
-# from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
 import os
 from carenv import CarEnv,num_envs,World_Manager
 import time
 import argparse
 import numpy as np
 import shutil
-# import torch
-# import carla
-# import threading
 from multiprocessing import shared_memory
 from wandb.integration.sb3 import WandbCallback
 import wandb

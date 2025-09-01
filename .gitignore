@@ -12,3 +12,4 @@ __pycache__/
 *.logs
 image_logs/
 training/logs/*/
+!requirments.txt
