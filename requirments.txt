@@ -7,3 +7,4 @@ torchvision==0.19.1
 wandb==0.20.1
 sb3_contrib==2.4.0
 stable_baselines3==2.4.1
+tensorboard
