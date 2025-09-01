@@ -695,7 +695,7 @@ class CarEnv(gym.Env):
 		time5 = time.time()
 		
 		if len(self.collision_hist) != 0 or self.distance_from_center>max_dist:
-			print(self.collision_hist)
+			print(self.colision_type,self.collision_hist)
 			print(reward)
 			self.cleanup()
 			logging.info(f"Episode Ended\n")
