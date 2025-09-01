@@ -630,6 +630,8 @@ class CarEnv(gym.Env):
 				reward = - OBJECT_VALUES[self.colision_type]
 				# observation_len = len(self.obssensor_flag)
 				# reward = -(self.obssensor_flag[observation_len//2] + self.obssensor_flag[observation_len//2+1])
+				print(self.colision_type,888888)
+				print(reward)
 			else:
 				reward = -20
 		elif self.distance_from_center > good_dist:
