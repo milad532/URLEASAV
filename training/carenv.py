@@ -627,11 +627,10 @@ class CarEnv(gym.Env):
 		max_dist = 2.0 if not self.turn else 3.0
 		if len(self.collision_hist) != 0 or self.distance_from_center > max_dist:
 			if self.colision_type in ['walker','bike'] :
-				reward = - OBJECT_VALUES[self.colision_type]
+				reward = - self.OBJECT_VALUES[self.colision_type]
 				# observation_len = len(self.obssensor_flag)
 				# reward = -(self.obssensor_flag[observation_len//2] + self.obssensor_flag[observation_len//2+1])
-				print(self.colision_type,888888)
-				print(reward)
+
 			else:
 				reward = -20
 		elif self.distance_from_center > good_dist:
