@@ -402,7 +402,7 @@ class CarEnv(gym.Env):
 		self.current_waypoint_index = -1
 		self.center_lane_deviation = 0.0
 		# Waypoint nearby angle and distance from it
-		self.route_waypoints = random.choice(self.routes)
+		self.route_waypoints = self.routes[0]#random.choice(self.routes)
 		self.steer_lock_penalty = 0
 		self.previous_steer = 0
 		self.previous_throttle = 0
