@@ -174,7 +174,7 @@ class ScenarioManager:
             available_types = [t for t in self.lane_actor_types if t != main_lane_actor_type]
             if available_types:
                 opposite_lane_actor_type = random.choice(available_types)
-                num_to_spawn_opposite = random.randint(1, 3)
+                num_to_spawn_opposite = 1#random.randint(1, 3)
                 
                 # print(f"Spawning {num_to_spawn_opposite} {opposite_lane_actor_type}s in opposite lane at {opposite_waypoint.transform.location}:")
                 self._spawn_multiple_actors_in_lane(opposite_waypoint, opposite_lane_actor_type, num_to_spawn_opposite)
