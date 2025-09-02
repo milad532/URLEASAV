@@ -634,7 +634,7 @@ class CarEnv(gym.Env):
 			else:
 				reward = -20
 		elif self.distance_from_center > good_dist:
-			reward = -1
+			reward = -0.1
 		else:
 			reward = ((1-(self.distance_from_center)/good_dist))*(np.min([kmh/30,1])**2)*(1-np.abs(steer)/1.0)#*(0.3-np.min([angle,0.3]))/0.3	
 		#+self.calculate_reward()
