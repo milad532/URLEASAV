@@ -325,7 +325,7 @@ class CarEnv(gym.Env):
 				corner_spawn_points = [spawn_points[idx] for idx in [1,2,4,9,16,17,22,28,30,35,37,40,42,43,46,48,51]]
 				spawn_points.extend(corner_spawn_points)
 				spawn_points.extend(corner_spawn_points)
-				random_integer = torch.randint(1, len(corner_spawn_points), (1,)).item()
+				random_integer = 2#torch.randint(1, len(corner_spawn_points), (1,)).item()
 				self.transform = corner_spawn_points[random_integer] #Town2 is 1
 				self.total_distance = int(4000)
 			self.vehicle = None
