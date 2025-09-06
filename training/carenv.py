@@ -641,7 +641,11 @@ class CarEnv(gym.Env):
 		# raise ValueError()
 		# navigation_obs.extend([turn_angle for _ in range(1)])
 		# raise ValueError(self.obssensor_flag)
-		navigation_obs = torch.tensor([kmh/40,throttle,steer,self.turn]+list(self.obssensor_flag/10))
+		if self.obssensor_flag.mean()!=0:
+			self.obssensor_flag_normalized = (self.obssensor_flag/self.obssensor_flag.mean())
+		else:
+			self.obssensor_flag_normalized = self.obssensor_flag
+		navigation_obs = torch.tensor([kmh/40,throttle,steer,self.turn]+list(self.obssensor_flag))
 		# observation = preprocess(torch.from_numpy(cam).permute(2, 0, 1).float())
 		with torch.no_grad():
 			encoded_image = auto_encoder.encode_from_raw_image(self.bird_camera[:,:,::-1])
