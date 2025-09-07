@@ -98,7 +98,7 @@ def get_drichlet(object_values,actor):
 	alpha_dict = alphas_table[actor]
 	assert list(alpha_dict.keys())==list(object_values.keys()), "Order of keys should match in object_values and alpha_dict"
 	probs = np.random.dirichlet(list(alpha_dict.values()))
-	value = np.sum(probs*np.array(object_values.values()))
+	value = np.sum(probs*np.array(list(object_values.values())))
 	return value
 
 def obstacle_detector(object_values,vehicle_vector,vehicle_location,walker_locations: list,walker_list: list):
