@@ -57,19 +57,16 @@ for i in range(100):
     obs, info = env.reset()
     done = False
     total_reward = 0.0
-    try:
         
-        while not done:
-            # Get action from the model
-            action, _states = model.predict(obs, deterministic=True)  
-            # deterministic=True → no exploration noise, good for evaluation
-            
-            # Step in the environment
-            obs , reward, done, info, _ = env.step(action)
-            total_reward += reward
-            # env.render()  # optional, for visualization
+    while not done:
+        # Get action from the model
+        action, _states = model.predict(obs, deterministic=True)  
+        # deterministic=True → no exploration noise, good for evaluation
+        
+        # Step in the environment
+        obs , reward, done, info, _ = env.step(action)
+        total_reward += reward
+        # env.render()  # optional, for visualization
 
-        print(f"Episode {i+1} reward:", total_reward)
-    except Exception as e:
-        print(f"Error in episode {i+1}: {e}")
-        continue
+    print(f"Episode {i+1} reward:", total_reward)
+
