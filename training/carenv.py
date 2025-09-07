@@ -92,10 +92,6 @@ def vector_size(v):
 	return np.sqrt(np.sum((v**2)))
 
 def obstacle_detector(object_values,vehicle_vector,vehicle_location,walker_locations: list,walker_list: list):
-	# print(walker_list,walker_locations)
-	# print(888888)
-	# raise ValueError(walker_locations)
-	# raise ValueError(vehicle_vector,vehicle_location,walker_locations)
 	
 	walker_values = np.array([object_values[actor] for actor in walker_list])
 	# #print("Method 2 (class name):", walker_class_names)
@@ -119,7 +115,7 @@ def obstacle_detector(object_values,vehicle_vector,vehicle_location,walker_locat
 	vehicle_walker_angles = (vehicle_walker_angles[front_walkers]*1.5)
 	vehicle_walker_distance = vehicle_walker_distance[front_walkers]
 	walker_values = walker_values[front_walkers]
-
+	raise ValueError(vehicle_walker_angles)
 	obstacle_array = sectors_from_angles(vehicle_walker_angles,walker_values,vehicle_walker_distance,agg="sum")
 	# raise ValueError(obstacle_array)
 	return obstacle_array
