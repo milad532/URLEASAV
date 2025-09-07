@@ -146,7 +146,7 @@ def sectors_from_angles(
     else:
         include_mask = np.ones_like(angles_deg, dtype=bool)
     
-	raise ValueError(vehicle_walker_angles)
+
     # Filter
     angles_deg = angles_deg[include_mask]
     # #print(9999999)
