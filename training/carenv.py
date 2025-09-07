@@ -665,7 +665,7 @@ class CarEnv(gym.Env):
 				"dist":f"{np.round(self.obssensor_flag_pr, 2)}"
 			}
 			font = cv2.FONT_HERSHEY_SIMPLEX
-			font_scale = 0.5
+			font_scale = 0.4
 			color = (255, 255, 255)  # White text
 			thickness = 1
 			line_spacing = 20  # Vertical spacing between lines
