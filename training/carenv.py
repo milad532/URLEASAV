@@ -91,38 +91,40 @@ def signed_angle_2d(A, B):
 def vector_size(v):
 	return np.sqrt(np.sum((v**2)))
 
+def get_drichlet(object_values,actor):
+	alphas_table = {'walker':{'walker':4,'bike':1},
+					'bike': {'walker':2,'bike':4}
+	}
+	alpha_dict = alphas_table[actor]
+	assert list(alpha_dict.keys())==list(object_values.keys()), "Order of keys should match in object_values and alpha_dict"
+	probs = np.random.dirichlet(list(alpha_dict.values()))
+	value = np.sum(probs*np.array(object_values.values()))
+	return value
+
 def obstacle_detector(object_values,vehicle_vector,vehicle_location,walker_locations: list,walker_list: list):
-	
-	walker_values = np.array([object_values[actor] for actor in walker_list])
-	# #print("Method 2 (class name):", walker_class_names)
-	# raise ValueError(,)
+	walker_values_gt = np.array([object_values[actor] for actor in walker_list])
+	walker_values_pr = np.array([get_drichlet(actor) for actor in walker_list])
+
 	vehicle_walker_vectors = np.array([walker_location - vehicle_location for walker_location in walker_locations])
 	vehicle_walker_angles = np.array([signed_angle_2d(vehicle_vector,vec) for vec in vehicle_walker_vectors])
-	# vehicle_walker_angles = vehicle_walker_angles + 180
-	# bins = (vehicle_walker_angles // 30).astype(int)
-	# raise ValueError(bins)
+	
 
 	vehicle_walker_distance = np.array([vector_size(v) for v in vehicle_walker_vectors])
-	# #print(len(walker_values),len(vehicle_walker_distance))
-	# closest_arg = np.argmin(vehicle_walker_distance)
-	# #print(walker_values,vehicle_walker_distance)
 	close_walkers = vehicle_walker_distance < 8
-	vehicle_walker_angles = vehicle_walker_angles[close_walkers]
-	vehicle_walker_distance = vehicle_walker_distance[close_walkers]
-	walker_values = walker_values[close_walkers]
-	
 	front_walkers = np.abs(vehicle_walker_angles)<120
-	vehicle_walker_angles = (vehicle_walker_angles[front_walkers]*1.5)
-	vehicle_walker_distance = vehicle_walker_distance[front_walkers]
-	walker_values = walker_values[front_walkers]
-	raise ValueError(vehicle_walker_angles)
-	obstacle_array = sectors_from_angles(vehicle_walker_angles,walker_values,vehicle_walker_distance,agg="sum")
-	# raise ValueError(obstacle_array)
-	return obstacle_array
-	# if vehicle_walker_distance[closest_arg]<8 and (np.abs(vehicle_walker_angles[closest_arg])<120):
-	# 	return vehicle_walker_angles[closest_arg]/120
-	# else:
-	# 	return 1
+	walkers_mask = front_walkers*close_walkers
+
+
+	vehicle_walker_angles = vehicle_walker_angles[walkers_mask]*1.5
+	vehicle_walker_distance = vehicle_walker_distance[walkers_mask]
+	walker_values_gt = walker_values_gt[walkers_mask]
+	walker_values_pr = walker_values_pr[walkers_mask]
+
+	obstacle_array_gt = sectors_from_angles(vehicle_walker_angles,walker_values_gt,vehicle_walker_distance,agg="sum")
+	obstacle_array_pr = sectors_from_angles(vehicle_walker_angles,walker_values_pr,vehicle_walker_distance,agg="sum")
+
+	return obstacle_array_gt,obstacle_array_pr
+
 
 import numpy as np
 
@@ -144,6 +146,7 @@ def sectors_from_angles(
     else:
         include_mask = np.ones_like(angles_deg, dtype=bool)
     
+	raise ValueError(vehicle_walker_angles)
     # Filter
     angles_deg = angles_deg[include_mask]
     # #print(9999999)
@@ -234,7 +237,9 @@ class CarEnv(gym.Env):
 	BIRD_CAMERA_POS_Z = 6 
 	BIRD_CAMERA_POS_X = 0
 	BIRD_CAMERA_PITCH = -90
-	OBJECT_VALUES={"walker":4, "bike":0.01}
+	OBJECT_VALUES = {"walker":4,
+					 "bike":0.01}
+	
 	# Set up logging (do this once, typically in your __init__ method)
 	
 	def __init__(self,world_manager,main=True,evaluation=False,imagelog_stride=20):
@@ -258,6 +263,7 @@ class CarEnv(gym.Env):
 		self.run_id=0
 		self.colision_type = None
 		self.object_values=CarEnv.OBJECT_VALUES
+		self.done_cooldown = -1
 		
 		logging.basicConfig(
 		filename=f'logs/{"--".join(["_".join([key, str(value)]) for key, value in zip(self.object_values.keys(), self.object_values.values())])}.log',
@@ -297,7 +303,8 @@ class CarEnv(gym.Env):
 		self.just_init = True
 		self.turn = 0
 		self.routes = list()
-		self.obssensor_flag=0
+		self.obssensor_flag_pr=0
+		self.obssensor_flag_gt=0
 		#camera init
 		camera_init_trans = carla.Transform(carla.Location(z=self.BIRD_CAMERA_POS_Z,x=self.BIRD_CAMERA_POS_X),
 								rotation=carla.Rotation(pitch=self.BIRD_CAMERA_PITCH, yaw=0, roll=0))
@@ -397,6 +404,7 @@ class CarEnv(gym.Env):
 		self.collision_hist = []
 		self.actor_list = []
 		self.colision_type = None
+		self.done_cooldown = -1
 		if self.evaluation and self.run_id%self.stride==0:
 			try:
 				os.mkdir(f"./image_logs/{len(os.listdir('image_logs'))+1}")
@@ -535,7 +543,7 @@ class CarEnv(gym.Env):
 		# 	actor.destroy()
 	
 	def step(self, action):
-		self.obssensor_flag = obstacle_detector(self.object_values,vector(self.vehicle.get_transform().get_forward_vector())[:2],vector(self.vehicle.get_location())[:2],self.scenario_actors_locations,self.scenario_actors)
+		self.obssensor_flag_gt,self.obssensor_flag_pr = obstacle_detector(self.object_values,vector(self.vehicle.get_transform().get_forward_vector())[:2],vector(self.vehicle.get_location())[:2],self.scenario_actors_locations,self.scenario_actors)
 		self.prev_time1 = self.time1
 		self.time1 = time.time()
 		# print(f"stepping {self.time1-self.prev_time1}")
@@ -615,25 +623,24 @@ class CarEnv(gym.Env):
 		max_dist = 4.0 if not self.turn else 4.0
 		if len(self.collision_hist) != 0 or self.distance_from_center > max_dist:
 			if self.colision_type in ['walker','bike'] :
-				reward = - self.OBJECT_VALUES[self.colision_type]
-				# observation_len = len(self.obssensor_flag)
-				# reward = -(self.obssensor_flag[observation_len//2] + self.obssensor_flag[observation_len//2+1])
+				# reward = - self.OBJECT_VALUES[self.colision_type]
+				reward = -(self.obssensor_flag_gt[observation_len//2] + self.obssensor_flag_gt[observation_len//2+1])
+				self.done_cooldown=0
 
 			else:
 				reward = -20
+				self.done_cooldown=0
 		elif self.distance_from_center > good_dist:
 			reward = -0.1
 		else:
 			reward = ((1-(self.distance_from_center)/good_dist))*(np.min([kmh/30,1])**2)*(1-np.abs(steer)/1.0)#*(0.3-np.min([angle,0.3]))/0.3	
-		#+self.calculate_reward()
-		# raise ValueError()
-		# navigation_obs.extend([turn_angle for _ in range(1)])
-		# raise ValueError(self.obssensor_flag)
-		if self.obssensor_flag.mean()!=0:
-			self.obssensor_flag_normalized = (self.obssensor_flag/self.obssensor_flag.mean())
+
+
+		if self.obssensor_flag_pr.mean()!=0:
+			self.obssensor_flag_normalized = (self.obssensor_flag_pr/self.obssensor_flag_pr.mean())
 		else:
-			self.obssensor_flag_normalized = self.obssensor_flag
-		navigation_obs = torch.tensor([kmh/40,throttle,steer,self.turn]+list(self.obssensor_flag))
+			self.obssensor_flag_normalized = self.obssensor_flag_pr
+		navigation_obs = torch.tensor([kmh/40,throttle,steer,self.turn]+list(self.obssensor_flag_pr))
 		# observation = preprocess(torch.from_numpy(cam).permute(2, 0, 1).float())
 		with torch.no_grad():
 			encoded_image = auto_encoder.encode_from_raw_image(self.bird_camera[:,:,::-1])
@@ -654,7 +661,7 @@ class CarEnv(gym.Env):
 				"turn_angle":f"{turn_angle:.2f}",
 				"time":f"{time.time()-self.episode_start:.2f}",
 				"Waypoint":f"{self.current_waypoint_index}",
-				"dist":f"{self.obssensor_flag}"
+				"dist":f"{self.obssensor_flag_pr}"
 			}
 			font = cv2.FONT_HERSHEY_SIMPLEX
 			font_scale = 0.5
@@ -684,9 +691,15 @@ class CarEnv(gym.Env):
 				cv2.imwrite(f'image_logs/{self.run_id}/{self.id}.jpg', img)
 		time5 = time.time()
 		
-		if len(self.collision_hist) != 0 or self.distance_from_center>max_dist:
-			print(self.colision_type,self.collision_hist)
-			print(reward)
+		# if len(self.collision_hist) != 0 or self.distance_from_center>max_dist:
+		# 	print(self.colision_type,self.collision_hist)
+		# 	print(reward)
+		# 	self.cleanup()
+		# 	logging.info(f"Episode Ended\n")
+		# 	done = True
+		if self.done_cooldown>0:
+			self.done_cooldown = self.done_cooldown - 1
+		elif self.done_cooldown==0:
 			self.cleanup()
 			logging.info(f"Episode Ended\n")
 			done = True
@@ -696,13 +709,13 @@ class CarEnv(gym.Env):
 			logging.info(f"Episode Ended\n")
 			done = True
 			truncated = True
-		elif reward < -1:
-			if (self.turn!=0 and reward < -1.5) or self.turn==0:
-				self.cleanup()
-				logging.info(f"Episode Ended\n")
-				done = True
+		# elif reward < -1:
+		# 	if (self.turn!=0 and reward < -1.5) or self.turn==0:
+		# 		self.cleanup()
+		# 		logging.info(f"Episode Ended\n")
+		# 		done = True
 
-   
+
 		time6 = time.time()
 		# print(f"The times are:\n t1 is {time2-self.time1:.2f}\n t2 is {time3-time2:.2f}\n t3 is {time4-time3:.2f}\n t4 is {time5-time4:.2f}\n t5 is {time6-time5:.2f}")
 		# if time6 - time1 > 0.1 and not done and not self.evaluation:
@@ -775,6 +788,8 @@ class CarEnv(gym.Env):
 				self.colision_type='walker'
 			elif 'bike' in event.other_actor.type_id:
 				self.colision_type='bike'
+			else:
+				self.colision_type = "static"
 			print(self.colision_type)
 				# Apply collision penalty
 				# print(f"Collision detected with {event.other_actor.type_id}!")
