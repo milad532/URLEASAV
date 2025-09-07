@@ -12,7 +12,7 @@ from wandb.integration.sb3 import WandbCallback
 import wandb
 import copy
 import pickle
-
+from pathlib import Path
 
 # Check if the FIFO already exists, if not, create it
 
@@ -49,30 +49,7 @@ def evaluate_model(model, env, num_episodes=5):
     return avg_reward
 # FIXED_DELTA_SECONDS = 0.05
     
-        
 
-# def make_env(env_id, rank, seed=0):
-#     """
-#     Utility function for creating multiple environments.
-
-#     :param env_id: The ID of the environment.
-#     :param rank: Rank of the environment instance (for seeding).
-#     :param seed: Random seed.
-#     :return: Function that initializes the environment.
-#     """
-#     def _init():
-#         global env_locks
-#         env = CarEnv(rank)  # Replace with your environment initialization
-
-#         return env
-#     return _init
-# run = wandb.init(
-#     project="sb3",
-#     name="tqc",
-#     sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
-#     # monitor_gym=True,  # auto-upload the videos of agents playing the game
-#     save_code=True,  # optional
-# )
 
 if __name__ == '__main__':
     # write_to_fifo(0,fifo_name="shared_memory")
@@ -162,9 +139,11 @@ if __name__ == '__main__':
 
     # Training loop
     iters = 0
-
+    total_iters = 10
     # model_copy = copy.deepcopy(model)
-    for iters in range(0,20):  # Number of training iterations
+    for iters in range(0,total_iters):  # Number of training iterations
+        if model.num_timesteps> total_iters*TIMESTEPS:
+            break
         print(f'Iteration {iters} is commencing...')
         # model.replay_buffer.iters = 33
         # Train the model for a specified number of timesteps

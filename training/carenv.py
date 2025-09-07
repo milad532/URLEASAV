@@ -23,15 +23,10 @@ from torch import nn
 import os
 from dataset_creation.aae.ae.autoencoder import load_ae
 from scenario_manager import ScenarioManager
+from pathlib import Path
 
-# from segment_anything import SamPredictor, sam_model_registry
-# import debugpy
-# debugpy.listen(("localhost", 5684))  # Start a debug server
-# print("Waiting")
-# debugpy.wait_for_client()
-# Load a pretrained EfficientNet model (e.g., EfficientNet-B0)
-# efficientnet = models.efficientnet_b0(pretrained=True).cuda()
-# efficientnet_features = torch.nn.Sequential(*list(efficientnet.children())[:-2])
+BASE_DIR = Path(__file__).resolve().parent
+
 num_envs = 1
 import logging
 import datetime
@@ -44,18 +39,11 @@ import datetime
 
 
 with torch.no_grad():
-	# sam = sam_model_registry["vit_b"](checkpoint="/media/carla/AVRL/our_ppo/sam_model/sam_vit_b_01ec64.pth")
-	# dino_encoder = timm.create_model('vit_base_patch16_224_dino', pretrained=True).cuda()
-	# dino_encoder = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitl14_reg').cuda()
-	# dino_encoder = dinov2_vits14 = torch.hub.load('facebookresearch/dinov2', 'dinov2_vits14').cuda()
-	auto_encoder = load_ae("./dataset_creation/aae/logs/ae-32_1733218343_best.pkl").cuda()
-	# sam_encoder = sam.image_encoder.cuda()
 
-# dino_encoder.head = nn.Identity()
-# Image preprocessing
+	auto_encoder = load_ae(str(BASE_DIR / "dataset_creation/aae/logs/ae-32_1733218343_best.pkl")).cuda()
+
 preprocess = transforms.Compose([
-	# transforms.Resize((224,224)),
-	# transforms.CenterCrop(224),
+
 	transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
 
