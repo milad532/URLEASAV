@@ -37,11 +37,11 @@ world_manager = World_Manager()
 # Initialize environment
 world_manager.start_world()
 
-env = CarEnv(world_manager)
+env = CarEnv(world_manager,evaluation=True,imagelog_stride=1)
 TIMESTEPS = 20000  # Total number of steps per training iteration
 LR = 7.3e-4
 
-model = My_TQC.load(f"{models_dir}/trained.zip", env=env, verbose=1, learning_rate=LR, tensorboard_log=logdir)
+model = My_TQC.load(f"{models_dir}/trained.zip", env=env, verbose=1, learning_rate=LR)
 
 # model.log_ent_coef = torch.log(torch.ones(1, device=model.device) * 0.1).requires_grad_(True)
 # model.ent_coef_optimizer = torch.optim.Adam([model.log_ent_coef], lr=model.lr_schedule(1))
@@ -53,10 +53,10 @@ model.replay_buffer = replay_buffer
 # model.replay_buffer.num_saved = replay_buffer.num_saved
 del replay_buffer
 
-obs = env.reset()
-done = False
-total_reward = 0.0
 for i in range(100):
+    obs, info = env.reset()
+    done = False
+    total_reward = 0.0
     try:
         
         while not done:
@@ -65,10 +65,11 @@ for i in range(100):
             # deterministic=True → no exploration noise, good for evaluation
             
             # Step in the environment
-            _ , reward, done, info, _ = env.step(action)
+            obs , reward, done, info, _ = env.step(action)
             total_reward += reward
             # env.render()  # optional, for visualization
 
-        print("Episode reward:", total_reward)
-    except:
+        print(f"Episode {i+1} reward:", total_reward)
+    except Exception as e:
+        print(f"Error in episode {i+1}: {e}")
         continue

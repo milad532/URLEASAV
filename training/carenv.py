@@ -241,7 +241,7 @@ class CarEnv(gym.Env):
 	OBJECT_VALUES={"walker":4, "bike":0.01}
 	# Set up logging (do this once, typically in your __init__ method)
 	
-	def __init__(self,world_manager,main=True):
+	def __init__(self,world_manager,main=True,evaluation=False,imagelog_stride=20):
 		super(CarEnv, self).__init__()
 		# try:
 		#	 os.remove(f"/media/carla/AVRL/our_ppo/mkfifo/tick_{rank}")
@@ -251,6 +251,10 @@ class CarEnv(gym.Env):
 		#	 os.remove(f"/media/carla/AVRL/our_ppo/mkfifo/clean_{rank}")
 		# except:
 		#	 pass
+		self.evaluation = evaluation
+		self.stride = imagelog_stride
+
+
 		self.walker_locations=[]
 		self.actor_list = []
 		self.pedestrians = []
@@ -374,7 +378,7 @@ class CarEnv(gym.Env):
 	
 
 
-	def reset(self,evaluation=False,seed=None, return_info=False, options=None):
+	def reset(self,seed=None, return_info=False, options=None):
 		# print(f'resetting {self.rank}')
 		# try:
 		#	 os.remove(f"/media/carla/AVRL/our_ppo/mkfifo/done_{self.rank}")
@@ -384,7 +388,7 @@ class CarEnv(gym.Env):
 		self.walker_locations=[]
 		self.cleanup()
 		self.tick()
-		self.evaluation = evaluation
+		
 		self.run_id+=1
 		# print(1111111111111111)
 		self.current_waypoint_index = -1
@@ -397,15 +401,15 @@ class CarEnv(gym.Env):
 		self.collision_hist = []
 		self.actor_list = []
 		self.colision_type = None
-		if self.evaluation and self.run_id%20==0:
+		if self.evaluation and self.run_id%self.stride==0:
 			try:
-				os.mkdir(f"./evaluation_logs/{len(os.listdir('evaluation_logs'))+1}")
+				os.mkdir(f"./image_logs/{len(os.listdir('image_logs'))+1}")
 				# os.mkdir(f"/media/carla/AVRL/our_ppo/evaluation_logs/{len(os.listdir('evaluation_logs'))+1}/{self.rank}")
 				
 			except:
 				pass
 		else:
-			if self.run_id%20==0:
+			if self.run_id%self.stride==0:
 				try:
 					os.mkdir(f"./image_logs/{self.run_id}")
 					# for rank in range(num_envs):
@@ -642,7 +646,7 @@ class CarEnv(gym.Env):
 		time4 = time.time()
 
 
-		if (self.run_id%20==0):# and (self.id%3==0):
+		if (self.run_id%self.stride==0):# and (self.id%3==0):
 			parameters = {
 				"reward":f"{reward:.4f}",
 				"steer":f"{steer:.2f}",
@@ -679,10 +683,7 @@ class CarEnv(gym.Env):
 				cv2.putText(img, value, value_pos, font, font_scale, color, thickness)
 	
 			if self.evaluation:
-				try:
-					cv2.imwrite(f'evaluation_logs/{len(os.listdir("evaluation_logs"))}/{self.id}.jpg', img)
-				except:
-					pass
+				cv2.imwrite(f'image_logs/{len(os.listdir("image_logs"))}/{self.id}.jpg', img)
 			else:
 				cv2.imwrite(f'image_logs/{self.run_id}/{self.id}.jpg', img)
 		time5 = time.time()
