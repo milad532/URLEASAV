@@ -8,4 +8,5 @@ __pycache__/
 models/
 training/image_logs/
 training/logs/*/
+inference/logs/*
 !requirments.txt
