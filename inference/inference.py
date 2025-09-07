@@ -20,7 +20,6 @@ import pickle
 
 
 
-import gym
 
 # Assuming you already loaded your model and env
 # model = My_TQC.load(..., env=env)
