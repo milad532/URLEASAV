@@ -103,7 +103,7 @@ def get_drichlet(object_values,actor):
 
 def obstacle_detector(object_values,vehicle_vector,vehicle_location,walker_locations: list,walker_list: list):
 	walker_values_gt = np.array([object_values[actor] for actor in walker_list])
-	walker_values_pr = np.array([get_drichlet(actor) for actor in walker_list])
+	walker_values_pr = np.array([get_drichlet(object_values,actor) for actor in walker_list])
 
 	vehicle_walker_vectors = np.array([walker_location - vehicle_location for walker_location in walker_locations])
 	vehicle_walker_angles = np.array([signed_angle_2d(vehicle_vector,vec) for vec in vehicle_walker_vectors])
