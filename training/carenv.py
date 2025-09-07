@@ -662,7 +662,7 @@ class CarEnv(gym.Env):
 				"turn_angle":f"{turn_angle:.2f}",
 				"time":f"{time.time()-self.episode_start:.2f}",
 				"Waypoint":f"{self.current_waypoint_index}",
-				"dist":f"{self.obssensor_flag_pr}"
+				"dist":f"{np.round(self.obssensor_flag_pr, 2)}"
 			}
 			font = cv2.FONT_HERSHEY_SIMPLEX
 			font_scale = 0.5
