@@ -58,7 +58,7 @@ obs = env.reset()
 done = False
 total_reward = 0.0
 for i in range(100):
-    except:
+    try:
         
         while not done:
             # Get action from the model
@@ -71,5 +71,5 @@ for i in range(100):
             # env.render()  # optional, for visualization
 
         print("Episode reward:", total_reward)
-    try:
+    except:
         continue
