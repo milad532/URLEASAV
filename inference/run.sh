@@ -1,35 +1,45 @@
 #!/bin/bash
-port=${1:-5050}
-start_processes() {
-    /media/carla/carla/CARLA_0.9.14/CarlaUE4.sh -carla-port=$port -prefernvidia -windowed -vulkan -RenderOffScreen -fps=20 > /dev/null 2>&1 &
-    carla_pid=$!
-    
-    python3 /media/external_10T/milad/carla_project/inference/worker_fairness.py --port=$port &
-    train_pid=$!
 
+start_processes() {
+    rm -fr image_logs/*
+    # rm -fr logs/*
+    rm -fr wandb/*
+
+    python3 ./inference.py --models_dir "../training/models" &
+    inference_pid=$!
+
+    # python3 ./Evaluator.py &
+    # evaluation_pid=$!
+
+    echo 2222222222
 
 }
 
 kill_processes() {
-    echo "/media/external_10T/milad/carla/CARLA_0.9.14/CarlaUE4/Binaries/Linux/CarlaUE4-Linux-Shipping CarlaUE4 -carla-port=${port}"
-    pkill -f "/media/external_10T/milad/carla/CARLA_0.9.14/CarlaUE4/Binaries/Linux/CarlaUE4-Linux-Shipping CarlaUE4 -carla-port=${port}"
+    
+    pkill -f "./inference.py"
 
-    pkill -f "worker_fairness.py --port=${port}"
- 
 }
 exting() {
     kill_processes
+    # pkill -f "./file_keeper.py"
     exit 0
 }
 
 trap 'exting' SIGINT
 kill_processes
+pkill -f "./inference.py"
 
+# rm -fr ./evaluation_logs/*
+mkdir logs
+mkdir image_logs
+# Start the processes initially
 start_processes
 
 
+# python3 ./file_keeper.py &
 while true; do
-    if ! ps -p $train_pid > /dev/null || ! ps -p $carla_pid > /dev/null; then
+    if ! ps -p $inference_pid > /dev/null; then
         kill_processes
         sleep 5
         echo "Trained stopped. Restarting Trained processes..."
@@ -37,4 +47,3 @@ while true; do
     fi
     sleep 5
 done
-
