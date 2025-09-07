@@ -624,6 +624,7 @@ class CarEnv(gym.Env):
 		if len(self.collision_hist) != 0 or self.distance_from_center > max_dist:
 			if self.colision_type in ['walker','bike'] :
 				# reward = - self.OBJECT_VALUES[self.colision_type]
+				observation_len = len(self.obssensor_flag_gt)
 				reward = -(self.obssensor_flag_gt[observation_len//2] + self.obssensor_flag_gt[observation_len//2+1])
 				self.done_cooldown=0
 
