@@ -187,3 +187,55 @@ class My_TQC(TQC):
         # Build dict of state_dicts
         params_to_save = self.get_parameters()
         return data,params_to_save,pytorch_variables
+
+
+# features_extractor.py
+import torch
+from torch import nn
+from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
+from gymnasium import spaces
+
+class Obstacle1DCNNExtractor(BaseFeaturesExtractor):
+    """
+    Expects a flat obs of size 48 with layout:
+      [0:32]  -> AE features (from env)
+      [32:36] -> nav (kmh, throttle, steer, turn)
+      [36:48] -> obstacle sectors (12 values)
+    The 12-dim obstacle slice passes through a 1D CNN that is trained with the policy.
+    """
+    def __init__(self, observation_space: spaces.Box, features_dim: int = 256):
+        assert observation_space.shape == (48,), \
+            f"Expected obs shape (48,), got {observation_space.shape}"
+        super().__init__(observation_space, features_dim)
+
+        self.ae_dim = 32
+        self.nav_dim = 4
+        self.obs_len = 12
+        
+        # 1D CNN over the obstacle sectors
+        self.obs_cnn = nn.Sequential(
+            nn.Conv1d(in_channels=1, out_channels=8, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv1d(8, 16, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.AdaptiveAvgPool1d(1),  # -> (B,16,1)
+        )
+
+        concat_in = self.ae_dim + self.nav_dim + 16  # => 32 + 4 + 16
+        self.mlp = nn.Sequential(
+            nn.Linear(concat_in, features_dim),
+            nn.ReLU(inplace=True),
+        )
+
+    def forward(self, obs: torch.Tensor) -> torch.Tensor:
+        # obs shape: (B, 48)
+        ae   = obs[:, :self.ae_dim]                                 # (B,32)
+        nav  = obs[:, self.ae_dim:self.ae_dim+self.nav_dim]         # (B,4)
+        obst = obs[:, self.ae_dim+self.nav_dim:self.ae_dim+self.nav_dim+self.obs_len]  # (B,12)
+
+        # (B,12) -> (B,1,12) -> CNN -> (B,16,1) -> (B,16)
+        obst_cnn = self.obs_cnn(obst.unsqueeze(1)).squeeze(-1)
+
+        x = torch.cat([ae, nav, obst_cnn], dim=1)                   # (B,32+4+16)
+        
+        return self.mlp(x)                                          # (B, features_dim)

@@ -8,5 +8,7 @@ __pycache__/
 models/
 training/image_logs/
 training/logs/*/
+training/wandb
+inference/wandb
 inference/logs/*
 !requirments.txt

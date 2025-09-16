@@ -1,12 +1,4 @@
-'''
-building new env:
 
-Steering - continous - done
-Acceleration - smooth continous
-Clean up at completion of episode
-Navigation - define a goal to travel a short distance
-
-'''
 #
 import random
 import time
@@ -24,7 +16,7 @@ import os
 from dataset_creation.aae.ae.autoencoder import load_ae
 from scenario_manager import ScenarioManager
 from pathlib import Path
-
+import wandb
 BASE_DIR = Path(__file__).resolve().parent
 
 num_envs = 1
@@ -92,17 +84,16 @@ def vector_size(v):
 	return np.sqrt(np.sum((v**2)))
 
 def get_drichlet(object_values,actor):
-	alphas_table = {'walker':{'walker':4,'bike':1},
-					'bike': {'walker':2,'bike':4}
-	}
-	alpha_dict = alphas_table[actor]
-	assert list(alpha_dict.keys())==list(object_values.keys()), "Order of keys should match in object_values and alpha_dict"
+
+
+	alpha_dict = object_values['alphas'][actor]
+	assert list(alpha_dict.keys())==list(object_values['values'].keys()), "Order of keys should match in object_values and alpha_dict"
 	probs = np.random.dirichlet(list(alpha_dict.values()))
-	value = np.sum(probs*np.array(list(object_values.values())))
+	value = np.sum(probs*np.array(list(object_values['values'].values())))
 	return value
 
 def obstacle_detector(object_values,vehicle_vector,vehicle_location,walker_locations: list,walker_list: list):
-	walker_values_gt = np.array([object_values[actor] for actor in walker_list])
+	walker_values_gt = np.array([object_values['values'][actor] for actor in walker_list])
 	walker_values_pr = np.array([get_drichlet(object_values,actor) for actor in walker_list])
 
 	vehicle_walker_vectors = np.array([walker_location - vehicle_location for walker_location in walker_locations])
@@ -119,11 +110,18 @@ def obstacle_detector(object_values,vehicle_vector,vehicle_location,walker_locat
 	vehicle_walker_distance = vehicle_walker_distance[walkers_mask]
 	walker_values_gt = walker_values_gt[walkers_mask]
 	walker_values_pr = walker_values_pr[walkers_mask]
+	#Fix this
+	walkers_in_danger = np.array(walker_list)[walkers_mask]
+
+
+	vehicle_walker_angles /= 180
+	vehicle_walker_angles = np.sign(vehicle_walker_angles) * (np.abs(vehicle_walker_angles) ** 0.5)
+	vehicle_walker_angles *= 180
 
 	obstacle_array_gt = sectors_from_angles(vehicle_walker_angles,walker_values_gt,vehicle_walker_distance,agg="sum")
 	obstacle_array_pr = sectors_from_angles(vehicle_walker_angles,walker_values_pr,vehicle_walker_distance,agg="sum")
 
-	return obstacle_array_gt,obstacle_array_pr
+	return obstacle_array_gt,obstacle_array_pr,walkers_in_danger
 
 
 import numpy as np
@@ -149,8 +147,7 @@ def sectors_from_angles(
 
     # Filter
     angles_deg = angles_deg[include_mask]
-    # #print(9999999)
-    # #print(values , include_mask)
+
     values = values[include_mask]
     distances = distances[include_mask]
     
@@ -208,21 +205,20 @@ class World_Manager():
 			found = False
 			while found==False:
 				try:
-					client = carla.Client("localhost", self.port)
-					client.set_timeout(5.0)
-					self.world = client.load_world(self.town)
+					self.client = carla.Client("localhost", self.port)
+					self.client.set_timeout(5.0)
+					self.world = self.client.load_world(self.town)
+
 					found = True
 				except Exception as e:
 					print('Why?',e)
 			
 			settings = self.world.get_settings()
-			# self.settings.no_rendering_mode = True
 			settings.synchronous_mode = True
 			settings.fixed_delta_seconds = FIXED_DELTA_SECONDS
 			self.world.apply_settings(settings)
 			if env != None:
 				env.world = self.world
-			return self.world
 			
 
 
@@ -237,9 +233,8 @@ class CarEnv(gym.Env):
 	BIRD_CAMERA_POS_Z = 6 
 	BIRD_CAMERA_POS_X = 0
 	BIRD_CAMERA_PITCH = -90
-	OBJECT_VALUES = {"walker":4,
-					 "bike":0.01}
-	
+	OBJECT_VALUES = {"values":{"walker":4,"bike":1}}
+	TOTAL_TIMESTEPS = 0
 	# Set up logging (do this once, typically in your __init__ method)
 	
 	def __init__(self,world_manager,main=True,evaluation=False,imagelog_stride=20):
@@ -254,31 +249,30 @@ class CarEnv(gym.Env):
 		#	 pass
 		self.evaluation = evaluation
 		self.stride = imagelog_stride
-
+		self.world_manager = world_manager
 
 		self.walker_locations=[]
-		self.actor_list = []
+		self.world_manager.actor_list = []
 		self.pedestrians = []
 		self.id = 0
 		self.run_id=0
 		self.colision_type = None
 		self.object_values=CarEnv.OBJECT_VALUES
 		self.done_cooldown = -1
-		
+		self.log_name = f'{"--".join(["_".join([key, str(value)]) for key, value in zip(self.object_values["values"].keys(), self.object_values["values"].values())])}'
 		logging.basicConfig(
-		filename=f'logs/{"--".join(["_".join([key, str(value)]) for key, value in zip(self.object_values.keys(), self.object_values.values())])}.log',
+		filename=os.path.join('logs',f"{self.log_name}.log"),
 		level=logging.INFO,
 		format='%(asctime)s - %(levelname)s - %(message)s'
 		)
-		
+		self.danger_table = wandb.Table(columns=["object", "time"],log_mode="MUTABLE")
+		self.collision_table = wandb.Table(columns=["object", "time"],log_mode="MUTABLE")
 		
 		self.rank = world_manager.rank
 		client = carla.Client('localhost', world_manager.port)
 		client.set_timeout(10.0)
 		world = client.get_world()
 		self.world = world
-		# #print(999999939394939493)
-		# self.world.wait_for_tick()
 
 		self.scenario_manager = ScenarioManager(self.world)
 		self.town = self.world.get_map().name
@@ -323,38 +317,37 @@ class CarEnv(gym.Env):
 				random_integer = 2#torch.randint(1, len(corner_spawn_points), (1,)).item()
 				self.transform = corner_spawn_points[random_integer] #Town2 is 1
 				self.total_distance = int(4000)
-			self.vehicle = None
-			while self.vehicle is None:
-				# #print(2828938234566)
-				self.vehicle = self.world.try_spawn_actor(self.model_3, self.transform)
+			self.world_manager.vehicle = None
+			while self.world_manager.vehicle is None:
+				self.world_manager.vehicle = self.world.try_spawn_actor(self.model_3, self.transform)
 				#colision sensor
 				colsensor = self.blueprint_library.find("sensor.other.collision")
-				self.colsensor = self.world.try_spawn_actor(colsensor, camera_init_trans, attach_to=self.vehicle)
-				self.actor_list.append(self.colsensor)
+				self.colsensor = self.world.try_spawn_actor(colsensor, camera_init_trans, attach_to=self.world_manager.vehicle)
+				self.world_manager.actor_list.append(self.colsensor)
 				
 				# Add proximity sensor (optional - based on your environment setup)
 				# self.proximity_sensor = self.blueprint_library.find("sensor.other.obstacle")
-				# self.obstacle_sensor = self.world.try_spawn_actor(self.proximity_sensor,camera_init_trans,attach_to=self.vehicle)
+				# self.obstacle_sensor = self.world.try_spawn_actor(self.proximity_sensor,camera_init_trans,attach_to=self.world_manager.vehicle)
 				# Obstacle sensor
 				obstacle_blueprint = self.blueprint_library.find('sensor.other.obstacle')
 				obstacle_blueprint.set_attribute('distance', '20')  # Detection range in meters
 				obstacle_blueprint.set_attribute('hit_radius', '0.5')  # Detection radius
 				obstacle_blueprint.set_attribute('only_dynamics', 'false')  # Detect static and dynamic objects
 				obstacle_transform = carla.Transform(carla.Location(x=1.5, z=1.0))  # Position on the vehicle
-				self.obstacle_sensor = self.world.try_spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.vehicle)
-				self.actor_list.append(self.obstacle_sensor)
+				self.obstacle_sensor = self.world.try_spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.world_manager.vehicle)
+				self.world_manager.actor_list.append(self.obstacle_sensor)
 				
 
 
 			self.tick()
-			while self.vehicle.get_location().x == 0 and self.vehicle.get_location().y == 0:
+			while self.world_manager.vehicle.get_location().x == 0 and self.world_manager.vehicle.get_location().y == 0:
 
 				time.sleep(0.01)
 				pass
-			self.waypoint = self.map.get_waypoint(self.vehicle.get_location(), project_to_road=True, lane_type=(carla.LaneType.Driving))
+			self.waypoint = self.map.get_waypoint(self.world_manager.vehicle.get_location(), project_to_road=True, lane_type=(carla.LaneType.Driving))
 			current_waypoint = self.waypoint
 			self.route_waypoints.append(current_waypoint)
-			self.vehicle.destroy()
+			self.world_manager.vehicle.destroy()
 
 			for x in range(self.total_distance):
 				if self.town == "Town07":
@@ -382,18 +375,14 @@ class CarEnv(gym.Env):
 
 
 	def reset(self,seed=None, return_info=False, options=None):
-		# print(f'resetting {self.rank}')
-		# try:
-		#	 os.remove(f"/media/carla/AVRL/our_ppo/mkfifo/done_{self.rank}")
-		# except:
-		#	 pass
+
 		logging.info(f"Episode Start")
+		print("Episode Start")
 		self.walker_locations=[]
 		self.cleanup()
 		self.tick()
 		
 		self.run_id+=1
-		# print(1111111111111111)
 		self.current_waypoint_index = -1
 		self.center_lane_deviation = 0.0
 		# Waypoint nearby angle and distance from it
@@ -402,9 +391,13 @@ class CarEnv(gym.Env):
 		self.previous_steer = 0
 		self.previous_throttle = 0
 		self.collision_hist = []
-		self.actor_list = []
+		self.world_manager.actor_list = []
 		self.colision_type = None
 		self.done_cooldown = -1
+		self.object_values['alphas'] ={
+						'walker':{'walker':np.random.randint(4, 6),'bike':np.random.randint(1, 4)},
+						'bike': {'walker':np.random.randint(1, 4),'bike':np.random.randint(4, 6)}
+						}
 		if self.evaluation and self.run_id%self.stride==0:
 			try:
 				os.mkdir(f"./image_logs/{len(os.listdir('image_logs'))+1}")
@@ -421,60 +414,49 @@ class CarEnv(gym.Env):
 				except:
 					pass
 		
-		
-		# else:
-		# print(2222222222222)
+
 		self.transform = self.route_waypoints[0].transform
 		self.transform.location.z += 1
-		self.vehicle = None
+		self.world_manager.vehicle = None
 		self.walker = None
 		
-		print(f"{len(self.route_waypoints)}")
 
-		while self.vehicle is None:
-			# print(2828938234566)
-			self.vehicle = self.world.try_spawn_actor(self.model_3, self.transform)
-			# print(f"vehicle spawn point, {self.transform}")
-		#Spawn Walker Here
-		# for i in range(20,225,50):
-		# 	self.spawn_walker_ahead('walker.pedestrian.0001', distance=i)
-		self.scenario_actors,_,self.scenario_actors_locations=self.scenario_manager.generate_scenario(self.vehicle, self.route_waypoints)
+
+		while self.world_manager.vehicle is None:
+			self.world_manager.vehicle = self.world.try_spawn_actor(self.model_3, self.transform)
+		print(10)
+		self.scenario_actors,_,self.scenario_actors_locations=self.scenario_manager.generate_scenario(self.world_manager.vehicle, self.route_waypoints)
 		# raise ValueError(self.scenario_actors_list)
 		self.tick()
-		while self.vehicle.get_location().x == 0 and self.vehicle.get_location().y == 0:
+		while self.world_manager.vehicle.get_location().x == 0 and self.world_manager.vehicle.get_location().y == 0:
 
 			time.sleep(0.01)
 			pass
-		self.waypoint = self.map.get_waypoint(self.vehicle.get_location(), project_to_road=True, lane_type=(carla.LaneType.Driving))
+		self.waypoint = self.map.get_waypoint(self.world_manager.vehicle.get_location(), project_to_road=True, lane_type=(carla.LaneType.Driving))
 		# current_waypoint = self.waypoint
 
 		
-		# print(33333333333333)
-		self.actor_list.append(self.vehicle)
+		self.world_manager.actor_list.append(self.world_manager.vehicle)
 		self.tick(1)
-		self.vehicle.add_impulse(self.waypoint.transform.get_forward_vector()*12000)
+		self.world_manager.vehicle.add_impulse(self.waypoint.transform.get_forward_vector()*12000)
 		self.tick(2)
 		self.sem_cam = self.blueprint_library.find('sensor.camera.semantic_segmentation')
 		self.sem_cam.set_attribute("image_size_x", f"{self.im_width}")
 		self.sem_cam.set_attribute("image_size_y", f"{self.im_height}")
 		self.sem_cam.set_attribute("fov", f"120")
-		# self.sem_cam.set_attribute("pitch", f"-15")
-
-		# raise ValueError(current_waypoint)
 		
 		camera_init_trans = carla.Transform(carla.Location(z=self.BIRD_CAMERA_POS_Z,x=self.BIRD_CAMERA_POS_X),
 									  rotation=carla.Rotation(pitch=self.BIRD_CAMERA_PITCH, yaw=0, roll=0))
-		self.sensor = self.world.try_spawn_actor(self.sem_cam, camera_init_trans, attach_to=self.vehicle)
-		self.actor_list.append(self.sensor)
+		self.sensor = self.world.try_spawn_actor(self.sem_cam, camera_init_trans, attach_to=self.world_manager.vehicle)
+		self.world_manager.actor_list.append(self.sensor)
 		self.sensor.listen(lambda data: self.process_img(data))
 
-		self.vehicle.apply_control(carla.VehicleControl(throttle=0.0, brake=0.0))
-		# print(4444444444444444444)
+		self.world_manager.vehicle.apply_control(carla.VehicleControl(throttle=0.0, brake=0.0))
 		
 
 		colsensor = self.blueprint_library.find("sensor.other.collision")
-		self.colsensor = self.world.try_spawn_actor(colsensor, camera_init_trans, attach_to=self.vehicle)
-		self.actor_list.append(self.colsensor)
+		self.colsensor = self.world.try_spawn_actor(colsensor, camera_init_trans, attach_to=self.world_manager.vehicle)
+		self.world_manager.actor_list.append(self.colsensor)
 		self.colsensor.listen(lambda event: self.collision_data(event))
 
 
@@ -484,8 +466,8 @@ class CarEnv(gym.Env):
 		obstacle_blueprint.set_attribute('hit_radius', '5')  # Detection radius
 		obstacle_blueprint.set_attribute('only_dynamics', 'false')  # Detect static and dynamic objects
 		obstacle_transform = carla.Transform(carla.Location(x=1.5, z=1.0))  # Position on the vehicle
-		self.obstacle_sensor = self.world.try_spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.vehicle)
-		self.actor_list.append(self.obstacle_sensor)
+		self.obstacle_sensor = self.world.try_spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.world_manager.vehicle)
+		self.world_manager.actor_list.append(self.obstacle_sensor)
 		# self.obstacle_sensor.listen(lambda event: self.process_obstacle(event))
 
 		self.tick()
@@ -495,11 +477,10 @@ class CarEnv(gym.Env):
 		self.steering_loop = False
 		self.steering_loop_start = None # this is to count time in steering loop and start penalising for long time in steering loop
 		self.step_counter = 0
-		self.vehicle.apply_control(carla.VehicleControl(throttle=0.0, brake=0.0))
-		v = self.vehicle.get_velocity()
+		self.world_manager.vehicle.apply_control(carla.VehicleControl(throttle=0.0, brake=0.0))
+		v = self.world_manager.vehicle.get_velocity()
 		kmh = int(3.6 * math.sqrt(v.x**2 + v.y**2 + v.z**2))
 		navigation_obs = torch.tensor([kmh/40,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
-		# print(555555555555555555)
 
 		# observation = preprocess(torch.from_numpy(self.bird_camera).permute(2, 0, 1).float())
 		
@@ -507,11 +488,10 @@ class CarEnv(gym.Env):
 			self.features = torch.cat([torch.sigmoid(torch.from_numpy(auto_encoder.encode_from_raw_image(self.bird_camera[:,:,::-1])).flatten().cpu()),navigation_obs])
 			# self.features = torch.cat([dino_encoder(observation.unsqueeze(0).cuda()).squeeze(0).cpu(),navigation_obs])
 		
-		self.initial_location = self.vehicle.get_location()
+		self.initial_location = self.world_manager.vehicle.get_location()
 		self.prev_time1 = 0
 		self.time1 = time.time()
 		time.sleep(0.15)
-		# print(f"features: {self.features}")
 		return self.features,{}
 
 	# def second_reset(self,evaluation=False):
@@ -520,36 +500,38 @@ class CarEnv(gym.Env):
   
 	
 	def cleanup(self):
-	#	 if self.rank == 0:
-	#		 search_list = [idx for idx in range(1,num_envs)]
-	#		 while search_list!=[]:
-	#			 # print(2222222222222)
-	#			 # print(search_list)
-	#			 for idx in search_list:
-	#				 if os.path.exists(f"/media/carla/AVRL/our_ppo/mkfifo/clean_{idx}"):
-	#					 search_list.remove(idx)
-	#		 print(search_list)
-	#			 # time.sleep(0.5)
-		for actor in self.actor_list:
-			# print("Destroying actor",actor)
+
+		for actor in self.world_manager.actor_list:
 			actor.destroy()
-		self.actor_list =[]
+		self.world_manager.actor_list =[]
+		# Get all actors
+		all_actors = self.world_manager.world.get_actors()
 
-		# for sensor in self.world.get_actors().filter('*sensor*'):
-		# 	sensor.destroy()
+		# Collect walkers, bikes, sensors into lists
+		walkers = list(all_actors.filter("walker.pedestrian.*"))
+		bikes   = list(all_actors.filter("vehicle.*bike*"))
+		sensors = list(all_actors.filter("sensor.*"))
+		# print(len(bikes)>1)
+		assert len(bikes)<2, "what?"
+		# Combine everything into one list
+		all_relevant = walkers + bikes + sensors
+		# print(bikes)
+		print(11)
 
-
-		# for actor in self.world.get_actors().filter('*vehicle*'):
-		# 	actor.destroy()
 	
 	def step(self, action):
-		self.obssensor_flag_gt,self.obssensor_flag_pr = obstacle_detector(self.object_values,vector(self.vehicle.get_transform().get_forward_vector())[:2],vector(self.vehicle.get_location())[:2],self.scenario_actors_locations,self.scenario_actors)
+		# print(len(self.world_manager.actor_list))
+		try:
+			self.world_manager.vehicle.get_location()
+		except:
+			raise ValueError([actor.id for actor in self.world_manager.actor_list],self.evaluation)
+			self.reset()
+		print([actor.id for actor in self.world_manager.actor_list],self.evaluation)
+		self.obssensor_flag_gt,self.obssensor_flag_pr,self.walkers_in_danger = obstacle_detector(self.object_values,vector(self.world_manager.vehicle.get_transform().get_forward_vector())[:2],vector(self.world_manager.vehicle.get_location())[:2],self.scenario_actors_locations,self.scenario_actors)
 		self.prev_time1 = self.time1
 		self.time1 = time.time()
-		# print(f"stepping {self.time1-self.prev_time1}")
 		self.id+=1
-		# time.sleep(0.1)
-
+		self.TOTAL_TIMESTEPS += 1
 
 		
 		self.step_counter +=1
@@ -559,17 +541,17 @@ class CarEnv(gym.Env):
 		throttle = float(action[1])
 		throttle = (throttle+1)/2
 		# map steering actions
-		self.vehicle.apply_control(carla.VehicleControl(throttle=throttle, steer=steer, brake=0.0 if throttle>0 else 1.0))
+		self.world_manager.vehicle.apply_control(carla.VehicleControl(throttle=throttle, steer=steer, brake=0.0 if throttle>0 else 1.0))
 
 		for i in range(1):
 			self.tick()
 		time2 = time.time()
 
 		# optional - print steer and throttle every 50 steps		
-		v = self.vehicle.get_velocity()
+		v = self.world_manager.vehicle.get_velocity()
 		kmh = int(3.6 * math.sqrt(v.x**2 + v.y**2 + v.z**2))
 		angle = 0
-		self.location = self.vehicle.get_location()
+		self.location = self.world_manager.vehicle.get_location()
 		# distance_travelled = self.initial_location.distance(self.location)/10
 
 		
@@ -600,7 +582,7 @@ class CarEnv(gym.Env):
 
 		  # self.distance_from_center = distance_to_line(vector(self.current_waypoint.transform.location),vector(self.next_waypoint.transform.location),vector(self.location))
 		# self.center_lane_deviation += self.distance_from_center
-		actor_vector = vector(self.vehicle.get_transform().get_forward_vector())[:2]
+		actor_vector = vector(self.world_manager.vehicle.get_transform().get_forward_vector())[:2]
 		# normalized_actor_vector = actor_vector/(np.linalg.norm(actor_vector))
 		next_forward_vector = vector(self.current_waypoint.transform.get_forward_vector())[:2]
 		# normalized_forward_vector = forward_vector/np.linalg.norm(forward_vector)
@@ -617,20 +599,25 @@ class CarEnv(gym.Env):
 		
 
 		reward = 0
-		
+
 	
 		good_dist = 2.5 if not self.turn else 2.5
 		max_dist = 4.0 if not self.turn else 4.0
 		if len(self.collision_hist) != 0 or self.distance_from_center > max_dist:
 			if self.colision_type in ['walker','bike'] :
-				# reward = - self.OBJECT_VALUES[self.colision_type]
 				observation_len = len(self.obssensor_flag_gt)
-				reward = -(self.obssensor_flag_gt[observation_len//2] + self.obssensor_flag_gt[observation_len//2+1])
+				reward = -(np.sum(self.obssensor_flag_gt[3:9]))
 				self.done_cooldown=0
+				for t in self.walkers_in_danger:
+					self.danger_table.add_data(t,self.TOTAL_TIMESTEPS)
 
+				wandb.log({"Walkers in Danger": self.danger_table})
 			else:
 				reward = -20
 				self.done_cooldown=0
+			if self.colision_type!=None:
+				self.collision_table.add_data(self.colision_type,self.TOTAL_TIMESTEPS)
+				wandb.log({"Collision":self.collision_table})
 		elif self.distance_from_center > good_dist:
 			reward = -0.1
 		else:
@@ -691,41 +678,27 @@ class CarEnv(gym.Env):
 			else:
 				cv2.imwrite(f'image_logs/{self.run_id}/{self.id}.jpg', img)
 		time5 = time.time()
-		
-		# if len(self.collision_hist) != 0 or self.distance_from_center>max_dist:
-		# 	print(self.colision_type,self.collision_hist)
-		# 	print(reward)
-		# 	self.cleanup()
-		# 	logging.info(f"Episode Ended\n")
-		# 	done = True
+
 		if self.done_cooldown>0:
 			self.done_cooldown = self.done_cooldown - 1
 		elif self.done_cooldown==0:
 			self.cleanup()
-			logging.info(f"Episode Ended\n")
+			logging.info(f"Episode Ended, final reward is {reward}\n")
 			done = True
 		elif self.step_counter*FIXED_DELTA_SECONDS > SECONDS_PER_EPISODE:
 			self.cleanup()
 			reward = -10
-			logging.info(f"Episode Ended\n")
+			logging.info(f"Episode Ended, final reward is {reward}\n")
 			done = True
 			truncated = True
-		# elif reward < -1:
-		# 	if (self.turn!=0 and reward < -1.5) or self.turn==0:
-		# 		self.cleanup()
-		# 		logging.info(f"Episode Ended\n")
-		# 		done = True
 
 
 		time6 = time.time()
-		# print(f"The times are:\n t1 is {time2-self.time1:.2f}\n t2 is {time3-time2:.2f}\n t3 is {time4-time3:.2f}\n t4 is {time5-time4:.2f}\n t5 is {time6-time5:.2f}")
-		# if time6 - time1 > 0.1 and not done and not self.evaluation:
-			
-		#	 raise ValueError(f"Time taken for each step:\n Time: {time.time()-self.episode_start:.2f} \nt1 {time2-time1:.2f}\n t2 {time3-time2:.2f}\n t3 {time4-time3:.2f}\n t4 {time5-time4:.2f}\n t5 {time6-time5:.2f}")
 
 		self.previous_steer = steer
 		self.previous_throttle = throttle
-		# print(f"features: {self.features}")
+
+			
 		return self.features, reward/20, done, truncated, {'kmh':kmh}	#curly brackets - empty dictionary required by SB3 format
 
 	def get_waypoint_ahead(self, distance):
@@ -757,15 +730,12 @@ class CarEnv(gym.Env):
 			walker_bp.set_attribute('is_invincible', 'false')
 		# 2) compute the transform 10 m ahead
 		spawn_transform = self.get_waypoint_ahead(distance)
-		# print(f"walker spawn point, {spawn_transform}")
-		# 3) spawn
-		# raise ValueError(spawn_transform.location - spawn_transform.location)
 		
 		walker = self.world.try_spawn_actor(walker_bp, spawn_transform)
 		
 		if walker:
 			self.walker_locations.append(vector(spawn_transform.location)[:2])
-			self.actor_list.append(walker)
+			self.world_manager.actor_list.append(walker)
 		return walker
 
 	def process_img(self, image):
@@ -792,47 +762,3 @@ class CarEnv(gym.Env):
 			else:
 				self.colision_type = "static"
 			print(self.colision_type)
-				# Apply collision penalty
-				# print(f"Collision detected with {event.other_actor.type_id}!")
-	
-
-	# def process_obstacle(self, event):
-	# 	"""
-	# 	Process obstacle proximity data.
-	# 	Adds information about nearby obstacles (like pedestrians).
-	# 	"""
-	# 	distance = event.distance
-	# 	if distance < 5:  # If the obstacle is within 10 meters
-	# 		# print(f"Obstacle detected at {distance:.2f} meters.")
-	# 		#store the distance or use it in the observation space
-	# 		self.pedestrian_distance = distance
-	# 		self.obssensor_flag=1
-	# 	else:
-	# 		self.pedestrian_distance = None
-	# 		self.obssensor_flag=0
-
-	# def calculate_reward(self):
-	# 	"""
-	# 	Calculates reward based on proximity to pedestrians, collisions, and other conditions.
-	# 	"""
-	# 	reward = 0
-		
-	# 	# Penalty for collision with pedestrians
-	# 	if len(self.pedestrians) > 0:
-	# 		reward -= 1  # Large penalty for collision
-		
-	# 	# Penalty for proximity to pedestrians (e.g., too close)
-	# 	if self.pedestrian_distance and self.pedestrian_distance < 3:  # 5 meters is the safe distance threshold
-	# 		reward -= 0.5  # Small penacolty for being too close
-		
-	# 	# Reward for safe driving (not hitting pedestrians)
-	# 	if self.pedestrian_distance and self.pedestrian_distance >= 3:
-	# 		reward += 1  # Reward for keeping a safe distance
-		
-		
-	# 	return reward
-		
-	
- 
- 
-

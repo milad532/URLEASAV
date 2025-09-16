@@ -17,8 +17,8 @@ from wandb.integration.sb3 import WandbCallback
 import wandb
 import copy
 import pickle
-
-
+import time
+timestamp = int(time.time())
 
 
 # Assuming you already loaded your model and env
@@ -38,22 +38,27 @@ world_manager = World_Manager()
 world_manager.start_world()
 
 env = CarEnv(world_manager,evaluation=True,imagelog_stride=1)
-TIMESTEPS = 20000  # Total number of steps per training iteration
-LR = 7.3e-4
 
-model = My_TQC.load(f"{models_dir}/trained.zip", env=env, verbose=1, learning_rate=LR)
+os.environ['WANDB_BASE_URL'] = 'http://127.0.0.1:8080'
+run = wandb.init(
+    project="FAVRL-tests",
+    entity='teimuri',
+    name=f'{env.log_name}_test',
+    id=f"tqc_{timestamp}", 
+    # mode="offline",
+    config=dict(
+        algo="TQC",
+    ),
+    sync_tensorboard=True,  # picks up SB3's TB logs
+    save_code=True,
+)
+wandb.define_metric("*", step_metric="global_step")
 
-# model.log_ent_coef = torch.log(torch.ones(1, device=model.device) * 0.1).requires_grad_(True)
-# model.ent_coef_optimizer = torch.optim.Adam([model.log_ent_coef], lr=model.lr_schedule(1))
+model = My_TQC.load(f"{models_dir}/best/best_model.zip", env=env, verbose=1)
 
 
-replay_buffer = pickle.load(open(f"{models_dir}/replay_buffer.pkl", "rb"))
-model.replay_buffer = replay_buffer
-# model.replay_buffer.avg_rewards = replay_buffer.avg_rewards
-# model.replay_buffer.num_saved = replay_buffer.num_saved
-del replay_buffer
 
-for i in range(100):
+for i in range(1000):
     obs, info = env.reset()
     done = False
     total_reward = 0.0
@@ -67,6 +72,7 @@ for i in range(100):
         obs , reward, done, info, _ = env.step(action)
         total_reward += reward
         # env.render()  # optional, for visualization
-
+    wandb.log({"Total Reward": total_reward,"global_step":i})
     print(f"Episode {i+1} reward:", total_reward)
+wandb.finish()
 

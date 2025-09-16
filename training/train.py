@@ -1,91 +1,77 @@
-
-from tqc import My_TQC
+from tqc import My_TQC,Obstacle1DCNNExtractor
 import torch
 import os
-from carenv import CarEnv,num_envs,World_Manager
+from carenv import CarEnv, num_envs, World_Manager
 import time
 import argparse
 import numpy as np
-import shutil
-from multiprocessing import shared_memory
-from wandb.integration.sb3 import WandbCallback
-import wandb
 import copy
 import pickle
 from pathlib import Path
-
-# Check if the FIFO already exists, if not, create it
-
-
-
-
-
-def evaluate_model(model, env, num_episodes=5):
-    """
-    Evaluates the performance of a trained model.
-
-    :param model: The trained RL model.
-    :param env: The environment to test on.
-    :param num_episodes: Number of episodes to test the model.
-    :return: Average reward over the episodes.
-    """
-    rewards = []
-    for episode in range(num_episodes):
-        obs,info = env.reset(evaluation=True)
-        done = False
-        total_reward = 0
-        # single_episode_rewards = []
-        while not done:
-            # Get the action from the model
-            action, _ = model.predict(obs, deterministic=True)
-            obs, reward, done,truncated, info = env.step(action)
-            total_reward += reward
-            # single_episode_rewards.append(reward)
-            
-        rewards.append(total_reward)
-    avg_reward = np.mean(rewards)
-    print(f"Evaluation over {num_episodes} episodes: Average Reward = {avg_reward}")
-    env.reset(evaluation=False)
-    return avg_reward
-# FIXED_DELTA_SECONDS = 0.05
-    
+from wandb.integration.sb3 import WandbCallback
+from stable_baselines3.common.callbacks import EvalCallback, CheckpointCallback, CallbackList
+import wandb
+# wandb.login()
 
 
+
+        
 if __name__ == '__main__':
-    # write_to_fifo(0,fifo_name="shared_memory")
-    global model
+    global env
     world_manager = World_Manager()
-    # Initialize environment
     world_manager.start_world()
-    
     env = CarEnv(world_manager)
-    # env = SubprocVecEnv([make_env("CarEnv", i) for i in range(num_envs)])
+    eval_env = CarEnv(world_manager,evaluation=True)
 
-    # Parse arguments
+    # ---- Args ----
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--models_dir', type=str, default=None)
     args = argparser.parse_args()
 
-    # Set up log directory for TensorBoard
-    logdir = f"logs/{int(time.time())}/"
-    if not os.path.exists(logdir):
-        os.makedirs(logdir)
+    # ---- Paths ----
+    timestamp = int(time.time())
+    logdir = f"logs/{timestamp}/"
+    os.makedirs(logdir, exist_ok=True)
+    models_dir = args.models_dir or f"models/{timestamp}"
+    os.makedirs(models_dir, exist_ok=True)
 
-    # Training settings
-    TIMESTEPS = 20000  # Total number of steps per training iteration
-    LR = 7.3e-4  # Learning rate for TQC
+    best_dir = os.path.join(models_dir, "best")
+    ckpt_dir = os.path.join(models_dir, "checkpoints")
+    os.makedirs(best_dir, exist_ok=True)
+    os.makedirs(ckpt_dir, exist_ok=True)
+    eval_log_dir = os.path.join(models_dir, "eval_logs")
+    os.makedirs(eval_log_dir, exist_ok=True)
+    trained_zip = os.path.join(models_dir, "trained.zip")
 
-    # Check if a pre-trained model exists and load or create a new one
-    fifo_signal = 0
-    models_dir = args.models_dir
-            # print(found)
-    print("Creating new model")
-    if args.models_dir is None or (not os.path.isfile(f"{args.models_dir}/trained.zip")):
-        
-        if not os.path.exists(models_dir):
-            os.makedirs(models_dir)
+    # ---- Training hyperparams ----
+    TIMESTEPS = 20_000
+    LR = 7.3e-4
+    TOTAL_ITERS = 50
+    # ---- Start W&B run (metrics only, no model saving) ----
+    os.environ['WANDB_BASE_URL'] = 'http://127.0.0.1:8080'
+    run = wandb.init(
+        project="FAVRL",
+        entity='teimuri',
+        name=env.log_name,
+        id=f"tqc_{timestamp}", 
+        # mode="offline",
+        config=dict(
+            algo="TQC",
+            lr=LR,
+            timesteps_per_iter=TIMESTEPS,
+            total_iters=TOTAL_ITERS,
+        ),
+        sync_tensorboard=True,  # picks up SB3's TB logs
+        save_code=True,
+    )
+    wandb.define_metric("*", step_metric="global_step")
 
-        # Initialize TQC model
+    # ---- Create or load model ----
+    trained_zip = os.path.join(models_dir, "trained.zip")
+    rb_path = os.path.join(models_dir, "replay_buffer.pkl")
+
+    if not os.path.isfile(trained_zip):
+        print("Creating new model")
         model = My_TQC(
             'MlpPolicy',
             env=env,
@@ -98,94 +84,79 @@ if __name__ == '__main__':
             sde_sample_freq=16,
             policy_kwargs=dict(
                 log_std_init=-3,
-                net_arch=[256, 256],
+                net_arch=[256, 256],     # applies after the extractor output
                 n_critics=2,
-                use_expln=True
+                use_expln=True,
+                # 👇 add these 2 lines
+                features_extractor_class=Obstacle1DCNNExtractor,
+                features_extractor_kwargs=dict(features_dim=256),
             ),
             verbose=1,
             learning_rate=LR,
-            gamma=0.99,  # Adjust gamma if needed
+            gamma=0.99,
             tensorboard_log=logdir,
-            # device='cuda',
-            # ent_coef=2
-            
         )
-        model.replay_buffer.avg_rewards = [0]
-        model.replay_buffer.num_saved = 0
     else:
-        # raise ValueError(999999999999)
-        models_dir = args.models_dir
-        
-        model = My_TQC.load(f"{models_dir}/trained.zip", env=env, verbose=1, learning_rate=LR, tensorboard_log=logdir)
-        
-        # model.log_ent_coef = torch.log(torch.ones(1, device=model.device) * 0.1).requires_grad_(True)
-        # model.ent_coef_optimizer = torch.optim.Adam([model.log_ent_coef], lr=model.lr_schedule(1))
+        print("Loading existing model")
+        model = My_TQC.load(
+            trained_zip,
+            env=env,
+            verbose=1,
+            learning_rate=LR,
+            tensorboard_log=logdir
+        )
+        env.TOTAL_TIMESTEPS = model.num_timesteps
+        if os.path.isfile(rb_path):
+            with open(rb_path, "rb") as f:
+                model.replay_buffer = pickle.load(f)
 
+    # ---- W&B callback (no model saving) ----
+    prev_best = -1000
+    eval_log_file = os.path.join(eval_log_dir, "evaluations.npz")
+    if os.path.isfile(eval_log_file):
+        data = np.load(eval_log_file)
+        # data["results"] shape: (n_evals, n_episodes)
+        if "results" in data:
+            prev_best = float(np.max(np.mean(data["results"], axis=1)))
+    eval_cb = EvalCallback(
+        eval_env=eval_env,
+        best_model_save_path=best_dir,
+        log_path=eval_log_dir,
+        eval_freq=600,          # evaluate every N training steps
+        n_eval_episodes=5,
+        deterministic=True,
+        render=False
+    )
+    eval_cb.best_mean_reward = prev_best
 
-        replay_buffer = pickle.load(open(f"{models_dir}/replay_buffer.pkl", "rb"))
-        model.replay_buffer = replay_buffer
-        # model.replay_buffer.avg_rewards = replay_buffer.avg_rewards
-        # model.replay_buffer.num_saved = replay_buffer.num_saved
-        del replay_buffer
-        # model.load_replay_buffer(f"{models_dir}/replay_buffer.pkl")
-    # model.ent_coef = 'auto_0.1'
-    # model._setup_model()
-    # coef = 1
-    # model.ent_coef = coef
-    # model.ent_coef_tensor = torch.tensor(coef)
-    # Connect to the environment and reset it
-    print('Connecting to environment...')
-    print('Environment has been reset as part of launch')
+    wandb_cb = WandbCallback(
+        gradient_save_freq=0,
+        model_save_freq=0,   # 🔑 disables checkpoint saving to W&B
+        model_save_path = os.path.join(models_dir,"wandb_model"),
+        verbose=1,
+        log="all",
+    )
 
-    # Training loop
-    iters = 0
-    total_iters = 10
-    # model_copy = copy.deepcopy(model)
-    for iters in range(0,total_iters):  # Number of training iterations
-        if model.num_timesteps> total_iters*TIMESTEPS:
+    # ---- Training loop ----
+    for iters in range(TOTAL_ITERS):
+        if model.num_timesteps > TOTAL_ITERS * TIMESTEPS:
             break
-        print(f'Iteration {iters} is commencing...')
-        # model.replay_buffer.iters = 33
-        # Train the model for a specified number of timesteps
 
-        # model.save(f"{models_dir}/trained_shared_evaluation.zip")
-        last_replay_buffer = copy.deepcopy(model.replay_buffer)
-        # process1(last_replay_buffer,shared_name="evaluation")
-        # write_to_fifo(1,fifo_name="evaluation")
-        # read_from_fifo(fifo_name="evaluation")
-        model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False)
-        model.save(f"{models_dir}/trained.zip")
-        model.save_replay_buffer(f"{models_dir}/replay_buffer.pkl")
-        # raise ValueError(iters)
-        # avg_reward = read_from_fifo(fifo_name="evaluation")
-        # model.replay_buffer.avg_rewards.append(avg_reward)
-        
-        # last_model.replay_buffer.avg_rewards.append(avg_reward)
+        print(f'Iteration {iters} starting...')
+        model.learn(
+            total_timesteps=TIMESTEPS,
+            reset_num_timesteps=False,
+            callback=[eval_cb,wandb_cb],   # logs metrics only
+        )
 
-        # model.save(f"models/trained_shared_memory.zip")
-        # process1(model.replay_buffer,shared_name="buffer_shared_memory")
-        # write_to_fifo(1,fifo_name="shared_memory")
-        # read_from_fifo(fifo_name="shared_memory")
-        
-        # if (np.max(last_replay_buffer.avg_rewards) < avg_reward):
-        # last_replay_buffer.num_saved += 1
-        # shutil.copy(f"{models_dir}/trained_shared_evaluation.zip", f"{models_dir}/trained.zip")
-        # pickle.dump(last_replay_buffer, open(f"{models_dir}/replay_buffer.pkl", "wb"))
-        # run.log({'Evaluation Reward': avg_reward,'iter':len(model.replay_buffer.avg_rewards)-1})
-        
-        print(f'Iteration {iters} has been trained')
-        # model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False,callback=WandbCallback(verbose=2))
-        # except Exception as e:
-        #     from tqc import My_TQC
-        #     world_manager.start_world()
-        #     env = CarEnv(0)
-        #     model = My_TQC.custom_load(saved_data = data_copy, env=env, verbose=1, learning_rate=LR, tensorboard_log=logdir)
-        #     model.replay_buffer = replay_buffer_copy
-        #     print('Error occurred during training:', e)
+        # Still save locally if you want
+        model.save(trained_zip)
+        model.save_replay_buffer(rb_path)
 
-        # Save the trained model after each iteration
-        
-        # model.save_replay_buffer(f"{models_dir}/my_buffer.pkl")
-        
-        
-        
+        # Custom W&B logs
+        wandb.log({
+            "iteration": iters,
+            "num_timesteps": model.num_timesteps,
+        })
+
+    wandb.finish()

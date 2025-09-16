@@ -34,16 +34,4 @@ pkill -f "./inference.py"
 mkdir logs
 mkdir image_logs
 # Start the processes initially
-start_processes
-
-
-# python3 ./file_keeper.py &
-while true; do
-    if ! ps -p $inference_pid > /dev/null; then
-        kill_processes
-        sleep 5
-        echo "Trained stopped. Restarting Trained processes..."
-        start_processes
-    fi
-    sleep 5
-done
+python3 ./inference.py --models_dir "../training/models"
