@@ -229,7 +229,7 @@ class World_Manager():
 		# Collect walkers, bikes, sensors into lists
 		walkers = list(all_actors.filter("walker.pedestrian.*"))
 		vehicles   = list(all_actors.filter("vehicle.*"))
-
+		raise ValueError(all_actors.filter("vehicle.*"))
 		# print(len(bikes)>1)
 		# Combine everything into one list
 		all_relevant = walkers + vehicles
