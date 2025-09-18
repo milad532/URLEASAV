@@ -228,7 +228,7 @@ class World_Manager():
 		self.scenario_manager.clear_scenario()
 		# Collect walkers, bikes, sensors into lists
 		walkers = list(all_actors.filter("walker.pedestrian.*"))
-		vehicles   = list(all_actors.filter("vehicle.*))
+		vehicles   = list(all_actors.filter("vehicle.*"))
 
 		# print(len(bikes)>1)
 		# Combine everything into one list
