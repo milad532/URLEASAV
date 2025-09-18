@@ -196,8 +196,8 @@ def sectors_from_angles(
         raise ValueError("agg must be 'first', 'max', or 'sum'.")
 
 class World_Manager():
-	def __init__(self,town='Town02',port = 4732,rank = 0,*args,**kwargs):
-		super.__init__(*args,**kwargs)
+	def __init__(self,town='Town02',port = 4732,rank = 0):
+
 		self.town = town
 		self.port = port
 		self.rank = rank
