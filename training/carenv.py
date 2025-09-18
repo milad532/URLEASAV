@@ -363,7 +363,6 @@ class CarEnv(gym.Env):
 			self.waypoint = self.map.get_waypoint(self.world_manager.vehicle.get_location(), project_to_road=True, lane_type=(carla.LaneType.Driving))
 			current_waypoint = self.waypoint
 			self.route_waypoints.append(current_waypoint)
-			self.world_manager.vehicle.destroy()
 
 			for x in range(self.total_distance):
 				if self.town == "Town07":
