@@ -512,6 +512,7 @@ class CarEnv(gym.Env):
 		bikes   = list(all_actors.filter("vehicle.*bike*"))
 		sensors = list(all_actors.filter("sensor.*"))
 		# print(len(bikes)>1)
+		raise ValueError(len(bikes))
 		assert len(bikes)<2, "what?"
 		# Combine everything into one list
 		all_relevant = walkers + bikes + sensors
