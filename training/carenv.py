@@ -52,6 +52,7 @@ FIXED_DELTA_SECONDS = 0.1
 WAYPOINT_SIZE = 0.5
 
 SHOW_PREVIEW = True
+
 def distance_to_line(A, B, p):
 		num   = np.linalg.norm(np.cross(B - A, A - p))
 		denom = np.linalg.norm(B - A)
@@ -195,30 +196,46 @@ def sectors_from_angles(
         raise ValueError("agg must be 'first', 'max', or 'sum'.")
 
 class World_Manager():
-	def __init__(self,town='Town02',port = 4732,rank = 0):
+	def __init__(self,town='Town02',port = 4732,rank = 0,*args,**kwargs):
+		super.__init__(*args,**kwargs)
 		self.town = town
 		self.port = port
 		self.rank = rank
-		
-	
-	def start_world(self,env=None):
-			found = False
-			while found==False:
-				try:
-					self.client = carla.Client("localhost", self.port)
-					self.client.set_timeout(5.0)
-					self.world = self.client.load_world(self.town)
 
-					found = True
-				except Exception as e:
-					print('Why?',e)
-			
-			settings = self.world.get_settings()
-			settings.synchronous_mode = True
-			settings.fixed_delta_seconds = FIXED_DELTA_SECONDS
-			self.world.apply_settings(settings)
-			if env != None:
-				env.world = self.world
+		found = False
+		while found==False:
+			try:
+				self.client = carla.Client("localhost", self.port)
+				self.client.set_timeout(5.0)
+				self.world = self.client.load_world(self.town)
+
+				found = True
+			except Exception as e:
+				print('Why?',e)
+		
+		settings = self.world.get_settings()
+		settings.synchronous_mode = True
+		settings.fixed_delta_seconds = FIXED_DELTA_SECONDS
+		self.world.apply_settings(settings)
+		self.scenario_manager = ScenarioManager(self.world)
+
+
+	def cleanup(self):
+		for actor in self.actor_list:
+			actor.destroy()
+		self.actor_list =[]
+		all_actors = self.world.get_actors()
+		self.scenario_manager.clear_scenario()
+		# Collect walkers, bikes, sensors into lists
+		walkers = list(all_actors.filter("walker.pedestrian.*"))
+		vehicles   = list(all_actors.filter("vehicle.*))
+
+		# print(len(bikes)>1)
+		# Combine everything into one list
+		all_relevant = walkers + vehicles
+		
+		assert len(all_relevant)<1, f"Too many vehicles or walkers: {[actor.id for actor in all_relevant]}"
+
 			
 
 
@@ -269,12 +286,10 @@ class CarEnv(gym.Env):
 		self.collision_table = wandb.Table(columns=["object", "time"],log_mode="MUTABLE")
 		
 		self.rank = world_manager.rank
-		client = carla.Client('localhost', world_manager.port)
-		client.set_timeout(10.0)
-		world = client.get_world()
-		self.world = world
 
-		self.scenario_manager = ScenarioManager(self.world)
+		self.world = self.world_manager.world
+
+		
 		self.town = self.world.get_map().name
 		self.main = main
 
@@ -375,7 +390,7 @@ class CarEnv(gym.Env):
 
 
 	def reset(self,seed=None, return_info=False, options=None):
-
+		self.scenario_manager = self.world_manager.scenario_manager
 		logging.info(f"Episode Start")
 		print("Episode Start")
 		self.walker_locations=[]
@@ -500,33 +515,17 @@ class CarEnv(gym.Env):
   
 	
 	def cleanup(self):
-
-		for actor in self.world_manager.actor_list:
-			actor.destroy()
-		self.world_manager.actor_list =[]
-		# Get all actors
-		all_actors = self.world_manager.world.get_actors()
-
-		# Collect walkers, bikes, sensors into lists
-		walkers = list(all_actors.filter("walker.pedestrian.*"))
-		bikes   = list(all_actors.filter("vehicle.*bike*"))
-		sensors = list(all_actors.filter("sensor.*"))
-		# print(len(bikes)>1)
-		# Combine everything into one list
-		all_relevant = walkers + bikes + sensors
 		
-		assert len(bikes)<1, [actor.id for actor in bikes]
+		self.world_manager.cleanup()
+		# Get all actors
+
 		# print(bikes)
 		print(11)
 
 	
 	def step(self, action):
 		# print(len(self.world_manager.actor_list))
-		try:
-			self.world_manager.vehicle.get_location()
-		except:
-			raise ValueError([actor.id for actor in self.world_manager.actor_list],self.evaluation)
-			self.reset()
+		self.world_manager.vehicle.get_location()
 		print([actor.id for actor in self.world_manager.actor_list],self.evaluation)
 		self.obssensor_flag_gt,self.obssensor_flag_pr,self.walkers_in_danger = obstacle_detector(self.object_values,vector(self.world_manager.vehicle.get_transform().get_forward_vector())[:2],vector(self.world_manager.vehicle.get_location())[:2],self.scenario_actors_locations,self.scenario_actors)
 		self.prev_time1 = self.time1

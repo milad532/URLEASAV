@@ -19,7 +19,6 @@ import wandb
 if __name__ == '__main__':
     global env
     world_manager = World_Manager()
-    world_manager.start_world()
     env = CarEnv(world_manager)
     eval_env = CarEnv(world_manager,evaluation=True)
 
