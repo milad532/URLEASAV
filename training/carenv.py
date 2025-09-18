@@ -515,7 +515,7 @@ class CarEnv(gym.Env):
 		# Combine everything into one list
 		all_relevant = walkers + bikes + sensors
 		
-		assert len(bikes)<1, len(bikes)
+		assert len(bikes)<1, [actor.id for actor in bikes]
 		# print(bikes)
 		print(11)
 
