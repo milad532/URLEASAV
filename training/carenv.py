@@ -221,6 +221,7 @@ class World_Manager():
 
 
 	def cleanup(self):
+		self.vehicle.destroy()
 		for actor in self.actor_list:
 			actor.destroy()
 		self.actor_list =[]
@@ -267,7 +268,7 @@ class CarEnv(gym.Env):
 		self.evaluation = evaluation
 		self.stride = imagelog_stride
 		self.world_manager = world_manager
-
+		self.scenario_manager = self.world_manager.scenario_manager
 		self.walker_locations=[]
 		self.world_manager.actor_list = []
 		self.pedestrians = []
@@ -390,7 +391,7 @@ class CarEnv(gym.Env):
 
 
 	def reset(self,seed=None, return_info=False, options=None):
-		self.scenario_manager = self.world_manager.scenario_manager
+		
 		logging.info(f"Episode Start")
 		print("Episode Start")
 		self.walker_locations=[]
@@ -406,7 +407,6 @@ class CarEnv(gym.Env):
 		self.previous_steer = 0
 		self.previous_throttle = 0
 		self.collision_hist = []
-		self.world_manager.actor_list = []
 		self.colision_type = None
 		self.done_cooldown = -1
 		self.object_values['alphas'] ={
@@ -450,8 +450,6 @@ class CarEnv(gym.Env):
 		self.waypoint = self.map.get_waypoint(self.world_manager.vehicle.get_location(), project_to_road=True, lane_type=(carla.LaneType.Driving))
 		# current_waypoint = self.waypoint
 
-		
-		self.world_manager.actor_list.append(self.world_manager.vehicle)
 		self.tick(1)
 		self.world_manager.vehicle.add_impulse(self.waypoint.transform.get_forward_vector()*12000)
 		self.tick(2)
