@@ -21,7 +21,8 @@ if __name__ == '__main__':
     world_manager = World_Manager()
     env = CarEnv(world_manager)
     eval_env = CarEnv(world_manager,evaluation=True)
-
+    # raise ValueError("test")
+    print("passing here 2")
     # ---- Args ----
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--models_dir', type=str, default=None)
@@ -121,8 +122,8 @@ if __name__ == '__main__':
         eval_env=eval_env,
         best_model_save_path=best_dir,
         log_path=eval_log_dir,
-        eval_freq=600,          # evaluate every N training steps
-        n_eval_episodes=5,
+        eval_freq=10_000,          # evaluate every N training steps
+        n_eval_episodes=50,
         deterministic=True,
         render=False
     )

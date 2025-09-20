@@ -22,7 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent
 num_envs = 1
 import logging
 import datetime
-
 		
 
 
@@ -217,26 +216,36 @@ class World_Manager():
 		settings.synchronous_mode = True
 		settings.fixed_delta_seconds = FIXED_DELTA_SECONDS
 		self.world.apply_settings(settings)
+
 		self.scenario_manager = ScenarioManager(self.world)
 
 
 	def cleanup(self):
-		self.vehicle.destroy()
+		try:
+			self.vehicle.destroy()
+			print(f"Destoryed {self.vehicle.id}")
+		except Exception as e:
+			print(f"Tried to destroy vehicle {self.vehicle} but ran into Error: {e}")
+
 		for actor in self.actor_list:
 			actor.destroy()
 		self.actor_list =[]
+		self.scenario_manager.clear_scenario()
+		self.tick()
 		all_actors = self.world.get_actors()
 		self.scenario_manager.clear_scenario()
 		# Collect walkers, bikes, sensors into lists
 		walkers = list(all_actors.filter("walker.pedestrian.*"))
 		vehicles   = list(all_actors.filter("vehicle.*"))
-		raise ValueError(all_actors.filter("vehicle.*"))
+
 		# print(len(bikes)>1)
 		# Combine everything into one list
 		all_relevant = walkers + vehicles
 		
-		assert len(all_relevant)<1, f"Too many vehicles or walkers: {[actor.id for actor in all_relevant]}"
-
+		assert len(all_relevant)<1, f"Too many vehicles or walkers: {[actor.type_id for actor in all_relevant],all_relevant}"
+	
+	def tick(self):
+		self.world.tick()
 			
 
 
@@ -265,6 +274,8 @@ class CarEnv(gym.Env):
 		#	 os.remove(f"/media/carla/AVRL/our_ppo/mkfifo/clean_{rank}")
 		# except:
 		#	 pass
+
+
 		self.evaluation = evaluation
 		self.stride = imagelog_stride
 		self.world_manager = world_manager
@@ -283,12 +294,13 @@ class CarEnv(gym.Env):
 		level=logging.INFO,
 		format='%(asctime)s - %(levelname)s - %(message)s'
 		)
-		self.danger_table = wandb.Table(columns=["object", "time"],log_mode="MUTABLE")
-		self.collision_table = wandb.Table(columns=["object", "time"],log_mode="MUTABLE")
+		self.danger_table = wandb.Table(columns=["object", "time"],log_mode = "INCREMENTAL")
+		self.collision_table = wandb.Table(columns=["object", "time"],log_mode = "INCREMENTAL")
 		
 		self.rank = world_manager.rank
 
 		self.world = self.world_manager.world
+
 
 		
 		self.town = self.world.get_map().name
@@ -318,9 +330,11 @@ class CarEnv(gym.Env):
 		#camera init
 		camera_init_trans = carla.Transform(carla.Location(z=self.BIRD_CAMERA_POS_Z,x=self.BIRD_CAMERA_POS_X),
 								rotation=carla.Rotation(pitch=self.BIRD_CAMERA_PITCH, yaw=0, roll=0))
-		
+		print("Passing here")
+
 		#Track route generation
 		for _ in range(100):
+			print("Passing loop")
 			self.route_waypoints = list()
 			if self.town == "Town07":
 				self.transform = self.map.get_spawn_points()[38] #Town7  is 38 
@@ -352,7 +366,7 @@ class CarEnv(gym.Env):
 				obstacle_transform = carla.Transform(carla.Location(x=1.5, z=1.0))  # Position on the vehicle
 				self.obstacle_sensor = self.world.try_spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.world_manager.vehicle)
 				self.world_manager.actor_list.append(self.obstacle_sensor)
-				
+			
 
 
 			self.tick()
@@ -377,7 +391,7 @@ class CarEnv(gym.Env):
 				self.route_waypoints.append(next_waypoint)
 				current_waypoint = next_waypoint
 			self.routes.append(self.route_waypoints)
-
+			self.world_manager.cleanup()
 	
 		# self.fetures=torch.zeros([0,96])
 		# client.load_world(self.town.split('/')[-1])
@@ -390,13 +404,19 @@ class CarEnv(gym.Env):
 
 
 	def reset(self,seed=None, return_info=False, options=None):
-		
+		try:
+			self.world_manager.vehicle.get_location()
+		except Exception as e:
+			print("The vehicle is not here for some reson and the id is:",self.world_manager.vehicle.id)
+			
 		logging.info(f"Episode Start")
 		print("Episode Start")
+		if self.run_id%100 == 0:
+			wandb.log({"Walkers in Danger": self.danger_table,"Collision":self.collision_table})
 		self.walker_locations=[]
+
 		self.cleanup()
 		self.tick()
-		
 		self.run_id+=1
 		self.current_waypoint_index = -1
 		self.center_lane_deviation = 0.0
@@ -438,7 +458,7 @@ class CarEnv(gym.Env):
 
 		while self.world_manager.vehicle is None:
 			self.world_manager.vehicle = self.world.try_spawn_actor(self.model_3, self.transform)
-		print(10)
+		print("Created new actor:",self.world_manager.vehicle.id)
 		self.scenario_actors,_,self.scenario_actors_locations=self.scenario_manager.generate_scenario(self.world_manager.vehicle, self.route_waypoints)
 		# raise ValueError(self.scenario_actors_list)
 		self.tick()
@@ -522,8 +542,7 @@ class CarEnv(gym.Env):
 	
 	def step(self, action):
 		# print(len(self.world_manager.actor_list))
-		self.world_manager.vehicle.get_location()
-		print([actor.id for actor in self.world_manager.actor_list],self.evaluation)
+
 		self.obssensor_flag_gt,self.obssensor_flag_pr,self.walkers_in_danger = obstacle_detector(self.object_values,vector(self.world_manager.vehicle.get_transform().get_forward_vector())[:2],vector(self.world_manager.vehicle.get_location())[:2],self.scenario_actors_locations,self.scenario_actors)
 		self.prev_time1 = self.time1
 		self.time1 = time.time()
@@ -608,13 +627,13 @@ class CarEnv(gym.Env):
 				for t in self.walkers_in_danger:
 					self.danger_table.add_data(t,self.TOTAL_TIMESTEPS)
 
-				wandb.log({"Walkers in Danger": self.danger_table})
+				
 			else:
 				reward = -20
 				self.done_cooldown=0
 			if self.colision_type!=None:
 				self.collision_table.add_data(self.colision_type,self.TOTAL_TIMESTEPS)
-				wandb.log({"Collision":self.collision_table})
+				
 		elif self.distance_from_center > good_dist:
 			reward = -0.1
 		else:
@@ -679,11 +698,9 @@ class CarEnv(gym.Env):
 		if self.done_cooldown>0:
 			self.done_cooldown = self.done_cooldown - 1
 		elif self.done_cooldown==0:
-			self.cleanup()
 			logging.info(f"Episode Ended, final reward is {reward}\n")
 			done = True
 		elif self.step_counter*FIXED_DELTA_SECONDS > SECONDS_PER_EPISODE:
-			self.cleanup()
 			reward = -10
 			logging.info(f"Episode Ended, final reward is {reward}\n")
 			done = True
