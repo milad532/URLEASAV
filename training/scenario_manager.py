@@ -113,8 +113,8 @@ class ScenarioManager:
                     bp.set_attribute('is_invincible', 'false')
                 lane_width = waypoint.lane_width
                 spawn_transform.location += carla.Vector3D(
-                    x=waypoint.transform.get_right_vector().x * lane_width * (-0.25),
-                    y=waypoint.transform.get_right_vector().y * lane_width * (-0.25),
+                    x=0.0,
+                    y=0.0,
                     z=0.0
                 )
                 spawn_transform.rotation.yaw += 90

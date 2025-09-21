@@ -125,6 +125,12 @@ def obstacle_detector(object_values,vehicle_vector,vehicle_location,walker_locat
 
 
 import numpy as np
+def rectangle_area_checker(vehicle_location,walker_locations: list):
+	dim_x=1
+	xim_y=2
+	vehicle_walker_vectors = np.array([walker_location - vehicle_location for walker_location in walker_locations])
+	# vehicle_walker_angles = np.array([signed_angle_2d(vehicle_vector,vec) for vec in vehicle_walker_vectors])
+
 
 def sectors_from_angles(
     angles_deg,        # shape (N,), angles in [-180, 180]
@@ -200,7 +206,7 @@ class World_Manager():
 		self.town = town
 		self.port = port
 		self.rank = rank
-
+		print("creating world")
 		found = False
 		while found==False:
 			try:
@@ -211,7 +217,7 @@ class World_Manager():
 				found = True
 			except Exception as e:
 				print('Why?',e)
-		
+		print("created world")
 		settings = self.world.get_settings()
 		settings.synchronous_mode = True
 		settings.fixed_delta_seconds = FIXED_DELTA_SECONDS
@@ -357,15 +363,7 @@ class CarEnv(gym.Env):
 				
 				# Add proximity sensor (optional - based on your environment setup)
 				# self.proximity_sensor = self.blueprint_library.find("sensor.other.obstacle")
-				# self.obstacle_sensor = self.world.try_spawn_actor(self.proximity_sensor,camera_init_trans,attach_to=self.world_manager.vehicle)
-				# Obstacle sensor
-				obstacle_blueprint = self.blueprint_library.find('sensor.other.obstacle')
-				obstacle_blueprint.set_attribute('distance', '20')  # Detection range in meters
-				obstacle_blueprint.set_attribute('hit_radius', '0.5')  # Detection radius
-				obstacle_blueprint.set_attribute('only_dynamics', 'false')  # Detect static and dynamic objects
-				obstacle_transform = carla.Transform(carla.Location(x=1.5, z=1.0))  # Position on the vehicle
-				self.obstacle_sensor = self.world.try_spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.world_manager.vehicle)
-				self.world_manager.actor_list.append(self.obstacle_sensor)
+
 			
 
 
@@ -470,6 +468,7 @@ class CarEnv(gym.Env):
 		# current_waypoint = self.waypoint
 
 		self.tick(1)
+		raise ValueError(self.waypoint.transform.get_forward_vector())
 		self.world_manager.vehicle.add_impulse(self.waypoint.transform.get_forward_vector()*12000)
 		self.tick(2)
 		self.sem_cam = self.blueprint_library.find('sensor.camera.semantic_segmentation')
@@ -487,20 +486,12 @@ class CarEnv(gym.Env):
 		
 
 		colsensor = self.blueprint_library.find("sensor.other.collision")
-		self.colsensor = self.world.try_spawn_actor(colsensor, camera_init_trans, attach_to=self.world_manager.vehicle)
+		self.colsensor = self.world.spawn_actor(colsensor, camera_init_trans, attach_to=self.world_manager.vehicle)
 		self.world_manager.actor_list.append(self.colsensor)
 		self.colsensor.listen(lambda event: self.collision_data(event))
 
 
-		#Obstacle sensor
-		obstacle_blueprint = self.blueprint_library.find('sensor.other.obstacle')
-		obstacle_blueprint.set_attribute('distance', '100')  # Detection range in meters
-		obstacle_blueprint.set_attribute('hit_radius', '5')  # Detection radius
-		obstacle_blueprint.set_attribute('only_dynamics', 'false')  # Detect static and dynamic objects
-		obstacle_transform = carla.Transform(carla.Location(x=1.5, z=1.0))  # Position on the vehicle
-		self.obstacle_sensor = self.world.try_spawn_actor(obstacle_blueprint, obstacle_transform, attach_to=self.world_manager.vehicle)
-		self.world_manager.actor_list.append(self.obstacle_sensor)
-		# self.obstacle_sensor.listen(lambda event: self.process_obstacle(event))
+
 
 		self.tick()
 		while self.bird_camera is None:
@@ -520,7 +511,6 @@ class CarEnv(gym.Env):
 			self.features = torch.cat([torch.sigmoid(torch.from_numpy(auto_encoder.encode_from_raw_image(self.bird_camera[:,:,::-1])).flatten().cpu()),navigation_obs])
 			# self.features = torch.cat([dino_encoder(observation.unsqueeze(0).cuda()).squeeze(0).cpu(),navigation_obs])
 		
-		self.initial_location = self.world_manager.vehicle.get_location()
 		self.prev_time1 = 0
 		self.time1 = time.time()
 		time.sleep(0.15)
@@ -568,7 +558,6 @@ class CarEnv(gym.Env):
 		kmh = int(3.6 * math.sqrt(v.x**2 + v.y**2 + v.z**2))
 		angle = 0
 		self.location = self.world_manager.vehicle.get_location()
-		# distance_travelled = self.initial_location.distance(self.location)/10
 
 		
 		
@@ -733,24 +722,6 @@ class CarEnv(gym.Env):
 		return_transform.location.z=return_transform.location.z+1
 		return return_transform
 	
-	def spawn_walker_ahead(self, walker_bp_id, distance=10):
-		"""
-		Spawns a single walker blueprint `walker_bp_id` at the
-		waypoint ~`distance` meters ahead of the vehicle’s spawn.
-		"""
-		# 1) get the blueprint
-		walker_bp = self.blueprint_library.find(walker_bp_id)
-		if walker_bp.has_attribute('is_invincible'):
-			walker_bp.set_attribute('is_invincible', 'false')
-		# 2) compute the transform 10 m ahead
-		spawn_transform = self.get_waypoint_ahead(distance)
-		
-		walker = self.world.try_spawn_actor(walker_bp, spawn_transform)
-		
-		if walker:
-			self.walker_locations.append(vector(spawn_transform.location)[:2])
-			self.world_manager.actor_list.append(walker)
-		return walker
 
 	def process_img(self, image):
 		image.convert(carla.ColorConverter.CityScapesPalette)
