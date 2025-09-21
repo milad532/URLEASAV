@@ -34,8 +34,7 @@ if not os.path.exists(logdir):
 models_dir = args.models_dir
 
 world_manager = World_Manager()
-# Initialize environment
-world_manager.start_world()
+
 
 env = CarEnv(world_manager,evaluation=True,imagelog_stride=1)
 
