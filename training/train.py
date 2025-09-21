@@ -19,7 +19,7 @@ import wandb
 if __name__ == '__main__':
     global env
     world_manager = World_Manager()
-    env = CarEnv(world_manager)
+    env = CarEnv(world_manager,imagelog_stride=1)
     eval_env = CarEnv(world_manager,evaluation=True)
     # raise ValueError("test")
     print("passing here 2")

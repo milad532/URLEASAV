@@ -36,7 +36,7 @@ models_dir = args.models_dir
 world_manager = World_Manager()
 
 
-env = CarEnv(world_manager,evaluation=True,imagelog_stride=1)
+env = CarEnv(world_manager,evaluation=True,imagelog_stride=5)
 
 os.environ['WANDB_BASE_URL'] = 'http://127.0.0.1:8080'
 run = wandb.init(

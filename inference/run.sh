@@ -34,4 +34,7 @@ pkill -f "./inference.py"
 mkdir logs
 mkdir image_logs
 # Start the processes initially
+rm -fr image_logs/*
+# rm -fr logs/*
+rm -fr wandb/*
 python3 ./inference.py --models_dir "../training/models"

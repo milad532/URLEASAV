@@ -125,12 +125,29 @@ def obstacle_detector(object_values,vehicle_vector,vehicle_location,walker_locat
 
 
 import numpy as np
-def rectangle_area_checker(vehicle_location,walker_locations: list):
-	dim_x=1
-	xim_y=2
+def rectangle_area_checker(vehicle_vector,vehicle_location,walker_locations: list,walker_list: list):
+	
+ 
+	dim_x=2
+	dim_y=3
+	area_dims = np.array([dim_x,dim_y])
+	area_ranges = np.array([area_dims[0]/2,area_dims[1]])
+	area_max_distance = np.linalg.norm(area_ranges)
 	vehicle_walker_vectors = np.array([walker_location - vehicle_location for walker_location in walker_locations])
-	# vehicle_walker_angles = np.array([signed_angle_2d(vehicle_vector,vec) for vec in vehicle_walker_vectors])
+	rotation_angle = signed_angle_2d(vehicle_vector,np.array([0,1]))/180*np.pi
+	rotation_matrix = np.array([[np.cos(rotation_angle),-np.sin(rotation_angle)],[np.sin(rotation_angle),np.cos(rotation_angle)]])
+	for walker_vector,walker in zip(vehicle_walker_vectors,walker_list):
+		if np.linalg.norm(walker_vector) < area_max_distance:
+			vehicle_walker_angle = signed_angle_2d(vehicle_vector,walker_vector)/180*np.pi
+			if np.abs(vehicle_walker_angle)<np.pi/2:
+				rotated_walker_v = rotation_matrix @ walker_vector
+				rotated_walker_v_abs = np.abs(rotated_walker_v)
+				print(rotated_walker_v)
+				if (rotated_walker_v_abs[0] < area_ranges[0]) and (rotated_walker_v_abs[1] < area_ranges[1]):
+					print("Found it Found it. The episode should end now: ",rotated_walker_v)
+					return walker
 
+	
 
 def sectors_from_angles(
     angles_deg,        # shape (N,), angles in [-180, 180]
@@ -300,8 +317,8 @@ class CarEnv(gym.Env):
 		level=logging.INFO,
 		format='%(asctime)s - %(levelname)s - %(message)s'
 		)
-		self.danger_table = wandb.Table(columns=["object", "time"],log_mode = "INCREMENTAL")
-		self.collision_table = wandb.Table(columns=["object", "time"],log_mode = "INCREMENTAL")
+		self.danger_table = wandb.Table(columns=["object", "time"],log_mode = "MUTABLE")
+		self.collision_table = wandb.Table(columns=["object", "time"],log_mode = "MUTABLE")
 		
 		self.rank = world_manager.rank
 
@@ -468,7 +485,7 @@ class CarEnv(gym.Env):
 		# current_waypoint = self.waypoint
 
 		self.tick(1)
-		raise ValueError(self.waypoint.transform.get_forward_vector())
+		
 		self.world_manager.vehicle.add_impulse(self.waypoint.transform.get_forward_vector()*12000)
 		self.tick(2)
 		self.sem_cam = self.blueprint_library.find('sensor.camera.semantic_segmentation')
@@ -531,8 +548,9 @@ class CarEnv(gym.Env):
 
 	
 	def step(self, action):
-		# print(len(self.world_manager.actor_list))
-
+		colision_result = rectangle_area_checker(vector(self.world_manager.vehicle.get_transform().get_forward_vector())[:2],vector(self.world_manager.vehicle.get_location())[:2],self.scenario_actors_locations,self.scenario_actors)
+		if colision_result :
+			self.colision_type = colision_result
 		self.obssensor_flag_gt,self.obssensor_flag_pr,self.walkers_in_danger = obstacle_detector(self.object_values,vector(self.world_manager.vehicle.get_transform().get_forward_vector())[:2],vector(self.world_manager.vehicle.get_location())[:2],self.scenario_actors_locations,self.scenario_actors)
 		self.prev_time1 = self.time1
 		self.time1 = time.time()
@@ -608,15 +626,13 @@ class CarEnv(gym.Env):
 	
 		good_dist = 2.5 if not self.turn else 2.5
 		max_dist = 4.0 if not self.turn else 4.0
-		if len(self.collision_hist) != 0 or self.distance_from_center > max_dist:
+		if len(self.collision_hist) != 0 or self.colision_type or self.distance_from_center > max_dist:
 			if self.colision_type in ['walker','bike'] :
 				observation_len = len(self.obssensor_flag_gt)
 				reward = -(np.sum(self.obssensor_flag_gt[3:9]))
 				self.done_cooldown=0
 				for t in self.walkers_in_danger:
 					self.danger_table.add_data(t,self.TOTAL_TIMESTEPS)
-
-				
 			else:
 				reward = -20
 				self.done_cooldown=0
@@ -701,7 +717,7 @@ class CarEnv(gym.Env):
 		self.previous_steer = steer
 		self.previous_throttle = throttle
 
-			
+
 		return self.features, reward/20, done, truncated, {'kmh':kmh}	#curly brackets - empty dictionary required by SB3 format
 
 	def get_waypoint_ahead(self, distance):

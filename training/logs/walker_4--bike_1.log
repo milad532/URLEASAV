@@ -45001,3 +45001,1487 @@
 2025-09-21 13:47:46,500 - INFO - Episode Ended, final reward is -1
 
 2025-09-21 13:47:46,501 - INFO - Episode Start
+2025-09-21 14:35:30,427 - INFO - Episode Start
+2025-09-21 14:53:45,572 - INFO - Episode Start
+2025-09-21 16:29:12,427 - INFO - Episode Start
+2025-09-21 16:32:12,726 - INFO - Episode Start
+2025-09-21 16:33:04,409 - INFO - Episode Start
+2025-09-21 16:33:38,019 - INFO - Episode Start
+2025-09-21 16:34:05,944 - INFO - Episode Start
+2025-09-21 16:34:34,044 - INFO - Episode Start
+2025-09-21 16:36:02,429 - INFO - Episode Start
+2025-09-21 16:36:31,196 - INFO - Episode Start
+2025-09-21 16:37:23,438 - INFO - Episode Start
+2025-09-21 16:38:56,589 - INFO - Episode Start
+2025-09-21 16:39:26,890 - INFO - Episode Start
+2025-09-21 16:46:59,654 - INFO - Episode Start
+2025-09-21 16:47:18,650 - INFO - Episode Start
+2025-09-21 17:13:47,967 - INFO - Episode Start
+2025-09-21 17:14:24,870 - INFO - Episode Start
+2025-09-21 17:15:28,355 - INFO - Episode Start
+2025-09-21 17:17:17,392 - INFO - Episode Start
+2025-09-21 17:22:40,026 - INFO - Episode Start
+2025-09-21 17:22:40,613 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:22:40,629 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:22:40,630 - INFO - Episode Start
+2025-09-21 17:22:40,843 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:22:40,856 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:22:40,856 - INFO - Episode Start
+2025-09-21 17:22:41,074 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:22:41,087 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:22:41,088 - INFO - Episode Start
+2025-09-21 17:22:41,294 - INFO - Collision detected - Event: walker.pedestrian.0037
+2025-09-21 17:22:41,304 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:22:41,304 - INFO - Episode Start
+2025-09-21 17:22:41,514 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:22:41,524 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:22:41,525 - INFO - Episode Start
+2025-09-21 17:22:41,731 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:22:41,741 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:22:41,742 - INFO - Episode Start
+2025-09-21 17:22:41,952 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:22:41,963 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:22:41,963 - INFO - Episode Start
+2025-09-21 17:22:42,171 - INFO - Collision detected - Event: walker.pedestrian.0037
+2025-09-21 17:22:42,183 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:22:42,184 - INFO - Episode Start
+2025-09-21 17:22:42,395 - INFO - Collision detected - Event: walker.pedestrian.0021
+2025-09-21 17:22:42,406 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:22:42,407 - INFO - Episode Start
+2025-09-21 17:22:42,615 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:22:42,627 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:22:42,628 - INFO - Episode Start
+2025-09-21 17:22:42,836 - INFO - Collision detected - Event: walker.pedestrian.0014
+2025-09-21 17:22:42,848 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:22:42,849 - INFO - Episode Start
+2025-09-21 17:24:41,437 - INFO - Episode Start
+2025-09-21 17:24:42,020 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:24:42,031 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:24:42,032 - INFO - Episode Start
+2025-09-21 17:24:42,238 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:24:42,251 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:24:42,252 - INFO - Episode Start
+2025-09-21 17:24:42,462 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:24:42,475 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:24:42,475 - INFO - Episode Start
+2025-09-21 17:24:42,681 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:24:42,694 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:24:42,695 - INFO - Episode Start
+2025-09-21 17:24:42,904 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:24:42,915 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:24:42,915 - INFO - Episode Start
+2025-09-21 17:24:43,124 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:24:43,136 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:24:43,137 - INFO - Episode Start
+2025-09-21 17:24:43,344 - INFO - Collision detected - Event: walker.pedestrian.0020
+2025-09-21 17:24:43,357 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:24:43,358 - INFO - Episode Start
+2025-09-21 17:26:21,230 - INFO - Episode Start
+2025-09-21 17:26:21,795 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:26:21,805 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:26:21,806 - INFO - Episode Start
+2025-09-21 17:26:22,016 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:26:22,029 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:26:22,030 - INFO - Episode Start
+2025-09-21 17:26:22,239 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:26:22,250 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:26:22,251 - INFO - Episode Start
+2025-09-21 17:26:22,460 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:26:22,473 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:26:22,475 - INFO - Episode Start
+2025-09-21 17:26:22,681 - INFO - Collision detected - Event: walker.pedestrian.0014
+2025-09-21 17:26:22,694 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:26:22,695 - INFO - Episode Start
+2025-09-21 17:26:22,904 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:26:22,915 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:26:22,916 - INFO - Episode Start
+2025-09-21 17:26:23,126 - INFO - Collision detected - Event: walker.pedestrian.0033
+2025-09-21 17:26:23,140 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:26:23,141 - INFO - Episode Start
+2025-09-21 17:26:23,349 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:26:23,362 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:26:23,363 - INFO - Episode Start
+2025-09-21 17:26:23,572 - INFO - Collision detected - Event: walker.pedestrian.0008
+2025-09-21 17:26:23,582 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:26:23,583 - INFO - Episode Start
+2025-09-21 17:27:00,724 - INFO - Episode Start
+2025-09-21 17:27:01,259 - INFO - Collision detected - Event: walker.pedestrian.0041
+2025-09-21 17:27:01,272 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:27:01,274 - INFO - Episode Start
+2025-09-21 17:27:01,485 - INFO - Collision detected - Event: walker.pedestrian.0022
+2025-09-21 17:27:01,496 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 17:27:01,497 - INFO - Episode Start
+2025-09-21 17:27:01,705 - INFO - Collision detected - Event: walker.pedestrian.0044
+2025-09-21 17:27:01,718 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:27:01,720 - INFO - Episode Start
+2025-09-21 17:27:01,928 - INFO - Collision detected - Event: walker.pedestrian.0049
+2025-09-21 17:27:01,941 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:27:01,942 - INFO - Episode Start
+2025-09-21 17:27:02,154 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:27:02,165 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:27:02,166 - INFO - Episode Start
+2025-09-21 17:27:02,375 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:27:02,386 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:27:02,388 - INFO - Episode Start
+2025-09-21 17:27:02,596 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:27:02,609 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:27:02,611 - INFO - Episode Start
+2025-09-21 17:27:02,820 - INFO - Collision detected - Event: walker.pedestrian.0030
+2025-09-21 17:27:02,830 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:27:02,831 - INFO - Episode Start
+2025-09-21 17:27:56,022 - INFO - Episode Start
+2025-09-21 17:27:56,603 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:27:56,614 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:29:02,951 - INFO - Episode Start
+2025-09-21 17:29:03,094 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:29:03,495 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:29:03,496 - INFO - Episode Start
+2025-09-21 17:29:03,531 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:29:03,700 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:29:03,701 - INFO - Episode Start
+2025-09-21 17:29:03,737 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:29:03,906 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:29:03,907 - INFO - Episode Start
+2025-09-21 17:29:03,941 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:29:04,114 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:29:04,115 - INFO - Episode Start
+2025-09-21 17:29:04,326 - INFO - Collision detected - Event: walker.pedestrian.0044
+2025-09-21 17:29:04,339 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:30:06,544 - INFO - Episode Start
+2025-09-21 17:30:07,247 - INFO - Collision detected - Event: walker.pedestrian.0041
+2025-09-21 17:30:07,258 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:30:48,206 - INFO - Episode Start
+2025-09-21 17:30:48,737 - INFO - Collision detected - Event: walker.pedestrian.0030
+2025-09-21 17:30:48,747 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:31:30,082 - INFO - Episode Start
+2025-09-21 17:31:30,894 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 17:31:30,894 - INFO - Episode Start
+2025-09-21 17:31:31,102 - INFO - Collision detected - Event: walker.pedestrian.0016
+2025-09-21 17:31:31,115 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:33:39,032 - INFO - Episode Start
+2025-09-21 17:33:39,598 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:33:39,611 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:34:48,658 - INFO - Episode Start
+2025-09-21 17:34:49,303 - INFO - Collision detected - Event: walker.pedestrian.0009
+2025-09-21 17:34:49,313 - INFO - Episode Ended, final reward is -5
+
+2025-09-21 17:34:49,314 - INFO - Episode Start
+2025-09-21 17:34:49,587 - INFO - Collision detected - Event: walker.pedestrian.0013
+2025-09-21 17:34:49,600 - INFO - Episode Ended, final reward is -5
+
+2025-09-21 17:34:49,601 - INFO - Episode Start
+2025-09-21 17:34:49,894 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:34:49,910 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:34:49,911 - INFO - Episode Start
+2025-09-21 17:34:50,186 - INFO - Collision detected - Event: walker.pedestrian.0009
+2025-09-21 17:34:50,198 - INFO - Episode Ended, final reward is -5
+
+2025-09-21 17:34:50,199 - INFO - Episode Start
+2025-09-21 17:34:50,479 - INFO - Collision detected - Event: walker.pedestrian.0036
+2025-09-21 17:34:50,491 - INFO - Episode Ended, final reward is -5
+
+2025-09-21 17:34:50,493 - INFO - Episode Start
+2025-09-21 17:34:50,785 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:34:50,797 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:34:50,799 - INFO - Episode Start
+2025-09-21 17:34:51,087 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:34:51,098 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:34:51,099 - INFO - Episode Start
+2025-09-21 17:34:51,396 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:34:51,407 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:34:51,408 - INFO - Episode Start
+2025-09-21 17:34:51,713 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:34:51,725 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:34:51,726 - INFO - Episode Start
+2025-09-21 17:34:52,020 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:34:52,032 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:34:52,033 - INFO - Episode Start
+2025-09-21 17:34:52,312 - INFO - Collision detected - Event: walker.pedestrian.0009
+2025-09-21 17:34:52,324 - INFO - Episode Ended, final reward is -5
+
+2025-09-21 17:34:52,325 - INFO - Episode Start
+2025-09-21 17:34:52,602 - INFO - Collision detected - Event: walker.pedestrian.0046
+2025-09-21 17:35:35,185 - INFO - Episode Start
+2025-09-21 17:35:35,735 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:35:35,745 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:36:21,299 - INFO - Episode Start
+2025-09-21 17:36:22,095 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 17:36:22,095 - INFO - Episode Start
+2025-09-21 17:36:22,540 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 17:36:22,540 - INFO - Episode Start
+2025-09-21 17:36:22,991 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 17:36:22,991 - INFO - Episode Start
+2025-09-21 17:36:23,452 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 17:36:23,452 - INFO - Episode Start
+2025-09-21 17:36:23,916 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 17:36:23,916 - INFO - Episode Start
+2025-09-21 17:36:24,385 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 17:36:24,386 - INFO - Episode Start
+2025-09-21 17:36:24,594 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:36:24,607 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:37:12,769 - INFO - Episode Start
+2025-09-21 17:37:35,056 - INFO - Episode Start
+2025-09-21 17:37:35,620 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:37:35,632 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:38:58,681 - INFO - Episode Start
+2025-09-21 17:38:59,481 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 17:38:59,482 - INFO - Episode Start
+2025-09-21 17:38:59,948 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 17:38:59,949 - INFO - Episode Start
+2025-09-21 17:39:00,420 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 17:39:00,420 - INFO - Episode Start
+2025-09-21 17:39:00,633 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:39:00,646 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:39:39,037 - INFO - Episode Start
+2025-09-21 17:39:39,640 - INFO - Collision detected - Event: walker.pedestrian.0025
+2025-09-21 17:39:39,650 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:39:39,651 - INFO - Episode Start
+2025-09-21 17:39:39,878 - INFO - Collision detected - Event: walker.pedestrian.0008
+2025-09-21 17:39:39,889 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:39:39,891 - INFO - Episode Start
+2025-09-21 17:39:40,110 - INFO - Collision detected - Event: walker.pedestrian.0021
+2025-09-21 17:39:40,120 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 17:39:40,121 - INFO - Episode Start
+2025-09-21 17:39:40,329 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 17:39:40,341 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 17:42:06,398 - INFO - Episode Start
+2025-09-21 17:42:07,802 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 17:42:07,803 - INFO - Episode Start
+2025-09-21 17:42:08,768 - INFO - Collision detected - Event: walker.pedestrian.0003
+2025-09-21 17:42:08,782 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:04:13,374 - INFO - Episode Start
+2025-09-21 18:04:14,676 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 18:04:14,687 - INFO - Episode Ended, final reward is -20
+
+2025-09-21 18:04:45,273 - INFO - Episode Start
+2025-09-21 18:04:46,521 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 18:04:46,534 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:04:46,534 - INFO - Episode Start
+2025-09-21 18:04:47,448 - INFO - Collision detected - Event: walker.pedestrian.0015
+2025-09-21 18:04:47,462 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:04:47,462 - INFO - Episode Start
+2025-09-21 18:04:48,414 - INFO - Collision detected - Event: walker.pedestrian.0011
+2025-09-21 18:04:48,425 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:04:48,426 - INFO - Episode Start
+2025-09-21 18:04:49,316 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 18:04:49,329 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:04:49,329 - INFO - Episode Start
+2025-09-21 18:04:53,553 - INFO - Collision detected - Event: walker.pedestrian.0030
+2025-09-21 18:04:53,563 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:04:53,563 - INFO - Episode Start
+2025-09-21 18:05:55,811 - INFO - Episode Start
+2025-09-21 18:05:57,204 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:05:57,204 - INFO - Episode Start
+2025-09-21 18:05:58,175 - INFO - Collision detected - Event: walker.pedestrian.0030
+2025-09-21 18:05:58,187 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:05:58,188 - INFO - Episode Start
+2025-09-21 18:05:59,111 - INFO - Collision detected - Event: walker.pedestrian.0025
+2025-09-21 18:05:59,122 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:05:59,123 - INFO - Episode Start
+2025-09-21 18:07:45,093 - INFO - Episode Start
+2025-09-21 18:07:45,728 - INFO - Episode Ended, final reward is 0
+
+2025-09-21 18:07:45,728 - INFO - Episode Start
+2025-09-21 18:07:45,994 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:07:45,994 - INFO - Episode Start
+2025-09-21 18:07:46,263 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:07:46,264 - INFO - Episode Start
+2025-09-21 18:07:46,472 - INFO - Collision detected - Event: walker.pedestrian.0034
+2025-09-21 18:07:46,483 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:46,483 - INFO - Episode Start
+2025-09-21 18:07:46,762 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:07:46,762 - INFO - Episode Start
+2025-09-21 18:07:46,974 - INFO - Collision detected - Event: walker.pedestrian.0048
+2025-09-21 18:07:46,984 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:46,984 - INFO - Episode Start
+2025-09-21 18:07:47,203 - INFO - Collision detected - Event: walker.pedestrian.0026
+2025-09-21 18:07:47,216 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:47,216 - INFO - Episode Start
+2025-09-21 18:07:47,477 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:07:47,477 - INFO - Episode Start
+2025-09-21 18:07:47,754 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:07:47,754 - INFO - Episode Start
+2025-09-21 18:07:48,846 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:07:48,846 - INFO - Episode Start
+2025-09-21 18:07:49,142 - INFO - Episode Ended, final reward is 0
+
+2025-09-21 18:07:49,142 - INFO - Episode Start
+2025-09-21 18:07:49,538 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 18:07:49,552 - INFO - Episode Ended, final reward is -0.0
+
+2025-09-21 18:07:49,553 - INFO - Episode Start
+2025-09-21 18:07:49,762 - INFO - Collision detected - Event: walker.pedestrian.0049
+2025-09-21 18:07:49,772 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:49,772 - INFO - Episode Start
+2025-09-21 18:07:50,874 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:07:50,875 - INFO - Episode Start
+2025-09-21 18:07:51,081 - INFO - Collision detected - Event: walker.pedestrian.0045
+2025-09-21 18:07:51,094 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:51,094 - INFO - Episode Start
+2025-09-21 18:07:51,302 - INFO - Collision detected - Event: walker.pedestrian.0006
+2025-09-21 18:07:51,313 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:51,313 - INFO - Episode Start
+2025-09-21 18:07:56,212 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:07:56,212 - INFO - Episode Start
+2025-09-21 18:07:56,512 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:07:56,512 - INFO - Episode Start
+2025-09-21 18:07:56,720 - INFO - Collision detected - Event: walker.pedestrian.0012
+2025-09-21 18:07:56,733 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:56,734 - INFO - Episode Start
+2025-09-21 18:07:56,945 - INFO - Collision detected - Event: walker.pedestrian.0012
+2025-09-21 18:07:56,957 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:56,958 - INFO - Episode Start
+2025-09-21 18:07:57,169 - INFO - Collision detected - Event: walker.pedestrian.0017
+2025-09-21 18:07:57,182 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:57,182 - INFO - Episode Start
+2025-09-21 18:07:57,391 - INFO - Collision detected - Event: walker.pedestrian.0039
+2025-09-21 18:07:57,402 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:57,403 - INFO - Episode Start
+2025-09-21 18:07:58,495 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:07:58,496 - INFO - Episode Start
+2025-09-21 18:07:58,759 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:07:58,760 - INFO - Episode Start
+2025-09-21 18:07:58,972 - INFO - Collision detected - Event: walker.pedestrian.0032
+2025-09-21 18:07:58,984 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:58,984 - INFO - Episode Start
+2025-09-21 18:07:59,191 - INFO - Collision detected - Event: walker.pedestrian.0002
+2025-09-21 18:07:59,202 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:07:59,203 - INFO - Episode Start
+2025-09-21 18:09:09,599 - INFO - Episode Start
+2025-09-21 18:09:10,192 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:09:10,192 - INFO - Episode Start
+2025-09-21 18:09:10,448 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:09:10,449 - INFO - Episode Start
+2025-09-21 18:09:10,700 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:09:10,701 - INFO - Episode Start
+2025-09-21 18:09:10,959 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:09:10,960 - INFO - Episode Start
+2025-09-21 18:09:11,211 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:09:11,211 - INFO - Episode Start
+2025-09-21 18:09:11,420 - INFO - Collision detected - Event: walker.pedestrian.0040
+2025-09-21 18:09:11,430 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:09:11,431 - INFO - Episode Start
+2025-09-21 18:09:11,640 - INFO - Collision detected - Event: walker.pedestrian.0046
+2025-09-21 18:09:11,652 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:09:11,653 - INFO - Episode Start
+2025-09-21 18:09:11,906 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:09:11,907 - INFO - Episode Start
+2025-09-21 18:09:12,155 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:09:12,155 - INFO - Episode Start
+2025-09-21 18:09:12,365 - INFO - Collision detected - Event: walker.pedestrian.0039
+2025-09-21 18:09:12,376 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:09:12,377 - INFO - Episode Start
+2025-09-21 18:09:12,584 - INFO - Collision detected - Event: walker.pedestrian.0025
+2025-09-21 18:09:12,594 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:09:12,595 - INFO - Episode Start
+2025-09-21 18:09:12,846 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:09:12,846 - INFO - Episode Start
+2025-09-21 18:09:13,063 - INFO - Collision detected - Event: walker.pedestrian.0021
+2025-09-21 18:09:13,076 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:09:13,077 - INFO - Episode Start
+2025-09-21 18:09:13,331 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:09:13,332 - INFO - Episode Start
+2025-09-21 18:09:13,587 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:09:13,588 - INFO - Episode Start
+2025-09-21 18:09:13,798 - INFO - Collision detected - Event: walker.pedestrian.0003
+2025-09-21 18:09:13,810 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:09:13,810 - INFO - Episode Start
+2025-09-21 18:09:14,016 - INFO - Collision detected - Event: walker.pedestrian.0028
+2025-09-21 18:09:14,027 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:09:14,028 - INFO - Episode Start
+2025-09-21 18:10:07,374 - INFO - Episode Start
+2025-09-21 18:10:07,954 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:07,954 - INFO - Episode Start
+2025-09-21 18:10:08,165 - INFO - Collision detected - Event: walker.pedestrian.0008
+2025-09-21 18:10:08,177 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:08,178 - INFO - Episode Start
+2025-09-21 18:10:08,426 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:08,426 - INFO - Episode Start
+2025-09-21 18:10:08,634 - INFO - Collision detected - Event: walker.pedestrian.0040
+2025-09-21 18:10:08,645 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:08,645 - INFO - Episode Start
+2025-09-21 18:10:08,908 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:08,908 - INFO - Episode Start
+2025-09-21 18:10:09,120 - INFO - Collision detected - Event: walker.pedestrian.0034
+2025-09-21 18:10:09,131 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:09,132 - INFO - Episode Start
+2025-09-21 18:10:09,341 - INFO - Collision detected - Event: walker.pedestrian.0013
+2025-09-21 18:10:09,354 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:09,355 - INFO - Episode Start
+2025-09-21 18:10:09,565 - INFO - Collision detected - Event: walker.pedestrian.0046
+2025-09-21 18:10:09,579 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:09,580 - INFO - Episode Start
+2025-09-21 18:10:09,834 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:09,835 - INFO - Episode Start
+2025-09-21 18:10:40,196 - INFO - Episode Start
+2025-09-21 18:10:40,795 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:40,795 - INFO - Episode Start
+2025-09-21 18:10:41,005 - INFO - Collision detected - Event: walker.pedestrian.0049
+2025-09-21 18:10:41,016 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:41,016 - INFO - Episode Start
+2025-09-21 18:10:41,269 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:41,269 - INFO - Episode Start
+2025-09-21 18:10:41,477 - INFO - Collision detected - Event: walker.pedestrian.0027
+2025-09-21 18:10:41,488 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:41,489 - INFO - Episode Start
+2025-09-21 18:10:41,744 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:41,744 - INFO - Episode Start
+2025-09-21 18:10:41,994 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:41,994 - INFO - Episode Start
+2025-09-21 18:10:42,253 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:42,253 - INFO - Episode Start
+2025-09-21 18:10:42,460 - INFO - Collision detected - Event: walker.pedestrian.0045
+2025-09-21 18:10:42,472 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:42,472 - INFO - Episode Start
+2025-09-21 18:10:42,729 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:42,729 - INFO - Episode Start
+2025-09-21 18:10:42,983 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:42,983 - INFO - Episode Start
+2025-09-21 18:10:43,191 - INFO - Collision detected - Event: walker.pedestrian.0011
+2025-09-21 18:10:43,205 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:43,205 - INFO - Episode Start
+2025-09-21 18:10:43,415 - INFO - Collision detected - Event: walker.pedestrian.0034
+2025-09-21 18:10:43,427 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:43,427 - INFO - Episode Start
+2025-09-21 18:10:43,680 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:43,680 - INFO - Episode Start
+2025-09-21 18:10:43,889 - INFO - Collision detected - Event: walker.pedestrian.0017
+2025-09-21 18:10:43,901 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:43,901 - INFO - Episode Start
+2025-09-21 18:10:44,145 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:44,146 - INFO - Episode Start
+2025-09-21 18:10:44,355 - INFO - Collision detected - Event: walker.pedestrian.0023
+2025-09-21 18:10:44,367 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:44,367 - INFO - Episode Start
+2025-09-21 18:10:44,622 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:44,622 - INFO - Episode Start
+2025-09-21 18:10:44,828 - INFO - Collision detected - Event: walker.pedestrian.0017
+2025-09-21 18:10:44,838 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:44,838 - INFO - Episode Start
+2025-09-21 18:10:45,088 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:45,088 - INFO - Episode Start
+2025-09-21 18:10:45,335 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:45,335 - INFO - Episode Start
+2025-09-21 18:10:45,560 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:45,561 - INFO - Episode Start
+2025-09-21 18:10:45,808 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:45,808 - INFO - Episode Start
+2025-09-21 18:10:46,063 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:46,063 - INFO - Episode Start
+2025-09-21 18:10:46,271 - INFO - Collision detected - Event: walker.pedestrian.0007
+2025-09-21 18:10:46,281 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:46,282 - INFO - Episode Start
+2025-09-21 18:10:46,488 - INFO - Collision detected - Event: walker.pedestrian.0042
+2025-09-21 18:10:46,499 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:46,500 - INFO - Episode Start
+2025-09-21 18:10:46,751 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:46,751 - INFO - Episode Start
+2025-09-21 18:10:46,997 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:46,997 - INFO - Episode Start
+2025-09-21 18:10:47,203 - INFO - Collision detected - Event: walker.pedestrian.0048
+2025-09-21 18:10:47,215 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:47,215 - INFO - Episode Start
+2025-09-21 18:10:47,469 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:47,469 - INFO - Episode Start
+2025-09-21 18:10:47,728 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:47,728 - INFO - Episode Start
+2025-09-21 18:10:47,940 - INFO - Collision detected - Event: walker.pedestrian.0022
+2025-09-21 18:10:47,953 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:47,953 - INFO - Episode Start
+2025-09-21 18:10:48,182 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:10:48,182 - INFO - Episode Start
+2025-09-21 18:10:48,429 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:10:48,429 - INFO - Episode Start
+2025-09-21 18:12:25,868 - INFO - Episode Start
+2025-09-21 18:12:26,471 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:26,471 - INFO - Episode Start
+2025-09-21 18:12:26,684 - INFO - Collision detected - Event: walker.pedestrian.0002
+2025-09-21 18:12:26,696 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:26,696 - INFO - Episode Start
+2025-09-21 18:12:26,908 - INFO - Collision detected - Event: walker.pedestrian.0040
+2025-09-21 18:12:26,919 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:26,919 - INFO - Episode Start
+2025-09-21 18:12:27,129 - INFO - Collision detected - Event: walker.pedestrian.0018
+2025-09-21 18:12:27,141 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:27,141 - INFO - Episode Start
+2025-09-21 18:12:27,352 - INFO - Collision detected - Event: walker.pedestrian.0034
+2025-09-21 18:12:27,363 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:27,364 - INFO - Episode Start
+2025-09-21 18:12:27,616 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:27,616 - INFO - Episode Start
+2025-09-21 18:12:27,870 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:27,870 - INFO - Episode Start
+2025-09-21 18:12:28,079 - INFO - Collision detected - Event: walker.pedestrian.0044
+2025-09-21 18:12:28,092 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:28,092 - INFO - Episode Start
+2025-09-21 18:12:28,343 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:28,343 - INFO - Episode Start
+2025-09-21 18:12:28,600 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:28,601 - INFO - Episode Start
+2025-09-21 18:12:28,855 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:28,855 - INFO - Episode Start
+2025-09-21 18:12:29,065 - INFO - Collision detected - Event: walker.pedestrian.0037
+2025-09-21 18:12:29,078 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:29,078 - INFO - Episode Start
+2025-09-21 18:12:29,290 - INFO - Collision detected - Event: walker.pedestrian.0005
+2025-09-21 18:12:29,302 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:29,302 - INFO - Episode Start
+2025-09-21 18:12:29,513 - INFO - Collision detected - Event: walker.pedestrian.0032
+2025-09-21 18:12:29,523 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:29,523 - INFO - Episode Start
+2025-09-21 18:12:29,774 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:29,774 - INFO - Episode Start
+2025-09-21 18:12:29,985 - INFO - Collision detected - Event: walker.pedestrian.0030
+2025-09-21 18:12:29,997 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:29,997 - INFO - Episode Start
+2025-09-21 18:12:30,250 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:30,250 - INFO - Episode Start
+2025-09-21 18:12:30,498 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:30,499 - INFO - Episode Start
+2025-09-21 18:12:30,749 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:30,749 - INFO - Episode Start
+2025-09-21 18:12:30,957 - INFO - Collision detected - Event: walker.pedestrian.0005
+2025-09-21 18:12:30,971 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:30,971 - INFO - Episode Start
+2025-09-21 18:12:31,223 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:31,223 - INFO - Episode Start
+2025-09-21 18:12:31,479 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:31,480 - INFO - Episode Start
+2025-09-21 18:12:31,733 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:31,733 - INFO - Episode Start
+2025-09-21 18:12:31,944 - INFO - Collision detected - Event: walker.pedestrian.0013
+2025-09-21 18:12:31,955 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:31,955 - INFO - Episode Start
+2025-09-21 18:12:32,184 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:32,184 - INFO - Episode Start
+2025-09-21 18:12:32,432 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:32,433 - INFO - Episode Start
+2025-09-21 18:12:32,645 - INFO - Collision detected - Event: walker.pedestrian.0038
+2025-09-21 18:12:32,654 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:32,655 - INFO - Episode Start
+2025-09-21 18:12:32,864 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-09-21 18:12:32,874 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:32,875 - INFO - Episode Start
+2025-09-21 18:12:33,137 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:33,137 - INFO - Episode Start
+2025-09-21 18:12:33,350 - INFO - Collision detected - Event: walker.pedestrian.0001
+2025-09-21 18:12:33,361 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:33,361 - INFO - Episode Start
+2025-09-21 18:12:33,570 - INFO - Collision detected - Event: walker.pedestrian.0029
+2025-09-21 18:12:33,580 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:33,580 - INFO - Episode Start
+2025-09-21 18:12:33,836 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:33,837 - INFO - Episode Start
+2025-09-21 18:12:34,047 - INFO - Collision detected - Event: walker.pedestrian.0024
+2025-09-21 18:12:34,060 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:34,060 - INFO - Episode Start
+2025-09-21 18:12:34,308 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:34,308 - INFO - Episode Start
+2025-09-21 18:12:34,562 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:34,562 - INFO - Episode Start
+2025-09-21 18:12:34,823 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:34,823 - INFO - Episode Start
+2025-09-21 18:12:35,080 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:35,081 - INFO - Episode Start
+2025-09-21 18:12:35,289 - INFO - Collision detected - Event: walker.pedestrian.0018
+2025-09-21 18:12:35,299 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:12:35,300 - INFO - Episode Start
+2025-09-21 18:12:35,555 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:12:35,555 - INFO - Episode Start
+2025-09-21 18:17:59,772 - INFO - Episode Start
+2025-09-21 18:18:00,344 - INFO - Collision detected - Event: walker.pedestrian.0034
+2025-09-21 18:18:00,357 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:18:00,357 - INFO - Episode Start
+2025-09-21 18:19:30,433 - INFO - Episode Start
+2025-09-21 18:19:30,989 - INFO - Collision detected - Event: walker.pedestrian.0021
+2025-09-21 18:19:31,001 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:19:31,001 - INFO - Episode Start
+2025-09-21 18:20:40,732 - INFO - Episode Start
+2025-09-21 18:23:10,562 - INFO - Episode Start
+2025-09-21 18:23:11,155 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:11,155 - INFO - Episode Start
+2025-09-21 18:23:11,365 - INFO - Collision detected - Event: walker.pedestrian.0041
+2025-09-21 18:23:11,379 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:11,379 - INFO - Episode Start
+2025-09-21 18:23:11,590 - INFO - Collision detected - Event: walker.pedestrian.0034
+2025-09-21 18:23:11,602 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:11,602 - INFO - Episode Start
+2025-09-21 18:23:11,812 - INFO - Collision detected - Event: walker.pedestrian.0036
+2025-09-21 18:23:11,825 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:11,825 - INFO - Episode Start
+2025-09-21 18:23:12,085 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:12,085 - INFO - Episode Start
+2025-09-21 18:23:12,297 - INFO - Collision detected - Event: walker.pedestrian.0007
+2025-09-21 18:23:12,310 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:12,310 - INFO - Episode Start
+2025-09-21 18:23:12,566 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:12,566 - INFO - Episode Start
+2025-09-21 18:23:12,774 - INFO - Collision detected - Event: walker.pedestrian.0006
+2025-09-21 18:23:12,787 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:12,787 - INFO - Episode Start
+2025-09-21 18:23:13,041 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:13,041 - INFO - Episode Start
+2025-09-21 18:23:13,252 - INFO - Collision detected - Event: walker.pedestrian.0006
+2025-09-21 18:23:13,265 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:13,265 - INFO - Episode Start
+2025-09-21 18:23:13,473 - INFO - Collision detected - Event: walker.pedestrian.0003
+2025-09-21 18:23:13,487 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:13,487 - INFO - Episode Start
+2025-09-21 18:23:14,603 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:23:14,603 - INFO - Episode Start
+2025-09-21 18:23:14,814 - INFO - Collision detected - Event: walker.pedestrian.0005
+2025-09-21 18:23:14,824 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:14,824 - INFO - Episode Start
+2025-09-21 18:23:15,070 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:15,071 - INFO - Episode Start
+2025-09-21 18:23:15,276 - INFO - Collision detected - Event: walker.pedestrian.0025
+2025-09-21 18:23:15,288 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:15,288 - INFO - Episode Start
+2025-09-21 18:23:15,512 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:15,512 - INFO - Episode Start
+2025-09-21 18:23:15,728 - INFO - Collision detected - Event: walker.pedestrian.0017
+2025-09-21 18:23:15,740 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:15,740 - INFO - Episode Start
+2025-09-21 18:23:15,989 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:15,989 - INFO - Episode Start
+2025-09-21 18:23:16,244 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:16,244 - INFO - Episode Start
+2025-09-21 18:23:16,455 - INFO - Collision detected - Event: walker.pedestrian.0019
+2025-09-21 18:23:16,467 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:16,467 - INFO - Episode Start
+2025-09-21 18:23:16,674 - INFO - Collision detected - Event: walker.pedestrian.0029
+2025-09-21 18:23:16,687 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:16,687 - INFO - Episode Start
+2025-09-21 18:23:16,898 - INFO - Collision detected - Event: walker.pedestrian.0028
+2025-09-21 18:23:16,911 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:16,912 - INFO - Episode Start
+2025-09-21 18:23:17,121 - INFO - Collision detected - Event: walker.pedestrian.0040
+2025-09-21 18:23:17,131 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:17,131 - INFO - Episode Start
+2025-09-21 18:23:17,339 - INFO - Collision detected - Event: walker.pedestrian.0041
+2025-09-21 18:23:17,350 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:17,350 - INFO - Episode Start
+2025-09-21 18:23:17,605 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:17,605 - INFO - Episode Start
+2025-09-21 18:23:17,818 - INFO - Collision detected - Event: walker.pedestrian.0013
+2025-09-21 18:23:17,830 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:17,830 - INFO - Episode Start
+2025-09-21 18:23:18,079 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:18,079 - INFO - Episode Start
+2025-09-21 18:23:18,288 - INFO - Collision detected - Event: walker.pedestrian.0018
+2025-09-21 18:23:18,298 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:18,298 - INFO - Episode Start
+2025-09-21 18:23:18,693 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 18:23:18,705 - INFO - Episode Ended, final reward is -0.0
+
+2025-09-21 18:23:18,706 - INFO - Episode Start
+2025-09-21 18:23:18,915 - INFO - Collision detected - Event: walker.pedestrian.0015
+2025-09-21 18:23:18,928 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:18,928 - INFO - Episode Start
+2025-09-21 18:23:20,046 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:23:20,046 - INFO - Episode Start
+2025-09-21 18:23:20,255 - INFO - Collision detected - Event: walker.pedestrian.0004
+2025-09-21 18:23:20,267 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:20,267 - INFO - Episode Start
+2025-09-21 18:23:24,418 - INFO - Collision detected - Event: walker.pedestrian.0021
+2025-09-21 18:23:24,429 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:24,429 - INFO - Episode Start
+2025-09-21 18:23:25,528 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:23:25,528 - INFO - Episode Start
+2025-09-21 18:23:25,735 - INFO - Collision detected - Event: walker.pedestrian.0014
+2025-09-21 18:23:25,749 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:25,749 - INFO - Episode Start
+2025-09-21 18:23:26,839 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:23:26,840 - INFO - Episode Start
+2025-09-21 18:23:27,050 - INFO - Collision detected - Event: walker.pedestrian.0044
+2025-09-21 18:23:27,060 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:27,060 - INFO - Episode Start
+2025-09-21 18:23:28,146 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:23:28,147 - INFO - Episode Start
+2025-09-21 18:23:28,401 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:28,401 - INFO - Episode Start
+2025-09-21 18:23:28,653 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:28,653 - INFO - Episode Start
+2025-09-21 18:23:28,864 - INFO - Collision detected - Event: walker.pedestrian.0016
+2025-09-21 18:23:28,876 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:28,876 - INFO - Episode Start
+2025-09-21 18:23:29,133 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:29,133 - INFO - Episode Start
+2025-09-21 18:23:29,344 - INFO - Collision detected - Event: walker.pedestrian.0033
+2025-09-21 18:23:29,354 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:29,354 - INFO - Episode Start
+2025-09-21 18:23:29,604 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:29,604 - INFO - Episode Start
+2025-09-21 18:23:29,814 - INFO - Collision detected - Event: walker.pedestrian.0004
+2025-09-21 18:23:29,827 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:29,827 - INFO - Episode Start
+2025-09-21 18:23:30,035 - INFO - Collision detected - Event: walker.pedestrian.0040
+2025-09-21 18:23:30,047 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:30,047 - INFO - Episode Start
+2025-09-21 18:23:30,254 - INFO - Collision detected - Event: walker.pedestrian.0015
+2025-09-21 18:23:30,267 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:30,268 - INFO - Episode Start
+2025-09-21 18:23:34,401 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:34,401 - INFO - Episode Start
+2025-09-21 18:23:34,656 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:34,657 - INFO - Episode Start
+2025-09-21 18:23:34,867 - INFO - Collision detected - Event: walker.pedestrian.0019
+2025-09-21 18:23:34,879 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:34,879 - INFO - Episode Start
+2025-09-21 18:23:35,141 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:35,142 - INFO - Episode Start
+2025-09-21 18:23:35,396 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:35,396 - INFO - Episode Start
+2025-09-21 18:23:35,647 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:35,647 - INFO - Episode Start
+2025-09-21 18:23:35,855 - INFO - Collision detected - Event: walker.pedestrian.0033
+2025-09-21 18:23:35,869 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:35,869 - INFO - Episode Start
+2025-09-21 18:23:36,118 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:36,118 - INFO - Episode Start
+2025-09-21 18:23:36,328 - INFO - Collision detected - Event: walker.pedestrian.0005
+2025-09-21 18:23:36,340 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:36,340 - INFO - Episode Start
+2025-09-21 18:23:36,549 - INFO - Collision detected - Event: walker.pedestrian.0046
+2025-09-21 18:23:36,561 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:36,561 - INFO - Episode Start
+2025-09-21 18:23:36,816 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:36,816 - INFO - Episode Start
+2025-09-21 18:23:37,026 - INFO - Collision detected - Event: walker.pedestrian.0029
+2025-09-21 18:23:37,037 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:37,037 - INFO - Episode Start
+2025-09-21 18:23:37,287 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:37,287 - INFO - Episode Start
+2025-09-21 18:23:37,499 - INFO - Collision detected - Event: walker.pedestrian.0013
+2025-09-21 18:23:37,511 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:37,511 - INFO - Episode Start
+2025-09-21 18:23:37,715 - INFO - Collision detected - Event: walker.pedestrian.0046
+2025-09-21 18:23:37,726 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:37,726 - INFO - Episode Start
+2025-09-21 18:23:37,979 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:37,979 - INFO - Episode Start
+2025-09-21 18:23:38,228 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:38,229 - INFO - Episode Start
+2025-09-21 18:23:38,438 - INFO - Collision detected - Event: walker.pedestrian.0046
+2025-09-21 18:23:38,451 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:38,451 - INFO - Episode Start
+2025-09-21 18:23:38,662 - INFO - Collision detected - Event: walker.pedestrian.0048
+2025-09-21 18:23:38,675 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:38,675 - INFO - Episode Start
+2025-09-21 18:23:38,886 - INFO - Collision detected - Event: walker.pedestrian.0048
+2025-09-21 18:23:38,897 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:38,897 - INFO - Episode Start
+2025-09-21 18:23:39,104 - INFO - Collision detected - Event: walker.pedestrian.0017
+2025-09-21 18:23:39,116 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:39,116 - INFO - Episode Start
+2025-09-21 18:23:39,329 - INFO - Collision detected - Event: walker.pedestrian.0016
+2025-09-21 18:23:39,340 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:39,340 - INFO - Episode Start
+2025-09-21 18:23:39,600 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:39,601 - INFO - Episode Start
+2025-09-21 18:23:39,812 - INFO - Collision detected - Event: walker.pedestrian.0031
+2025-09-21 18:23:39,826 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:39,827 - INFO - Episode Start
+2025-09-21 18:23:40,034 - INFO - Collision detected - Event: walker.pedestrian.0004
+2025-09-21 18:23:40,046 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:40,046 - INFO - Episode Start
+2025-09-21 18:23:40,255 - INFO - Collision detected - Event: walker.pedestrian.0013
+2025-09-21 18:23:40,265 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:40,265 - INFO - Episode Start
+2025-09-21 18:23:40,472 - INFO - Collision detected - Event: walker.pedestrian.0040
+2025-09-21 18:23:40,484 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:40,484 - INFO - Episode Start
+2025-09-21 18:23:40,690 - INFO - Collision detected - Event: walker.pedestrian.0004
+2025-09-21 18:23:40,703 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:40,703 - INFO - Episode Start
+2025-09-21 18:23:40,957 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:40,957 - INFO - Episode Start
+2025-09-21 18:23:41,167 - INFO - Collision detected - Event: walker.pedestrian.0028
+2025-09-21 18:23:41,179 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:41,179 - INFO - Episode Start
+2025-09-21 18:23:41,390 - INFO - Collision detected - Event: walker.pedestrian.0047
+2025-09-21 18:23:41,401 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:41,401 - INFO - Episode Start
+2025-09-21 18:23:41,629 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:41,630 - INFO - Episode Start
+2025-09-21 18:23:41,841 - INFO - Collision detected - Event: walker.pedestrian.0048
+2025-09-21 18:23:41,853 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:41,854 - INFO - Episode Start
+2025-09-21 18:23:42,117 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:42,117 - INFO - Episode Start
+2025-09-21 18:23:42,327 - INFO - Collision detected - Event: walker.pedestrian.0047
+2025-09-21 18:23:42,339 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:42,339 - INFO - Episode Start
+2025-09-21 18:23:42,546 - INFO - Collision detected - Event: walker.pedestrian.0048
+2025-09-21 18:23:42,557 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:42,557 - INFO - Episode Start
+2025-09-21 18:23:43,663 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:23:43,663 - INFO - Episode Start
+2025-09-21 18:23:43,872 - INFO - Collision detected - Event: walker.pedestrian.0020
+2025-09-21 18:23:43,883 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:43,883 - INFO - Episode Start
+2025-09-21 18:23:44,137 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:44,137 - INFO - Episode Start
+2025-09-21 18:23:44,348 - INFO - Collision detected - Event: walker.pedestrian.0022
+2025-09-21 18:23:44,358 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:44,359 - INFO - Episode Start
+2025-09-21 18:23:44,569 - INFO - Collision detected - Event: walker.pedestrian.0013
+2025-09-21 18:23:44,582 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:44,582 - INFO - Episode Start
+2025-09-21 18:23:44,840 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:44,840 - INFO - Episode Start
+2025-09-21 18:23:45,102 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:45,102 - INFO - Episode Start
+2025-09-21 18:23:45,351 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:45,352 - INFO - Episode Start
+2025-09-21 18:23:45,561 - INFO - Collision detected - Event: walker.pedestrian.0007
+2025-09-21 18:23:45,573 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:45,574 - INFO - Episode Start
+2025-09-21 18:23:45,783 - INFO - Collision detected - Event: walker.pedestrian.0024
+2025-09-21 18:23:45,799 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:45,799 - INFO - Episode Start
+2025-09-21 18:23:46,054 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:46,054 - INFO - Episode Start
+2025-09-21 18:23:46,263 - INFO - Collision detected - Event: walker.pedestrian.0003
+2025-09-21 18:23:46,274 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:46,275 - INFO - Episode Start
+2025-09-21 18:23:46,528 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:46,528 - INFO - Episode Start
+2025-09-21 18:23:46,740 - INFO - Collision detected - Event: walker.pedestrian.0035
+2025-09-21 18:23:46,753 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:46,753 - INFO - Episode Start
+2025-09-21 18:23:46,963 - INFO - Collision detected - Event: walker.pedestrian.0028
+2025-09-21 18:23:46,973 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:46,973 - INFO - Episode Start
+2025-09-21 18:23:47,179 - INFO - Collision detected - Event: walker.pedestrian.0016
+2025-09-21 18:23:47,191 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:47,191 - INFO - Episode Start
+2025-09-21 18:23:47,398 - INFO - Collision detected - Event: walker.pedestrian.0026
+2025-09-21 18:23:47,407 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:47,407 - INFO - Episode Start
+2025-09-21 18:23:52,412 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:23:52,412 - INFO - Episode Start
+2025-09-21 18:23:52,620 - INFO - Collision detected - Event: walker.pedestrian.0022
+2025-09-21 18:23:52,630 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:52,630 - INFO - Episode Start
+2025-09-21 18:23:52,842 - INFO - Collision detected - Event: walker.pedestrian.0037
+2025-09-21 18:23:52,854 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:52,854 - INFO - Episode Start
+2025-09-21 18:23:53,061 - INFO - Collision detected - Event: walker.pedestrian.0005
+2025-09-21 18:23:53,071 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:53,071 - INFO - Episode Start
+2025-09-21 18:23:53,278 - INFO - Collision detected - Event: walker.pedestrian.0006
+2025-09-21 18:23:53,290 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:53,290 - INFO - Episode Start
+2025-09-21 18:23:53,496 - INFO - Collision detected - Event: walker.pedestrian.0022
+2025-09-21 18:23:53,510 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:53,510 - INFO - Episode Start
+2025-09-21 18:23:53,794 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:53,794 - INFO - Episode Start
+2025-09-21 18:23:54,005 - INFO - Collision detected - Event: walker.pedestrian.0046
+2025-09-21 18:23:54,022 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:54,022 - INFO - Episode Start
+2025-09-21 18:23:54,233 - INFO - Collision detected - Event: walker.pedestrian.0034
+2025-09-21 18:23:54,245 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:54,245 - INFO - Episode Start
+2025-09-21 18:23:54,496 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:54,496 - INFO - Episode Start
+2025-09-21 18:23:54,749 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:54,749 - INFO - Episode Start
+2025-09-21 18:23:54,958 - INFO - Collision detected - Event: walker.pedestrian.0049
+2025-09-21 18:23:54,970 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:54,970 - INFO - Episode Start
+2025-09-21 18:23:55,180 - INFO - Collision detected - Event: walker.pedestrian.0026
+2025-09-21 18:23:55,193 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:55,193 - INFO - Episode Start
+2025-09-21 18:23:55,442 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:55,442 - INFO - Episode Start
+2025-09-21 18:23:55,691 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:55,691 - INFO - Episode Start
+2025-09-21 18:23:55,946 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:55,946 - INFO - Episode Start
+2025-09-21 18:23:56,205 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:56,206 - INFO - Episode Start
+2025-09-21 18:23:56,455 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:56,456 - INFO - Episode Start
+2025-09-21 18:23:56,710 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:56,710 - INFO - Episode Start
+2025-09-21 18:23:56,921 - INFO - Collision detected - Event: walker.pedestrian.0015
+2025-09-21 18:23:56,934 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:56,934 - INFO - Episode Start
+2025-09-21 18:23:57,147 - INFO - Collision detected - Event: walker.pedestrian.0047
+2025-09-21 18:23:57,157 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:57,157 - INFO - Episode Start
+2025-09-21 18:23:57,411 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:57,411 - INFO - Episode Start
+2025-09-21 18:23:57,623 - INFO - Collision detected - Event: walker.pedestrian.0018
+2025-09-21 18:23:57,635 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:57,635 - INFO - Episode Start
+2025-09-21 18:23:57,890 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:57,890 - INFO - Episode Start
+2025-09-21 18:23:58,147 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:58,147 - INFO - Episode Start
+2025-09-21 18:23:58,404 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:58,405 - INFO - Episode Start
+2025-09-21 18:23:58,656 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:58,657 - INFO - Episode Start
+2025-09-21 18:23:58,913 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:58,913 - INFO - Episode Start
+2025-09-21 18:23:59,167 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:59,167 - INFO - Episode Start
+2025-09-21 18:23:59,376 - INFO - Collision detected - Event: walker.pedestrian.0030
+2025-09-21 18:23:59,386 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:59,386 - INFO - Episode Start
+2025-09-21 18:23:59,638 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:23:59,638 - INFO - Episode Start
+2025-09-21 18:23:59,848 - INFO - Collision detected - Event: walker.pedestrian.0021
+2025-09-21 18:23:59,860 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:23:59,860 - INFO - Episode Start
+2025-09-21 18:24:00,110 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:00,110 - INFO - Episode Start
+2025-09-21 18:24:00,318 - INFO - Collision detected - Event: walker.pedestrian.0042
+2025-09-21 18:24:00,330 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:00,330 - INFO - Episode Start
+2025-09-21 18:24:00,539 - INFO - Collision detected - Event: walker.pedestrian.0042
+2025-09-21 18:24:00,552 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:00,552 - INFO - Episode Start
+2025-09-21 18:24:00,784 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:00,784 - INFO - Episode Start
+2025-09-21 18:24:00,994 - INFO - Collision detected - Event: walker.pedestrian.0023
+2025-09-21 18:24:01,008 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:01,008 - INFO - Episode Start
+2025-09-21 18:24:01,260 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:01,260 - INFO - Episode Start
+2025-09-21 18:24:01,469 - INFO - Collision detected - Event: walker.pedestrian.0025
+2025-09-21 18:24:01,481 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:01,481 - INFO - Episode Start
+2025-09-21 18:24:01,741 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:01,741 - INFO - Episode Start
+2025-09-21 18:24:01,950 - INFO - Collision detected - Event: walker.pedestrian.0026
+2025-09-21 18:24:01,961 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:01,961 - INFO - Episode Start
+2025-09-21 18:24:02,167 - INFO - Collision detected - Event: walker.pedestrian.0015
+2025-09-21 18:24:02,180 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:02,180 - INFO - Episode Start
+2025-09-21 18:24:02,436 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:02,436 - INFO - Episode Start
+2025-09-21 18:24:02,690 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:02,690 - INFO - Episode Start
+2025-09-21 18:24:02,902 - INFO - Collision detected - Event: walker.pedestrian.0024
+2025-09-21 18:24:02,915 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:02,915 - INFO - Episode Start
+2025-09-21 18:24:03,125 - INFO - Collision detected - Event: walker.pedestrian.0009
+2025-09-21 18:24:03,139 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:03,139 - INFO - Episode Start
+2025-09-21 18:24:03,347 - INFO - Collision detected - Event: walker.pedestrian.0017
+2025-09-21 18:24:03,358 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:03,358 - INFO - Episode Start
+2025-09-21 18:24:03,566 - INFO - Collision detected - Event: walker.pedestrian.0019
+2025-09-21 18:24:03,581 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:03,581 - INFO - Episode Start
+2025-09-21 18:24:03,792 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-09-21 18:24:03,803 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:03,803 - INFO - Episode Start
+2025-09-21 18:24:04,010 - INFO - Collision detected - Event: walker.pedestrian.0048
+2025-09-21 18:24:04,023 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:04,023 - INFO - Episode Start
+2025-09-21 18:24:04,230 - INFO - Collision detected - Event: walker.pedestrian.0016
+2025-09-21 18:24:04,243 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:04,243 - INFO - Episode Start
+2025-09-21 18:24:08,071 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:08,072 - INFO - Episode Start
+2025-09-21 18:24:08,329 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:08,330 - INFO - Episode Start
+2025-09-21 18:24:08,586 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:08,586 - INFO - Episode Start
+2025-09-21 18:24:08,841 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:08,841 - INFO - Episode Start
+2025-09-21 18:24:09,048 - INFO - Collision detected - Event: walker.pedestrian.0038
+2025-09-21 18:24:09,059 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:09,059 - INFO - Episode Start
+2025-09-21 18:24:09,309 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:09,309 - INFO - Episode Start
+2025-09-21 18:24:09,557 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:09,557 - INFO - Episode Start
+2025-09-21 18:24:09,810 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:09,811 - INFO - Episode Start
+2025-09-21 18:24:10,021 - INFO - Collision detected - Event: walker.pedestrian.0042
+2025-09-21 18:24:10,033 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:10,034 - INFO - Episode Start
+2025-09-21 18:24:10,243 - INFO - Collision detected - Event: walker.pedestrian.0003
+2025-09-21 18:24:10,256 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:10,256 - INFO - Episode Start
+2025-09-21 18:24:10,466 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-09-21 18:24:10,477 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:10,477 - INFO - Episode Start
+2025-09-21 18:24:11,553 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:24:11,553 - INFO - Episode Start
+2025-09-21 18:24:11,811 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:11,811 - INFO - Episode Start
+2025-09-21 18:24:12,066 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:12,066 - INFO - Episode Start
+2025-09-21 18:24:12,313 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:12,313 - INFO - Episode Start
+2025-09-21 18:24:12,567 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:12,568 - INFO - Episode Start
+2025-09-21 18:24:12,778 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-09-21 18:24:12,793 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:12,793 - INFO - Episode Start
+2025-09-21 18:24:13,044 - INFO - Collision detected - Event: walker.pedestrian.0020
+2025-09-21 18:24:13,054 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:13,054 - INFO - Episode Start
+2025-09-21 18:24:13,265 - INFO - Collision detected - Event: walker.pedestrian.0005
+2025-09-21 18:24:13,279 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:13,279 - INFO - Episode Start
+2025-09-21 18:24:13,506 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:13,506 - INFO - Episode Start
+2025-09-21 18:24:13,715 - INFO - Collision detected - Event: walker.pedestrian.0046
+2025-09-21 18:24:13,727 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:13,727 - INFO - Episode Start
+2025-09-21 18:24:13,978 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:13,978 - INFO - Episode Start
+2025-09-21 18:24:14,187 - INFO - Collision detected - Event: walker.pedestrian.0029
+2025-09-21 18:24:14,198 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:14,198 - INFO - Episode Start
+2025-09-21 18:24:14,406 - INFO - Collision detected - Event: walker.pedestrian.0025
+2025-09-21 18:24:14,417 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:14,418 - INFO - Episode Start
+2025-09-21 18:24:14,800 - INFO - Collision detected - Event: vehicle.bh.crossbike
+2025-09-21 18:24:14,810 - INFO - Episode Ended, final reward is -0.0
+
+2025-09-21 18:24:14,810 - INFO - Episode Start
+2025-09-21 18:24:15,082 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:15,082 - INFO - Episode Start
+2025-09-21 18:24:15,291 - INFO - Collision detected - Event: walker.pedestrian.0013
+2025-09-21 18:24:15,303 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:15,303 - INFO - Episode Start
+2025-09-21 18:24:15,514 - INFO - Collision detected - Event: walker.pedestrian.0030
+2025-09-21 18:24:15,527 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:15,528 - INFO - Episode Start
+2025-09-21 18:24:15,736 - INFO - Collision detected - Event: walker.pedestrian.0038
+2025-09-21 18:24:15,749 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:15,749 - INFO - Episode Start
+2025-09-21 18:24:15,957 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-09-21 18:24:15,969 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:15,969 - INFO - Episode Start
+2025-09-21 18:24:16,179 - INFO - Collision detected - Event: walker.pedestrian.0047
+2025-09-21 18:24:16,192 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:16,192 - INFO - Episode Start
+2025-09-21 18:24:16,399 - INFO - Collision detected - Event: walker.pedestrian.0010
+2025-09-21 18:24:16,410 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:16,410 - INFO - Episode Start
+2025-09-21 18:24:16,620 - INFO - Collision detected - Event: walker.pedestrian.0015
+2025-09-21 18:24:16,633 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:16,634 - INFO - Episode Start
+2025-09-21 18:24:16,843 - INFO - Collision detected - Event: walker.pedestrian.0031
+2025-09-21 18:24:16,854 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:16,854 - INFO - Episode Start
+2025-09-21 18:24:17,066 - INFO - Collision detected - Event: walker.pedestrian.0007
+2025-09-21 18:24:17,078 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:17,078 - INFO - Episode Start
+2025-09-21 18:24:17,284 - INFO - Collision detected - Event: walker.pedestrian.0015
+2025-09-21 18:24:17,294 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:17,294 - INFO - Episode Start
+2025-09-21 18:24:17,547 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:17,547 - INFO - Episode Start
+2025-09-21 18:24:17,802 - INFO - Episode Ended, final reward is -1
+
+2025-09-21 18:24:17,803 - INFO - Episode Start
+2025-09-21 18:24:18,013 - INFO - Collision detected - Event: walker.pedestrian.0016
+2025-09-21 18:24:18,028 - INFO - Episode Ended, final reward is -4
+
+2025-09-21 18:24:18,028 - INFO - Episode Start
+2025-09-21 18:24:22,866 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:24:22,866 - INFO - Episode Start
+2025-09-21 18:24:23,990 - INFO - Episode Ended, final reward is -10
+
+2025-09-21 18:24:23,990 - INFO - Episode Start
