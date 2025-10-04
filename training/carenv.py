@@ -16,13 +16,12 @@ import os
 from dataset_creation.aae.ae.autoencoder import load_ae
 from scenario_manager import ScenarioManager
 from pathlib import Path
-import wandb
 BASE_DIR = Path(__file__).resolve().parent
 
 num_envs = 1
 import logging
 import datetime
-		
+import json
 
 
 
@@ -128,8 +127,8 @@ import numpy as np
 def rectangle_area_checker(vehicle_vector,vehicle_location,walker_locations: list,walker_list: list):
 	
  
-	dim_x=2
-	dim_y=3
+	dim_x=3
+	dim_y=4
 	area_dims = np.array([dim_x,dim_y])
 	area_ranges = np.array([area_dims[0]/2,area_dims[1]])
 	area_max_distance = np.linalg.norm(area_ranges)
@@ -228,7 +227,7 @@ class World_Manager():
 		while found==False:
 			try:
 				self.client = carla.Client("localhost", self.port)
-				self.client.set_timeout(5.0)
+				self.client.set_timeout(20.0)
 				self.world = self.client.load_world(self.town)
 
 				found = True
@@ -283,11 +282,11 @@ class CarEnv(gym.Env):
 	BIRD_CAMERA_POS_Z = 6 
 	BIRD_CAMERA_POS_X = 0
 	BIRD_CAMERA_PITCH = -90
-	OBJECT_VALUES = {"values":{"walker":4,"bike":1}}
+	OBJECT_VALUES = {"values":{"walker":4,"bike":0.1}}
 	TOTAL_TIMESTEPS = 0
 	# Set up logging (do this once, typically in your __init__ method)
 	
-	def __init__(self,world_manager,main=True,evaluation=False,imagelog_stride=20):
+	def __init__(self,world_manager,main=True,evaluation=False,imagelog_stride=20,logdir=None):
 		super(CarEnv, self).__init__()
 		# try:
 		#	 os.remove(f"/media/carla/AVRL/our_ppo/mkfifo/tick_{rank}")
@@ -298,7 +297,7 @@ class CarEnv(gym.Env):
 		# except:
 		#	 pass
 
-
+		self.records = {}
 		self.evaluation = evaluation
 		self.stride = imagelog_stride
 		self.world_manager = world_manager
@@ -312,13 +311,19 @@ class CarEnv(gym.Env):
 		self.object_values=CarEnv.OBJECT_VALUES
 		self.done_cooldown = -1
 		self.log_name = f'{"--".join(["_".join([key, str(value)]) for key, value in zip(self.object_values["values"].keys(), self.object_values["values"].values())])}'
+		if logdir:
+			filename = os.path.join(logdir,f"{self.log_name}.log")
+			os.makedirs(logdir, exist_ok=True)
+		else:
+			filename = None
+
 		logging.basicConfig(
-		filename=os.path.join('logs',f"{self.log_name}.log"),
+		filename=filename,
 		level=logging.INFO,
-		format='%(asctime)s - %(levelname)s - %(message)s'
+		format='%(message)s'
 		)
-		self.danger_table = wandb.Table(columns=["object", "time"],log_mode = "MUTABLE")
-		self.collision_table = wandb.Table(columns=["object", "time"],log_mode = "MUTABLE")
+		# self.danger_table = wandb.Table(columns=["object", "time"],log_mode = "MUTABLE")
+		# self.collision_table = wandb.Table(columns=["object", "time"],log_mode = "MUTABLE")
 		
 		self.rank = world_manager.rank
 
@@ -424,15 +429,18 @@ class CarEnv(gym.Env):
 		except Exception as e:
 			print("The vehicle is not here for some reson and the id is:",self.world_manager.vehicle.id)
 			
-		logging.info(f"Episode Start")
+		# logging.info(f"Episode Start")
 		print("Episode Start")
-		if self.run_id%100 == 0:
-			wandb.log({"Walkers in Danger": self.danger_table,"Collision":self.collision_table})
+		self.run_id+=1
+		logging.info(json.dumps(self.records))
+		self.records = {
+			'run':self.run_id,
+			'evaluation': self.evaluation
+		}
 		self.walker_locations=[]
 
 		self.cleanup()
 		self.tick()
-		self.run_id+=1
 		self.current_waypoint_index = -1
 		self.center_lane_deviation = 0.0
 		# Waypoint nearby angle and distance from it
@@ -444,8 +452,8 @@ class CarEnv(gym.Env):
 		self.colision_type = None
 		self.done_cooldown = -1
 		self.object_values['alphas'] ={
-						'walker':{'walker':np.random.randint(4, 6),'bike':np.random.randint(1, 4)},
-						'bike': {'walker':np.random.randint(1, 4),'bike':np.random.randint(4, 6)}
+						'walker':{'walker':6,'bike':1},
+						'bike': {'walker':1,'bike':6}
 						}
 		if self.evaluation and self.run_id%self.stride==0:
 			try:
@@ -548,6 +556,7 @@ class CarEnv(gym.Env):
 
 	
 	def step(self, action):
+
 		colision_result = rectangle_area_checker(vector(self.world_manager.vehicle.get_transform().get_forward_vector())[:2],vector(self.world_manager.vehicle.get_location())[:2],self.scenario_actors_locations,self.scenario_actors)
 		if colision_result :
 			self.colision_type = colision_result
@@ -628,16 +637,19 @@ class CarEnv(gym.Env):
 		max_dist = 4.0 if not self.turn else 4.0
 		if len(self.collision_hist) != 0 or self.colision_type or self.distance_from_center > max_dist:
 			if self.colision_type in ['walker','bike'] :
+				
 				observation_len = len(self.obssensor_flag_gt)
 				reward = -(np.sum(self.obssensor_flag_gt[3:9]))
 				self.done_cooldown=0
-				for t in self.walkers_in_danger:
-					self.danger_table.add_data(t,self.TOTAL_TIMESTEPS)
+				# if self.evaluation:
+				# 	for t in self.walkers_in_danger:
+				# 		self.danger_table.add_data(t,self.TOTAL_TIMESTEPS)
 			else:
 				reward = -20
 				self.done_cooldown=0
 			if self.colision_type!=None:
-				self.collision_table.add_data(self.colision_type,self.TOTAL_TIMESTEPS)
+				self.records['colision_type'] = self.colision_type
+
 				
 		elif self.distance_from_center > good_dist:
 			reward = -0.1
@@ -703,11 +715,11 @@ class CarEnv(gym.Env):
 		if self.done_cooldown>0:
 			self.done_cooldown = self.done_cooldown - 1
 		elif self.done_cooldown==0:
-			logging.info(f"Episode Ended, final reward is {reward}\n")
+			
 			done = True
 		elif self.step_counter*FIXED_DELTA_SECONDS > SECONDS_PER_EPISODE:
 			reward = -10
-			logging.info(f"Episode Ended, final reward is {reward}\n")
+			
 			done = True
 			truncated = True
 
@@ -753,7 +765,7 @@ class CarEnv(gym.Env):
 			Detects if the vehicle collided with a pedestrian.
 			"""
 			self.collision_hist.append(event)
-			logging.info(f"Collision detected - Event: {event.other_actor.type_id}")
+
 			if event.other_actor and 'walker' in event.other_actor.type_id:
 				self.pedestrians.append(event.other_actor)
 			if 'walker' in event.other_actor.type_id:

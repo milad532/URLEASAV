@@ -13,12 +13,15 @@ import argparse
 import numpy as np
 import shutil
 from multiprocessing import shared_memory
-from wandb.integration.sb3 import WandbCallback
-import wandb
 import copy
 import pickle
 import time
+from datetime import datetime
+
 timestamp = int(time.time())
+dt_object = datetime.fromtimestamp(timestamp)
+formatted_time = dt_object.strftime("%Y-%m-%d %H:%M:%S")
+logdir = f"logs/{formatted_time}/"
 
 
 # Assuming you already loaded your model and env
@@ -28,50 +31,45 @@ argparser.add_argument('--models_dir', type=str, default=None)
 args = argparser.parse_args()
 
 # Set up log directory for TensorBoard
-logdir = f"logs/{int(time.time())}/"
-if not os.path.exists(logdir):
-    os.makedirs(logdir)
+
+
+os.makedirs(logdir,exist_ok=True)
 models_dir = args.models_dir
 
 world_manager = World_Manager()
 
 
-env = CarEnv(world_manager,evaluation=True,imagelog_stride=5)
-
-os.environ['WANDB_BASE_URL'] = 'http://127.0.0.1:8080'
-run = wandb.init(
-    project="FAVRL-tests",
-    entity='teimuri',
-    name=f'{env.log_name}_test',
-    id=f"tqc_{timestamp}", 
-    # mode="offline",
-    config=dict(
-        algo="TQC",
-    ),
-    sync_tensorboard=True,  # picks up SB3's TB logs
-    save_code=True,
-)
-wandb.define_metric("*", step_metric="global_step")
-
-model = My_TQC.load(f"{models_dir}/best/best_model.zip", env=env, verbose=1)
+env = CarEnv(world_manager,evaluation=True,imagelog_stride=5,logdir=logdir)
 
 
+model = My_TQC.load(f"{models_dir}/best/best_model.zip", env=env, verbose=1,tensorboard_log=logdir)
 
-for i in range(1000):
-    obs, info = env.reset()
-    done = False
-    total_reward = 0.0
-        
-    while not done:
-        # Get action from the model
-        action, _states = model.predict(obs, deterministic=True)  
-        # deterministic=True → no exploration noise, good for evaluation
-        
-        # Step in the environment
-        obs , reward, done, info, _ = env.step(action)
-        total_reward += reward
-        # env.render()  # optional, for visualization
-    wandb.log({"Total Reward": total_reward,"global_step":i})
-    print(f"Episode {i+1} reward:", total_reward)
-wandb.finish()
+last_iteration = 0
+try:
+    try:
+        for i in range(last_iteration,2000):
+            last_iteration = i
+            obs, info = env.reset()
+            done = False
+            total_reward = 0.0
+                
+            while not done:
+                # Get action from the model
+                action, _states = model.predict(obs, deterministic=True)  
+                # deterministic=True → no exploration noise, good for evaluation
+                
+                # Step in the environment
+                obs , reward, done, info, _ = env.step(action)
+                total_reward += reward
+                # env.render()  # optional, for visualization
+            print(f"Episode {i+1} reward:", total_reward)
+    except Exception as e:
+        print(f"Ran into an Error: {e}")
+        world_manager.__init__()
+
+except KeyboardInterrupt:
+    print("Recived interruption, logging and exiting")
+finally:
+
+    print("Finall logging of the table. Rest assured if you see this.")
 

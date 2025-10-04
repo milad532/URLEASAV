@@ -3,23 +3,27 @@ import torch
 import os
 from carenv import CarEnv, num_envs, World_Manager
 import time
+from datetime import datetime
 import argparse
 import numpy as np
 import copy
 import pickle
 from pathlib import Path
-from wandb.integration.sb3 import WandbCallback
 from stable_baselines3.common.callbacks import EvalCallback, CheckpointCallback, CallbackList
-import wandb
-# wandb.login()
 
 
 
         
 if __name__ == '__main__':
     global env
+    timestamp = int(time.time())
+    dt_object = datetime.fromtimestamp(timestamp)
+    formatted_time = dt_object.strftime("%Y-%m-%d %H:%M:%S")
+    logdir = f"logs/{formatted_time}/"
+
     world_manager = World_Manager()
-    env = CarEnv(world_manager,imagelog_stride=1)
+    env = CarEnv(world_manager,imagelog_stride=20,logdir=logdir)
+
     eval_env = CarEnv(world_manager,evaluation=True)
     # raise ValueError("test")
     print("passing here 2")
@@ -29,8 +33,6 @@ if __name__ == '__main__':
     args = argparser.parse_args()
 
     # ---- Paths ----
-    timestamp = int(time.time())
-    logdir = f"logs/{timestamp}/"
     os.makedirs(logdir, exist_ok=True)
     models_dir = args.models_dir or f"models/{timestamp}"
     os.makedirs(models_dir, exist_ok=True)
@@ -44,27 +46,11 @@ if __name__ == '__main__':
     trained_zip = os.path.join(models_dir, "trained.zip")
 
     # ---- Training hyperparams ----
-    TIMESTEPS = 20_000
+    TIMESTEPS = 10_000
     LR = 7.3e-4
     TOTAL_ITERS = 50
     # ---- Start W&B run (metrics only, no model saving) ----
-    os.environ['WANDB_BASE_URL'] = 'http://127.0.0.1:8080'
-    run = wandb.init(
-        project="FAVRL",
-        entity='teimuri',
-        name=env.log_name,
-        id=f"tqc_{timestamp}", 
-        # mode="offline",
-        config=dict(
-            algo="TQC",
-            lr=LR,
-            timesteps_per_iter=TIMESTEPS,
-            total_iters=TOTAL_ITERS,
-        ),
-        sync_tensorboard=True,  # picks up SB3's TB logs
-        save_code=True,
-    )
-    wandb.define_metric("*", step_metric="global_step")
+
 
     # ---- Create or load model ----
     trained_zip = os.path.join(models_dir, "trained.zip")
@@ -89,7 +75,7 @@ if __name__ == '__main__':
                 use_expln=True,
                 # 👇 add these 2 lines
                 features_extractor_class=Obstacle1DCNNExtractor,
-                features_extractor_kwargs=dict(features_dim=256),
+                features_extractor_kwargs=dict(features_dim=48),
             ),
             verbose=1,
             learning_rate=LR,
@@ -129,34 +115,30 @@ if __name__ == '__main__':
     )
     eval_cb.best_mean_reward = prev_best
 
-    wandb_cb = WandbCallback(
-        gradient_save_freq=0,
-        model_save_freq=0,   # 🔑 disables checkpoint saving to W&B
-        model_save_path = os.path.join(models_dir,"wandb_model"),
-        verbose=1,
-        log="all",
-    )
+
 
     # ---- Training loop ----
-    for iters in range(TOTAL_ITERS):
-        if model.num_timesteps > TOTAL_ITERS * TIMESTEPS:
-            break
+    print(f'New iteration starting...')
+    try:
+        while model.num_timesteps < TOTAL_ITERS * TIMESTEPS:
+            try:
+                model.learn(
+                    total_timesteps=TIMESTEPS,
+                    reset_num_timesteps=False,
+                    callback=[eval_cb],   # logs metrics only
+                )
 
-        print(f'Iteration {iters} starting...')
-        model.learn(
-            total_timesteps=TIMESTEPS,
-            reset_num_timesteps=False,
-            callback=[eval_cb,wandb_cb],   # logs metrics only
-        )
+                # Still save locally if you want
+                model.save(trained_zip)
+                model.save_replay_buffer(rb_path)
 
-        # Still save locally if you want
-        model.save(trained_zip)
-        model.save_replay_buffer(rb_path)
+                # Custom W&B logs
 
-        # Custom W&B logs
-        wandb.log({
-            "iteration": iters,
-            "num_timesteps": model.num_timesteps,
-        })
+            except Exception as e:
+                print(f"Learn ran into a problem: {e}. Restarting world.")
+                world_manager.__init__()
+    except KeyboardInterrupt:
+        print("Recived interruption, logging and exiting")
+    finally:
 
-    wandb.finish()
+        print("Finall logging of the table. Rest assured if you see this.")

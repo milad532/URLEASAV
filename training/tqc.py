@@ -194,7 +194,7 @@ import torch
 from torch import nn
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 from gymnasium import spaces
-
+import time
 class Obstacle1DCNNExtractor(BaseFeaturesExtractor):
     """
     Expects a flat obs of size 48 with layout:
