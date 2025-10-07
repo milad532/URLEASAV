@@ -97,7 +97,7 @@ if __name__ == '__main__':
                 model.replay_buffer = pickle.load(f)
 
     # ---- W&B callback (no model saving) ----
-    prev_best = -1000
+    # prev_best = -1000
     eval_log_file = os.path.join(eval_log_dir, "evaluations.npz")
     if os.path.isfile(eval_log_file):
         data = np.load(eval_log_file)
@@ -113,7 +113,7 @@ if __name__ == '__main__':
         deterministic=True,
         render=False
     )
-    eval_cb.best_mean_reward = prev_best
+    # eval_cb.best_mean_reward = prev_best
 
 
 
