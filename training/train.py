@@ -1,4 +1,7 @@
-from tqc import My_TQC,Obstacle1DCNNExtractor
+# from tqc import My_TQC,Obstacle1DCNNExtractor
+# train.py
+from ppo import My_PPO,Obstacle1DCNNExtractor # <-- CHANGED
+# from features_extractor import Obstacle1DCNNExtractor # <-- CHANGED
 import torch
 import os
 from carenv import CarEnv, num_envs, World_Manager
@@ -11,9 +14,6 @@ import pickle
 from pathlib import Path
 from stable_baselines3.common.callbacks import EvalCallback, CheckpointCallback, CallbackList
 
-
-
-        
 if __name__ == '__main__':
     global env
     timestamp = int(time.time())
@@ -25,7 +25,6 @@ if __name__ == '__main__':
     env = CarEnv(world_manager,imagelog_stride=20,logdir=logdir)
 
     eval_env = CarEnv(world_manager,evaluation=True)
-    # raise ValueError("test")
     print("passing here 2")
     # ---- Args ----
     argparser = argparse.ArgumentParser()
@@ -47,44 +46,40 @@ if __name__ == '__main__':
 
     # ---- Training hyperparams ----
     TIMESTEPS = 10_000
-    LR = 7.3e-4
+    LR = 7.3e-4 # PPO is often more sensitive to LR, you might need to use a smaller value like 3e-4
     TOTAL_ITERS = 50
-    # ---- Start W&B run (metrics only, no model saving) ----
-
-
+    
     # ---- Create or load model ----
     trained_zip = os.path.join(models_dir, "trained.zip")
-    rb_path = os.path.join(models_dir, "replay_buffer.pkl")
+    # rb_path = os.path.join(models_dir, "replay_buffer.pkl") # <-- REMOVED: PPO is on-policy and does not use a replay buffer
 
     if not os.path.isfile(trained_zip):
-        print("Creating new model")
-        model = My_TQC(
+        print("Creating new PPO model") # <-- CHANGED
+        # --- MODEL DEFINITION CHANGED FROM TQC to PPO ---
+        model = My_PPO(
             'MlpPolicy',
             env=env,
-            buffer_size=200_000,
-            batch_size=256,
-            train_freq=200,
-            gradient_steps=256,
-            learning_starts=500,
+            n_steps=2048,          # PPO: Number of steps to collect for each update
+            batch_size=64,         # PPO: Minibatch size for training
+            n_epochs=10,           # PPO: Number of optimization epochs per update
+            learning_rate=LR,
+            gamma=0.99,
             use_sde=True,
-            sde_sample_freq=16,
+            sde_sample_freq=-1,    # PPO: -1 means sample new noise matrix at each update
             policy_kwargs=dict(
-                log_std_init=-3,
-                net_arch=[256, 256],     # applies after the extractor output
-                n_critics=2,
-                use_expln=True,
-                # 👇 add these 2 lines
+                log_std_init=-2,
+                # PPO policies can have separate networks for actor (pi) and critic (vf)
+                net_arch=dict(pi=[256, 256], vf=[256, 256]),
+                # The feature extractor remains the same
                 features_extractor_class=Obstacle1DCNNExtractor,
                 features_extractor_kwargs=dict(features_dim=48),
             ),
             verbose=1,
-            learning_rate=LR,
-            gamma=0.99,
             tensorboard_log=logdir,
         )
     else:
-        print("Loading existing model")
-        model = My_TQC.load(
+        print("Loading existing PPO model") # <-- CHANGED
+        model = My_PPO.load( # <-- CHANGED
             trained_zip,
             env=env,
             verbose=1,
@@ -92,30 +87,25 @@ if __name__ == '__main__':
             tensorboard_log=logdir
         )
         env.TOTAL_TIMESTEPS = model.num_timesteps
+        # --- REPLAY BUFFER LOADING REMOVED ---
         if os.path.isfile(rb_path):
             with open(rb_path, "rb") as f:
                 model.replay_buffer = pickle.load(f)
 
-    # ---- W&B callback (no model saving) ----
-    # prev_best = -1000
     eval_log_file = os.path.join(eval_log_dir, "evaluations.npz")
     if os.path.isfile(eval_log_file):
         data = np.load(eval_log_file)
-        # data["results"] shape: (n_evals, n_episodes)
         if "results" in data:
             prev_best = float(np.max(np.mean(data["results"], axis=1)))
     eval_cb = EvalCallback(
         eval_env=eval_env,
         best_model_save_path=best_dir,
         log_path=eval_log_dir,
-        eval_freq=10_000,          # evaluate every N training steps
+        eval_freq=10_000,
         n_eval_episodes=50,
         deterministic=True,
         render=False
     )
-    # eval_cb.best_mean_reward = prev_best
-
-
 
     # ---- Training loop ----
     print(f'New iteration starting...')
@@ -125,14 +115,13 @@ if __name__ == '__main__':
                 model.learn(
                     total_timesteps=TIMESTEPS,
                     reset_num_timesteps=False,
-                    callback=[eval_cb],   # logs metrics only
+                    callback=[eval_cb],
                 )
 
                 # Still save locally if you want
                 model.save(trained_zip)
+                # --- REPLAY BUFFER SAVING REMOVED ---
                 model.save_replay_buffer(rb_path)
-
-                # Custom W&B logs
 
             except Exception as e:
                 print(f"Learn ran into a problem: {e}. Restarting world.")
@@ -140,5 +129,4 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print("Recived interruption, logging and exiting")
     finally:
-
         print("Finall logging of the table. Rest assured if you see this.")

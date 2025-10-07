@@ -1,5 +1,7 @@
+# ppo.py
 from stable_baselines3 import PPO
-from stable_baselines3.common.save_util import recursive_getattr, recursive_setattr
+from stable_baselines3.common.save_util import recursive_getattr,recursive_setattr
+# from stable_baselines3.common.save_util import load_from_zip_file, recursive_getattr, , save_to_zip_file
 from stable_baselines3.common.utils import (
     check_for_correct_spaces,
     get_device,
@@ -15,26 +17,36 @@ class My_PPO(PPO):
     def custom_load(  # noqa: C901
         cls,
         saved_data=None,
-        env=None,
-        device="auto",
-        custom_objects=None,
-        print_system_info=False,
-        force_reset=True,
+        env = None,
+        device = "auto",
+        custom_objects = None,
+        print_system_info = False,
+        force_reset = True,
         **kwargs,
     ):
         """
-        Load the PPO model from a zip-file.
+        Load the model from a zip-file.
         Warning: ``load`` re-creates the model from scratch, it does not update it in-place!
         For an in-place load use ``set_parameters`` instead.
 
-        :param saved_data: Loaded data from the file
-        :param env: The new environment to run the loaded model on
+        :param path: path to the file (or a file-like) where to
+            load the agent from
+        :param env: the new environment to run the loaded model on
+            (can be None if you only need prediction from a trained model) has priority over any saved environment
         :param device: Device on which the code should run.
         :param custom_objects: Dictionary of objects to replace
-        :param print_system_info: Whether to print system info
-        :param force_reset: Whether to force a reset
-        :param kwargs: Extra arguments for model loading
-        :return: New PPO model instance with loaded parameters
+            upon loading. If a variable is present in this dictionary as a
+            key, it will not be deserialized and the corresponding item
+            will be used instead. Similar to custom_objects in
+            ``keras.models.load_model``. Useful when you have an object in
+            file that can not be deserialized.
+        :param print_system_info: Whether to print system info from the saved model
+            and the current system info (useful to debug loading issues)
+        :param force_reset: Force call to ``reset()`` before training
+            to avoid unexpected behavior.
+            See https://github.com/DLR-RM/stable-baselines3/issues/597
+        :param kwargs: extra arguments to change the model when loading
+        :return: new model instance with loaded parameters
         """
         if print_system_info:
             print("== CURRENT SYSTEM INFO ==")
@@ -49,6 +61,11 @@ class My_PPO(PPO):
         if "policy_kwargs" in data:
             if "device" in data["policy_kwargs"]:
                 del data["policy_kwargs"]["device"]
+            # backward compatibility, convert to new format
+            if "net_arch" in data["policy_kwargs"] and len(data["policy_kwargs"]["net_arch"]) > 0:
+                saved_net_arch = data["policy_kwargs"]["net_arch"]
+                if isinstance(saved_net_arch, list) and isinstance(saved_net_arch[0], dict):
+                    data["policy_kwargs"]["net_arch"] = saved_net_arch[0]
 
         if "policy_kwargs" in kwargs and kwargs["policy_kwargs"] != data["policy_kwargs"]:
             raise ValueError(
@@ -80,15 +97,16 @@ class My_PPO(PPO):
             if "env" in data:
                 env = data["env"]
 
-        # Initialize the PPO model
+        # pytype: disable=not-instantiable,wrong-keyword-args
         model = cls(
             policy=data["policy_class"],
             env=env,
             device=device,
             _init_setup_model=False,  # type: ignore[call-arg]
         )
+        # pytype: enable=not-instantiable,wrong-keyword-args
 
-        # Load parameters
+        # load parameters
         model.__dict__.update(data)
         model.__dict__.update(kwargs)
         model._setup_model()
@@ -98,26 +116,43 @@ class My_PPO(PPO):
             model.set_parameters(params, exact_match=True, device=device)
         except RuntimeError as e:
             # Patch to load Policy saved using SB3 < 1.7.0
+            # the error is probably due to old policy being loaded
+            # See https://github.com/DLR-RM/stable-baselines3/issues/1233
             if "pi_features_extractor" in str(e) and "Missing key(s) in state_dict" in str(e):
                 model.set_parameters(params, exact_match=False, device=device)
+                
             else:
                 raise e
-
         # put other pytorch variables back in place
         if pytorch_variables is not None:
             for name in pytorch_variables:
+                # Skip if PyTorch variable was not defined (to ensure backward compatibility).
+                # This happens when using SAC/TQC.
+                # SAC has an entropy coefficient which can be fixed or optimized.
+                # If it is optimized, an additional PyTorch variable `log_ent_coef` is defined,
+                # otherwise it is initialized to `None`.
                 if pytorch_variables[name] is None:
                     continue
+                # Set the data attribute directly to avoid issue when using optimizers
+                # See https://github.com/DLR-RM/stable-baselines3/issues/391
                 recursive_setattr(model, f"{name}.data", pytorch_variables[name].data)
 
+        # Sample gSDE exploration matrix, so it uses the right device
+        # see issue #44
+        if model.use_sde:
+            model.policy.reset_noise()  # type: ignore[operator]  # pytype: disable=attribute-error
         return model
-
-    def custom_save(self, exclude=None, include=None) -> None:
+    
+    def custom_save(self,
+        exclude= None,
+        include= None,
+    ) -> None:
         """
         Save all the attributes of the object and the model parameters in a zip-file.
 
-        :param exclude: Name of parameters to exclude
-        :param include: Name of parameters to include
+        :param path: path to the file where the rl agent should be saved
+        :param exclude: name of parameters that should be excluded in addition to the default ones
+        :param include: name of parameters that might be excluded but should be included anyway
         """
         # Copy parameter list so we don't mutate the original dict
         data = self.__dict__.copy()
@@ -136,6 +171,7 @@ class My_PPO(PPO):
         for torch_var in all_pytorch_variables:
             # We need to get only the name of the top most module as we'll remove that
             var_name = torch_var.split(".")[0]
+            # Any params that are in the save vars must not be saved by data
             exclude.add(var_name)
 
         # Remove parameter entries of parameters which are to be excluded
@@ -152,4 +188,56 @@ class My_PPO(PPO):
 
         # Build dict of state_dicts
         params_to_save = self.get_parameters()
-        return data, params_to_save, pytorch_variables
+        return data,params_to_save,pytorch_variables
+
+
+
+import torch
+from torch import nn
+from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
+from gymnasium import spaces
+import time
+class Obstacle1DCNNExtractor(BaseFeaturesExtractor):
+    """
+    Expects a flat obs of size 48 with layout:
+      [0:32]  -> AE features (from env)
+      [32:36] -> nav (kmh, throttle, steer, turn)
+      [36:48] -> obstacle sectors (12 values)
+    The 12-dim obstacle slice passes through a 1D CNN that is trained with the policy.
+    """
+    def __init__(self, observation_space: spaces.Box, features_dim: int = 256):
+        assert observation_space.shape == (48,), \
+            f"Expected obs shape (48,), got {observation_space.shape}"
+        super().__init__(observation_space, features_dim)
+
+        self.ae_dim = 32
+        self.nav_dim = 4
+        self.obs_len = 12
+        
+        # 1D CNN over the obstacle sectors
+        self.obs_cnn = nn.Sequential(
+            nn.Conv1d(in_channels=1, out_channels=8, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv1d(8, 16, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.AdaptiveAvgPool1d(1),  # -> (B,16,1)
+        )
+
+        concat_in = self.ae_dim + self.nav_dim + 16  # => 32 + 4 + 16
+        self.mlp = nn.Sequential(
+            nn.Linear(concat_in, features_dim),
+            nn.ReLU(inplace=True),
+        )
+
+    def forward(self, obs: torch.Tensor) -> torch.Tensor:
+        # obs shape: (B, 48)
+        ae   = obs[:, :self.ae_dim]                                 # (B,32)
+        nav  = obs[:, self.ae_dim:self.ae_dim+self.nav_dim]         # (B,4)
+        obst = obs[:, self.ae_dim+self.nav_dim:self.ae_dim+self.nav_dim+self.obs_len]  # (B,12)
+
+        # (B,12) -> (B,1,12) -> CNN -> (B,16,1) -> (B,16)
+        obst_cnn = self.obs_cnn(obst.unsqueeze(1)).squeeze(-1)
+
+        x = torch.cat([ae, nav, obst_cnn], dim=1)                   # (B,32+4+16)
+        
+        return self.mlp(x)                                          # (B, features_dim)
