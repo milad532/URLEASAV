@@ -45,7 +45,7 @@ if __name__ == '__main__':
     trained_zip = os.path.join(models_dir, "trained.zip")
 
     # ---- Training hyperparams ----
-    TIMESTEPS = 1_000
+    TIMESTEPS = 10_000
     LR = 7.3e-4 # PPO is often more sensitive to LR, you might need to use a smaller value like 3e-4
     TOTAL_ITERS = 50
     
@@ -101,8 +101,8 @@ if __name__ == '__main__':
         eval_env=eval_env,
         best_model_save_path=best_dir,
         log_path=eval_log_dir,
-        eval_freq=100,
-        n_eval_episodes=5,
+        eval_freq=10_000,
+        n_eval_episodes=50,
         deterministic=True,
         render=False
     )
