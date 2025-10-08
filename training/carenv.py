@@ -430,7 +430,7 @@ class CarEnv(gym.Env):
 			print("The vehicle is not here for some reson and the id is:",self.world_manager.vehicle.id)
 			
 		# logging.info(f"Episode Start")
-		print("Episode Start")
+		print(f"Episode Start, Evalution: {self.evaluation}")
 		self.run_id+=1
 		logging.info(json.dumps(self.records))
 		self.records = {
