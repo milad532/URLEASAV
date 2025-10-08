@@ -101,7 +101,7 @@ if __name__ == '__main__':
         eval_env=eval_env,
         best_model_save_path=best_dir,
         log_path=eval_log_dir,
-        eval_freq=10_000,
+        eval_freq=100,
         n_eval_episodes=50,
         deterministic=True,
         render=False
