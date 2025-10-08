@@ -102,7 +102,7 @@ if __name__ == '__main__':
         best_model_save_path=best_dir,
         log_path=eval_log_dir,
         eval_freq=1000,
-        n_eval_episodes=50,
+        n_eval_episodes=5,
         deterministic=True,
         render=False
     )
