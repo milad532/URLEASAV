@@ -45,7 +45,7 @@ if __name__ == '__main__':
     trained_zip = os.path.join(models_dir, "trained.zip")
 
     # ---- Training hyperparams ----
-    TIMESTEPS = 10_000
+    TIMESTEPS = 1_000
     LR = 7.3e-4 # PPO is often more sensitive to LR, you might need to use a smaller value like 3e-4
     TOTAL_ITERS = 50
     
@@ -88,9 +88,9 @@ if __name__ == '__main__':
         )
         env.TOTAL_TIMESTEPS = model.num_timesteps
         # --- REPLAY BUFFER LOADING REMOVED ---
-        if os.path.isfile(rb_path):
-            with open(rb_path, "rb") as f:
-                model.replay_buffer = pickle.load(f)
+        # if os.path.isfile(rb_path):
+        #     with open(rb_path, "rb") as f:
+        #         model.replay_buffer = pickle.load(f)
 
     eval_log_file = os.path.join(eval_log_dir, "evaluations.npz")
     if os.path.isfile(eval_log_file):
@@ -101,7 +101,7 @@ if __name__ == '__main__':
         eval_env=eval_env,
         best_model_save_path=best_dir,
         log_path=eval_log_dir,
-        eval_freq=1000,
+        eval_freq=100,
         n_eval_episodes=5,
         deterministic=True,
         render=False
@@ -121,7 +121,7 @@ if __name__ == '__main__':
         # Still save locally if you want
         model.save(trained_zip)
         # --- REPLAY BUFFER SAVING REMOVED ---
-        model.save_replay_buffer(rb_path)
+        # model.save_replay_buffer(rb_path)
 
         # except Exception as e:
         #     print(f"Learn ran into a problem: {e}. Restarting world.")
