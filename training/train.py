@@ -109,24 +109,24 @@ if __name__ == '__main__':
 
     # ---- Training loop ----
     print(f'New iteration starting...')
-    try:
-        while model.num_timesteps < TOTAL_ITERS * TIMESTEPS:
-            # try:
-            model.learn(
-                total_timesteps=TIMESTEPS,
-                reset_num_timesteps=False,
-                callback=[eval_cb],
-            )
+    # try:
+    while model.num_timesteps < TOTAL_ITERS * TIMESTEPS:
+        # try:
+        model.learn(
+            total_timesteps=TIMESTEPS,
+            reset_num_timesteps=False,
+            callback=[eval_cb],
+        )
 
-            # Still save locally if you want
-            model.save(trained_zip)
-            # --- REPLAY BUFFER SAVING REMOVED ---
-            model.save_replay_buffer(rb_path)
+        # Still save locally if you want
+        model.save(trained_zip)
+        # --- REPLAY BUFFER SAVING REMOVED ---
+        model.save_replay_buffer(rb_path)
 
-            # except Exception as e:
-            #     print(f"Learn ran into a problem: {e}. Restarting world.")
-            #     world_manager.__init__()
-    except KeyboardInterrupt:
-        print("Recived interruption, logging and exiting")
-    finally:
-        print("Finall logging of the table. Rest assured if you see this.")
+        # except Exception as e:
+        #     print(f"Learn ran into a problem: {e}. Restarting world.")
+        #     world_manager.__init__()
+    # except KeyboardInterrupt:
+    #     print("Recived interruption, logging and exiting")
+    # finally:
+    #     print("Finall logging of the table. Rest assured if you see this.")
