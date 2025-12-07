@@ -47,7 +47,7 @@ if __name__ == '__main__':
     # ---- Training hyperparams ----
     TIMESTEPS = 10_000
     LR = 7.3e-4 # PPO is often more sensitive to LR, you might need to use a smaller value like 3e-4
-    TOTAL_ITERS = 50
+    TOTAL_ITERS = 100
     
     # ---- Create or load model ----
     trained_zip = os.path.join(models_dir, "trained.zip")
