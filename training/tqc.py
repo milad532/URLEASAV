@@ -1,7 +1,6 @@
-#tqc.py 
 from sb3_contrib import TQC
 from stable_baselines3.common.save_util import recursive_getattr,recursive_setattr
-# from stable_baselines3.common.save_util import load_from_zip_file, recursive_getattr, , save_to_zip_file
+from stable_baselines3.common.save_util import load_from_zip_file, recursive_getattr, save_to_zip_file
 from stable_baselines3.common.utils import (
     check_for_correct_spaces,
     get_device,
@@ -10,8 +9,188 @@ from stable_baselines3.common.utils import (
     set_random_seed,
     update_learning_rate,
 )
+import torch as th
 from stable_baselines3.common.vec_env.patch_gym import _convert_space, _patch_env
 class My_TQC(TQC):
+    def __init__(self, policy, env, kl_coef=0.1, **kwargs):
+        """
+        :param kl_coef: Coefficient (beta) for the KL divergence penalty.
+        """
+        super().__init__(policy, env, **kwargs)
+        self.kl_coef = kl_coef
+        if not hasattr(self, "quantiles_total"):
+            # Ensure n_quantiles exists (defaults to 25 in TQC)
+            if not hasattr(self, "n_quantiles"):
+                self.n_quantiles = kwargs.get("policy_kwargs", {}).get("n_quantiles", 25)
+            # Ensure n_critics exists (defaults to 2 in TQC)
+            if not hasattr(self, "n_critics"):
+                self.n_critics = kwargs.get("n_critics", 2)
+            
+            self.quantiles_total = self.n_quantiles * self.n_critics
+        
+
+    def get_custom_target_log_prob(self, obs: th.Tensor, actions: th.Tensor) -> th.Tensor:
+        """
+        P_target is a Standard Gaussian N(0, 1).
+        Formula: log(1/sqrt(2pi)) - 0.5 * x^2
+        """
+        # Constant term for normalization (can technically be ignored for optimization, but good for correctness)
+        log_std_norm = -0.5 * np.log(2 * np.pi)
+        
+        # Calculate -0.5 * action^2
+        # Sum over action dimensions (dim=1) because probability of independent joint actions 
+        # is the product of marginals (sum of logs).
+        log_prob = -0.5 * actions.pow(2) + log_std_norm
+    
+        return log_prob.sum(dim=1, keepdim=True)
+        
+    def quantile_huber_loss(self, current_quantiles: th.Tensor, target_quantiles: th.Tensor) -> th.Tensor:
+        """
+        [cite_start]The quantile-regression loss, as described in the QR-DQN and TQC papers[cite: 1, 2].
+        """
+        # current_quantiles: (batch_size, n_critics * n_quantiles)
+        # target_quantiles: (batch_size, n_target_quantiles, 1)
+
+        # We assume n_quantiles is the number of quantiles per critic
+        n_quantiles = self.n_quantiles
+        
+        # current_quantiles shape: (batch_size, n_critics * n_quantiles) -> (batch_size, n_critics * n_quantiles, 1)
+        current_quantiles = current_quantiles.unsqueeze(-1)
+        
+        # pairwise_delta: (batch_size, n_target_quantiles, n_critics * n_quantiles)
+        # Note: target_quantiles is (B, n_target, 1), we transpose current to broadcast
+        pairwise_delta = target_quantiles - current_quantiles.transpose(1, 2)
+        
+        abs_pairwise_delta = th.abs(pairwise_delta)
+        huber_loss = th.where(abs_pairwise_delta > 1, abs_pairwise_delta - 0.5, pairwise_delta**2 * 0.5)
+        
+        # Quantile thresholds (tau)
+        # shape: (n_critics * n_quantiles,)
+        tau = th.arange(self.quantiles_total, device=self.device).float() / self.quantiles_total + 1 / (2 * self.quantiles_total)
+        
+        # Loss calculation: sum over quantiles, mean over batch
+        loss = (th.abs(tau[None, None, :] - (pairwise_delta.detach() < 0).float()) * huber_loss).mean()
+        return loss
+
+    def train(self, gradient_steps: int, batch_size: int = 64) -> None:
+        # Switch to train mode (this affects batch norm / dropout)
+        self.policy.set_training_mode(True)
+        
+        # Update optimizers learning rate
+        optimizers = [self.actor.optimizer, self.critic.optimizer]
+        if self.ent_coef_optimizer is not None:
+            optimizers += [self.ent_coef_optimizer]
+
+        # Update learning rate according to lr schedule
+        self._update_learning_rate(optimizers)
+
+        ent_coef_losses, ent_coefs = [], []
+        actor_losses, critic_losses = [], []
+
+        for gradient_step in range(gradient_steps):
+            # Sample replay buffer
+            replay_data = self.replay_buffer.sample(batch_size, env=self._vec_normalize_env)
+
+            # We need to sample from the policy with reparameterization trick
+            # to be able to backpropagate gradients through the actor
+            new_actions, log_prob = self.actor.action_log_prob(replay_data.observations)
+            log_prob = log_prob.reshape(-1, 1)
+
+            ent_coef_loss = None
+            if self.ent_coef_optimizer is not None:
+                # Important: detach the variable from the graph
+                # so we don't change it with other losses
+                # see https://github.com/rail-berkeley/softlearning/issues/60
+                ent_coef = th.exp(self.log_ent_coef.detach())
+                ent_coef_loss = -(self.log_ent_coef * (log_prob + self.target_entropy).detach()).mean()
+                ent_coef_losses.append(ent_coef_loss.item())
+            else:
+                ent_coef = self.ent_coef_tensor
+
+            ent_coefs.append(ent_coef.item())
+
+            # Optimizing the entropy coefficient
+            if ent_coef_loss is not None:
+                self.ent_coef_optimizer.zero_grad()
+                ent_coef_loss.backward()
+                self.ent_coef_optimizer.step()
+
+            # --- CRITIC UPDATE (Standard TQC Logic) ---
+            with th.no_grad():
+                # Select action according to policy
+                next_actions, next_log_prob = self.actor.action_log_prob(replay_data.next_observations)
+                
+                # Compute and cut quantiles for the next state
+                # compute target q-values: (n_critics, batch_size, n_quantiles)
+                next_quantiles = self.critic_target(replay_data.next_observations, next_actions)
+                
+                # Sort and drop top k quantiles to control overestimation [cite: 151, 166]
+                n_target_quantiles = self.quantiles_total - self.top_quantiles_to_drop_per_net * self.n_critics
+                next_quantiles, _ = th.sort(next_quantiles.reshape(batch_size, -1))
+                next_quantiles = next_quantiles[:, :n_target_quantiles]
+
+                # Calculate target: r + gamma * (next_Q - alpha * next_log_prob)
+                # Note: entropy term is subtracted inside the target calculation [cite: 95]
+                target_quantiles = next_quantiles - ent_coef * next_log_prob.reshape(-1, 1)
+                target_quantiles = replay_data.rewards + (1 - replay_data.dones) * self.gamma * target_quantiles
+                
+                # TQC loss expects (batch_size, n_quantiles, 1)
+                target_quantiles.unsqueeze_(-1)
+
+            # Get current Quantile estimates
+            current_quantiles = self.critic(replay_data.observations, replay_data.actions)
+            
+            # Compute Critic Loss (Quantile Huber Loss) [cite: 176]
+            critic_loss = self.quantile_huber_loss(current_quantiles, target_quantiles)
+            critic_losses.append(critic_loss.item())
+
+            # Optimize the critic
+            self.critic.optimizer.zero_grad()
+            critic_loss.backward()
+            self.critic.optimizer.step()
+
+            # --- ACTOR (POLICY) UPDATE (MODIFIED) ---
+            
+            # Compute Q-values for the current policy actions
+            q_values = self.critic(replay_data.observations, new_actions)
+            
+            # TQC specific: take mean over all critics and quantiles 
+            q_values_mean = q_values.mean(dim=2).mean(dim=0, keepdim=True)
+
+            # --- CUSTOM KL DIVERGENCE PART STARTS HERE ---
+            # Calculate log(P_custom(a|s))
+            target_log_prob = self.get_custom_target_log_prob(replay_data.observations, new_actions)
+            
+            # KL(pi || P_custom) = log_pi - log_P_custom
+            kl_div_term = log_prob - target_log_prob
+
+            # Original Loss: ent_coef * log_prob - q_values
+            # New Loss: Original + kl_coef * KL_divergence
+            actor_loss = (ent_coef * log_prob - q_values_mean + self.kl_coef * kl_div_term).mean()
+            # --- CUSTOM KL DIVERGENCE PART ENDS HERE ---
+
+            actor_losses.append(actor_loss.item())
+
+            # Optimize the actor
+            self.actor.optimizer.zero_grad()
+            actor_loss.backward()
+            self.actor.optimizer.step()
+
+            # Update target networks
+            if gradient_step % self.target_update_interval == 0:
+                polyak_update(self.critic.parameters(), self.critic_target.parameters(), self.tau)
+                # Copy running stats, see GH issue #996
+                polyak_update(self.batch_norm_stats, self.batch_norm_stats_target, 1.0)
+
+        self._n_updates += gradient_steps
+        self.logger.record("train/n_updates", self._n_updates, exclude="tensorboard")
+        self.logger.record("train/ent_coef", np.mean(ent_coefs))
+        self.logger.record("train/actor_loss", np.mean(actor_losses))
+        self.logger.record("train/critic_loss", np.mean(critic_losses))
+        if len(ent_coef_losses) > 0:
+            self.logger.record("train/ent_coef_loss", np.mean(ent_coef_losses))
+
+
     @classmethod
     def custom_load(  # noqa: C901
         cls,
@@ -50,8 +229,12 @@ class My_TQC(TQC):
         if print_system_info:
             print("== CURRENT SYSTEM INFO ==")
             get_system_info()
-
-        data, params, pytorch_variables = saved_data
+        
+        data, params, pytorch_variables = load_from_zip_file(
+            saved_data,
+            device=device,
+            custom_objects=custom_objects,
+        )
 
         assert data is not None, "No data found in the saved file"
         assert params is not None, "No params found in the saved file"
@@ -188,7 +371,6 @@ class My_TQC(TQC):
         # Build dict of state_dicts
         params_to_save = self.get_parameters()
         return data,params_to_save,pytorch_variables
-
 
 # features_extractor.py
 import torch
