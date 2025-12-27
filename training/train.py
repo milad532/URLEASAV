@@ -1,7 +1,5 @@
-# from tqc import My_TQC,Obstacle1DCNNExtractor
 # train.py
-from ppo import My_PPO,Obstacle1DCNNExtractor # <-- CHANGED
-# from features_extractor import Obstacle1DCNNExtractor # <-- CHANGED
+from trpo import My_TRPO, Obstacle1DCNNExtractor # <-- CHANGED
 import torch
 import os
 from carenv import CarEnv, num_envs, World_Manager
@@ -9,8 +7,6 @@ import time
 from datetime import datetime
 import argparse
 import numpy as np
-import copy
-import pickle
 from pathlib import Path
 from stable_baselines3.common.callbacks import EvalCallback, CheckpointCallback, CallbackList
 
@@ -23,9 +19,8 @@ if __name__ == '__main__':
 
     world_manager = World_Manager()
     env = CarEnv(world_manager,imagelog_stride=20,logdir=logdir)
-
     eval_env = CarEnv(world_manager,evaluation=True)
-    print("passing here 2")
+
     # ---- Args ----
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--models_dir', type=str, default=None)
@@ -45,30 +40,31 @@ if __name__ == '__main__':
     trained_zip = os.path.join(models_dir, "trained.zip")
 
     # ---- Training hyperparams ----
-    TIMESTEPS = 10_000
-    LR = 7.3e-4 # PPO is often more sensitive to LR, you might need to use a smaller value like 3e-4
-    TOTAL_ITERS = 50
+    TIMESTEPS = 100_000
+    LR = 1e-3 # Learning rate for the value function in TRPO
+    TOTAL_ITERS = 1000
     
     # ---- Create or load model ----
     trained_zip = os.path.join(models_dir, "trained.zip")
-    # rb_path = os.path.join(models_dir, "replay_buffer.pkl") # <-- REMOVED: PPO is on-policy and does not use a replay buffer
+    # TRPO is on-policy and does not use a replay buffer, so this remains commented out.
+    # rb_path = os.path.join(models_dir, "replay_buffer.pkl") 
 
     if not os.path.isfile(trained_zip):
-        print("Creating new PPO model") # <-- CHANGED
-        # --- MODEL DEFINITION CHANGED FROM TQC to PPO ---
-        model = My_PPO(
+        print("Creating new TRPO model") # <-- CHANGED
+        # --- MODEL DEFINITION CHANGED FROM PPO to TRPO ---
+        model = My_TRPO(
             'MlpPolicy',
+            device='cpu',
             env=env,
-            n_steps=2048,          # PPO: Number of steps to collect for each update
-            batch_size=64,         # PPO: Minibatch size for training
-            n_epochs=10,           # PPO: Number of optimization epochs per update
-            learning_rate=LR,
-            gamma=0.99,
+            n_steps=2048,          # Same as PPO: Number of steps to collect for each update
+            gamma=0.99,            # Discount factor
+            learning_rate=LR,      # TRPO: Learning rate for the value function optimizer
+            target_kl=0.01,        # TRPO: Target KL divergence constraint
             use_sde=True,
-            sde_sample_freq=-1,    # PPO: -1 means sample new noise matrix at each update
+            # sde_sample_freq is not a TRPO parameter
             policy_kwargs=dict(
                 log_std_init=-2,
-                # PPO policies can have separate networks for actor (pi) and critic (vf)
+                # TRPO policies also have separate networks for actor (pi) and critic (vf)
                 net_arch=dict(pi=[256, 256], vf=[256, 256]),
                 # The feature extractor remains the same
                 features_extractor_class=Obstacle1DCNNExtractor,
@@ -78,20 +74,18 @@ if __name__ == '__main__':
             tensorboard_log=logdir,
         )
     else:
-        print("Loading existing PPO model") # <-- CHANGED
-        model = My_PPO.load( # <-- CHANGED
+        print("Loading existing TRPO model") # <-- CHANGED
+        model = My_TRPO.load( # <-- CHANGED
             trained_zip,
+            device='cpu',
             env=env,
             verbose=1,
             learning_rate=LR,
             tensorboard_log=logdir
         )
         env.TOTAL_TIMESTEPS = model.num_timesteps
-        # --- REPLAY BUFFER LOADING REMOVED ---
-        # if os.path.isfile(rb_path):
-        #     with open(rb_path, "rb") as f:
-        #         model.replay_buffer = pickle.load(f)
-
+    
+    # The evaluation callback remains unchanged.
     eval_log_file = os.path.join(eval_log_dir, "evaluations.npz")
     if os.path.isfile(eval_log_file):
         data = np.load(eval_log_file)
@@ -108,25 +102,38 @@ if __name__ == '__main__':
     )
 
     # ---- Training loop ----
+    # The training loop remains the same.
     print(f'New iteration starting...')
-    # try:
     while model.num_timesteps < TOTAL_ITERS * TIMESTEPS:
-        try:
-            model.learn(
+        #try:
+        model.learn(
                 total_timesteps=TIMESTEPS,
                 reset_num_timesteps=False,
                 callback=[eval_cb],
             )
 
             # Still save locally if you want
-            model.save(trained_zip)
-            # --- REPLAY BUFFER SAVING REMOVED ---
-            # model.save_replay_buffer(rb_path)
+        model.save(trained_zip)
 
-        except Exception as e:
-            print(f"Learn ran into a problem: {e}. Restarting world.")
-            world_manager.__init__()
-    # except KeyboardInterrupt:
-    #     print("Recived interruption, logging and exiting")
-    # finally:
-    #     print("Finall logging of the table. Rest assured if you see this.")
+        #except Exception as e:
+            
+            #print(f"Learn ran into a problem: {e}. Restarting world.")
+            #time.sleep(2.0)
+            #world_manager.__init__()
+            # try:
+            # # Properly clean up the current environment
+            #     env.close()
+            #     eval_env.close()
+            # except:
+            #     pass
+        
+            # # Reinitialize world manager and environments
+            # world_manager = World_Manager()
+            # env = CarEnv(world_manager, imagelog_stride=20, logdir=logdir)
+            # eval_env = CarEnv(world_manager, evaluation=True)
+            
+            # # Update the model's environment
+            # model.set_env(env)
+            
+            # # Optional: wait a moment for CARLA to stabilize
+            # time.sleep(2.0)
